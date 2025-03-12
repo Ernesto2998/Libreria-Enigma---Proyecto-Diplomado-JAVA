@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--    <meta http-equiv="refresh" content="4;URL=http://localhost:8080/principal">-->
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/iconos/bootstrap-icons.css}" rel="stylesheet">
+    <link th:href="@{/tema/miestilo.css}" rel="stylesheet">
+    <title>Inicio</title>
+</head>
+<body>
+    <div class="container text-center">
+        <header class="row">
+            <div class="col">
+                <h1 th:text="${mensaje}"></h1>
+                <h1 th:text="${valor}"></h1>
+            </div>
+        </header>
+        <div class="row">
+            <div class="col-12">
+                <img class="img-fluid" th:src="@{/image/logo_inicio.png}" width="35%" height="35%">
+            </div>
+            <i class="bi-reception-4" style="font-size:4rem;"></i>
+        </div>
+    </div>
+</body>
+</html>

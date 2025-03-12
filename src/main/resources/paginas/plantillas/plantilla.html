@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/iconos/bootstrap-icons.css}" rel="stylesheet">
+    <link th:href="@{/tema/miestilo.css}" rel="stylesheet">
+    <title>Spring Thymeleaf</title>
+</head>
+<body>
+
+<header th:fragment="header">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a th:href="@{/propiedades}" class="navbar-brand">Spring</a>
+            <button class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#menu"
+                    aria-controls="menu"
+                    aria-expanded="false"
+                    aria-label="Mostrar / Ocultar Menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <!--Menu-->
+            <div class="collapse navbar-collapse" id="menu">
+                <ul class="navbar-nav me-auto mb-1 mb-lg-0">
+                    <li class="nav-item"><a th:href="@{/spring/requestmapping}" class="nav-link">@RequestMapping(Clase)</a></li>
+                    <li class="nav-item"><a th:href="@{/spring/getmapping}" class="nav-link">@GetMapping</a></li>
+                    <!--Dropdown-->
+                    <li class="nav-item dropdown">
+                        <a
+                                id="dropdown-pathvariable"
+                                href="#"
+                                class="nav-link dropdown-toggle"
+                                role="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                        >@PathVariable
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdown-pathvariable">
+                            <li><a th:href="@{/spring/parametro-uno/45}" class="dropdown-item">Un parámetro</a></li>
+                            <li><a th:href="@{/spring/parametro-dos/27/Caroline}" class="dropdown-item">Dos parámetros</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a
+                                id="dropdown-requestparam"
+                                href="#"
+                                class="nav-link dropdown-toggle"
+                                role="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                        >@Requestparam
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdown-requestparam">
+                            <li><a th:href="@{/spring/requestparam?dato=DGTIC-1}" class="dropdown-item">Un parámetro</a></li>
+                            <li><a th:href="@{/spring/requestparam}" class="dropdown-item">Sin parámetros</a></li>
+                            <li><a th:href="@{/spring/requestparam-v?dato=DGTIC-2&diplomado=Spring}" class="dropdown-item">Dos parámetros</a></li>
+                            <li><a th:href="@{/spring/requestparam-v?dato=DGTIC-2}" class="dropdown-item">Solo un parámetros</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a
+                                id="dropdown-menu"
+                                href="#"
+                                class="nav-link dropdown-toggle"
+                                role="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                        >Formularios
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdown-menu">
+                            <li><a href="#" class="dropdown-item">Data Binding</a></li>
+                            <li><a href="#" class="dropdown-item">Data Binding 1</a></li>
+                            <li><a href="#" class="dropdown-item">Data Binding 2</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+</body>
+
+<footer th:fragment="footer">
+    <div class="container text-center">
+        <br/> <img th:src="@{/image/logo.jpg}" height="150" width="500"/>
+        <p>Dirección General de Cómputo y de Tecnologías de Información y Comunicación</p>
+    </div>
+    <script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</footer>
+
+</html>
