@@ -4,9 +4,13 @@
 <head th:replace="~{plantillas/plantilla :: head}"></head>
 <body>
 <header th:replace="~{plantillas/plantilla :: header}"></header>
-<main class="container text-center shadow-lg p-3 my-5 bg-body-tertiary rounded">
-    <h1 th:text="${contenido}"></h1>
-    <p th:text="${description}"></p>
+<main>
+    <div class="container text-center">
+        <div class="shadow-lg p-3 my-5 bg-body-tertiary rounded">
+            <h1 th:text="${contenido}"></h1>
+            <p th:text="${description}"></p>
+        </div>
+    </div>
 </main>
 <footer th:replace="~{plantillas/plantilla :: footer}"></footer>
 </body>

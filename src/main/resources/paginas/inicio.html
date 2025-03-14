@@ -21,15 +21,18 @@
 <body>
     <div class="container text-center">
         <main>
+
             <div class="row">
                 <div class="col-12 py-2">
-                    <img class="img-fluid" th:src="@{/image/logo_inicio.png}" width="35%" height="35%">
+                    <img class="img-fluid" th:src="@{/image/logo_inicio.png}" width="35%" height="35%" style="border-radius: 50%;">
                 </div>
             </div>
+
             <div class="container text-center shadow-lg p-3 mb-5 bg-body-tertiary rounded">
                 <h1 th:text="${contenido}"></h1>
                 <p th:text="${contenido2}"></p>
             </div>
+
             <div class="row">
                 <div class="col-12 col-sm-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
                     <div class="container text-start shadow-lg p-3 px-5 mb-5 bg-body-tertiary rounded">
@@ -47,6 +50,7 @@
                     </div>
                 </div>
             </div>
+
         </main>
     </div>
 </body>

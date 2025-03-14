@@ -14,45 +14,15 @@ public class ManageController {
     public String getBuscarLibro(Model modelo){
         modelo.addAttribute("contenido", "Buscar libros");
         modelo.addAttribute("description",
-                "En esta página se verán las opciones para realizar una venta." +
-                        " Se tendrán que desplejar los libros junto con sus respectivos datos." +
-                        " Se incluirá un botón para confirmar venta");
+                "En esta pagina se podrán hacer busquedas avanzadas para los libros");
         return "principal/libros";
     }
 
-    @GetMapping("gestionar-libro")
-    public String getGestionarLibro(Model modelo){
-        modelo.addAttribute("contenido", "Gestionar Libros");
+    @GetMapping("gestionar/{gestion}")
+    public String getGestionar(@PathVariable("gestion") String gestion, Model modelo){
+        modelo.addAttribute("contenido", "Gestionar " + gestion);
         modelo.addAttribute("description",
-                "Se verá una tabla mostrando los libros vendidos, " +
-                        "cuantos se vendieron y se inclurán las opciones para generar los reportes de las ventas");
-        return "principal/gestion";
-    }
-
-    @GetMapping("gestionar-autor")
-    public String getGestionarAutor(Model modelo){
-        modelo.addAttribute("contenido", "Gestionar Autores");
-        modelo.addAttribute("description",
-                "Se verá una tabla mostrando los libros vendidos, " +
-                        "cuantos se vendieron y se inclurán las opciones para generar los reportes de las ventas");
-        return "principal/gestion";
-    }
-
-    @GetMapping("gestionar-editoriales")
-    public String getGestionarEditorial(Model modelo){
-        modelo.addAttribute("contenido", "Gestionar Editoriales");
-        modelo.addAttribute("description",
-                "Se verá una tabla mostrando los libros vendidos, " +
-                        "cuantos se vendieron y se inclurán las opciones para generar los reportes de las ventas");
-        return "principal/gestion";
-    }
-
-    @GetMapping("gestionar-clasificaciones")
-    public String getGestionarClasificacion(Model modelo){
-        modelo.addAttribute("contenido", "Gestionar Clasificaciones");
-        modelo.addAttribute("description",
-                "Se verá una tabla mostrando los libros vendidos, " +
-                        "cuantos se vendieron y se inclurán las opciones para generar los reportes de las ventas");
+                "Se mostrará una tabla con " + gestion + " y se podrá editar o añadir");
         return "principal/gestion";
     }
 }

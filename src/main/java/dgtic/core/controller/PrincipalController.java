@@ -30,8 +30,7 @@ public class PrincipalController {
     public String getInventario(Model modelo){
         modelo.addAttribute("contenido", "Inventario");
         modelo.addAttribute("description",
-                "Se verá una tabla mostrando los libros vendidos, " +
-                        "cuantos se vendieron y se inclurán las opciones para generar los reportes de las ventas");
+                "Se verá una tabla mostrando el stock de los libros que existen. Se podrán hacer busquedas");
         return "principal/inventario";
     }
 
@@ -39,17 +38,15 @@ public class PrincipalController {
     public String getSucursal(Model modelo){
         modelo.addAttribute("contenido", "Sucursal");
         modelo.addAttribute("description",
-                "Se verá una tabla mostrando los libros vendidos, " +
-                        "cuantos se vendieron y se inclurán las opciones para generar los reportes de las ventas");
-        return "principal/inventario";
+                "Se verá una tabla mostrando las sucursales con sus datos");
+        return "principal/sucursal";
     }
 
     @GetMapping("usuarios")
     public String getUsuarios(Model modelo){
         modelo.addAttribute("contenido", "Gestionar Usuarios");
         modelo.addAttribute("description",
-                "Se verá una tabla mostrando los libros vendidos, " +
-                        "cuantos se vendieron y se inclurán las opciones para generar los reportes de las ventas");
+                "Se verá un formulario para añadir a un usuario");
         return "principal/usuarios";
     }
 }
