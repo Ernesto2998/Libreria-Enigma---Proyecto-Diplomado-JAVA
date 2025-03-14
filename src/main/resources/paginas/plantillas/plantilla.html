@@ -7,14 +7,14 @@
     <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{/iconos/bootstrap-icons.css}" rel="stylesheet">
     <link th:href="@{/tema/miestilo.css}" rel="stylesheet">
-    <title>Spring Thymeleaf</title>
+    <title>Librería</title>
 </head>
 <body>
 
 <header th:fragment="header">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="container py-3 navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a th:href="@{/propiedades}" class="navbar-brand">Spring</a>
+            <a th:href="@{/principal}" class="navbar-brand">Enigna Books</a>
             <button class="navbar-toggler"
                     type="button"
                     data-bs-toggle="collapse"
@@ -27,9 +27,10 @@
             <!--Menu-->
             <div class="collapse navbar-collapse" id="menu">
                 <ul class="navbar-nav me-auto mb-1 mb-lg-0">
-                    <li class="nav-item"><a th:href="@{/spring/requestmapping}" class="nav-link">@RequestMapping(Clase)</a></li>
-                    <li class="nav-item"><a th:href="@{/spring/getmapping}" class="nav-link">@GetMapping</a></li>
-                    <!--Dropdown-->
+                    <li class="nav-item"><a th:href="@{/user/realizar-venta}" class="nav-link">Realizar venta</a></li>
+                    <li class="nav-item"><a th:href="@{/user/historial-ventas}" class="nav-link">Historial de ventas</a></li>
+                    <li class="nav-item"><a th:href="@{/user/inventario}" class="nav-link">Inventario</a></li>
+                    <li class="nav-item"><a th:href="@{/user/sucursal}" class="nav-link">Sucursales</a></li>
                     <li class="nav-item dropdown">
                         <a
                                 id="dropdown-pathvariable"
@@ -38,46 +39,17 @@
                                 role="button"
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false"
-                        >@PathVariable
+                        >Gestionar elementos
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="dropdown-pathvariable">
-                            <li><a th:href="@{/spring/parametro-uno/45}" class="dropdown-item">Un parámetro</a></li>
-                            <li><a th:href="@{/spring/parametro-dos/27/Caroline}" class="dropdown-item">Dos parámetros</a></li>
+                            <li><a th:href="@{/user/manager/buscar-libro}" class="dropdown-item">Buscar libro</a></li>
+                            <li><a th:href="@{/user/manager/gestionar-libro}" class="dropdown-item">Gestionar Libros</a></li>
+                            <li><a th:href="@{/user/manager/gestionar-autor}" class="dropdown-item">Gestionar Autores</a></li>
+                            <li><a th:href="@{/user/manager/gestionar-editoriales}" class="dropdown-item">Gestionar Editoriales</a></li>
+                            <li><a th:href="@{/user/manager/gestionar-clasificaciones}" class="dropdown-item">Gestionar Clasificaciones</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a
-                                id="dropdown-requestparam"
-                                href="#"
-                                class="nav-link dropdown-toggle"
-                                role="button"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                        >@Requestparam
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="dropdown-requestparam">
-                            <li><a th:href="@{/spring/requestparam?dato=DGTIC-1}" class="dropdown-item">Un parámetro</a></li>
-                            <li><a th:href="@{/spring/requestparam}" class="dropdown-item">Sin parámetros</a></li>
-                            <li><a th:href="@{/spring/requestparam-v?dato=DGTIC-2&diplomado=Spring}" class="dropdown-item">Dos parámetros</a></li>
-                            <li><a th:href="@{/spring/requestparam-v?dato=DGTIC-2}" class="dropdown-item">Solo un parámetros</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a
-                                id="dropdown-menu"
-                                href="#"
-                                class="nav-link dropdown-toggle"
-                                role="button"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false"
-                        >Formularios
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="dropdown-menu">
-                            <li><a href="#" class="dropdown-item">Data Binding</a></li>
-                            <li><a href="#" class="dropdown-item">Data Binding 1</a></li>
-                            <li><a href="#" class="dropdown-item">Data Binding 2</a></li>
-                        </ul>
-                    </li>
+                    <li class="nav-item"><a th:href="@{/user/usuarios}" class="nav-link">Añadir usuario</a></li>
                 </ul>
             </div>
         </div>
@@ -87,7 +59,7 @@
 </body>
 
 <footer th:fragment="footer">
-    <div class="container text-center py-5">
+    <div class="container text-center text-white py-5">
         <p>Dirección General de Cómputo y de Tecnologías de Información y Comunicación</p>
 
     </div>
