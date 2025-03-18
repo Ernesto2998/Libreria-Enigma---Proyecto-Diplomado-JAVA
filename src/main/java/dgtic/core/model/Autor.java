@@ -17,15 +17,15 @@ public class Autor {
     @Id
     @Column(name = "id_autor")
     private Integer id;
-    @NotBlank
+    @NotBlank(message = "El nombre no puede estar vacío")
     private String nombre;
-    @NotBlank
+    @NotBlank(message = "El apellido uno no puede estar vacío")
     @Column(name = "apellido_1")
     private String apellidoUno;
-    @NotBlank
+    @NotBlank(message = "El apellido dos no puede estar vacío")
     @Column(name = "apellido_2")
     private String apellidoDos;
-    @NotBlank
+    @NotBlank(message = "La nacionalidad no puede estar vacía")
     private String nacionalidad;
 
 //    @ManyToMany(mappedBy = "autores")

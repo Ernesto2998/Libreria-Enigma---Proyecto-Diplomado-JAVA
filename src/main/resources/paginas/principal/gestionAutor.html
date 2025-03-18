@@ -91,6 +91,7 @@
         <div class="row mb-3">
             <div class="container text-start bg-body-tertiary rounded py-3">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Añadir Autor</button>
+                <h3 th:text="${info}"></h3>
             </div>
         </div>
         <!-- Vertically centered modal -->
@@ -98,15 +99,81 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Completa los campos:</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <p>Modal body text goes here.</p>
+
+                        <form id="autorForm" th:action="@{recibir-autor}" th:object="${autor}" method="post">
+                            <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role="alert">
+                                Verifique los siguientes inconvenientes
+                                <ul>
+                                    <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+                                </ul>
+                            </div>
+                            <div class="row justify-content-center pb-2">
+                                <div class="col-6">
+                                    <div class="form-floating">
+                                        <input
+                                                th:class="${#fields.hasErrors('nombre')}? 'form-control is-invalid':form-control"
+
+                                                type="text" id="nombre"
+                                                name="nombre"
+                                                th:field="*{nombre}"
+                                                placeholder="Nombre del autor">
+                                        <label for="nombre">Nombre del autor</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center pb-2">
+                                <div class="col-6">
+                                    <div class="form-floating">
+                                        <input
+                                                th:class="${#fields.hasErrors('apellidoUno')}? 'form-control is-invalid':form-control"
+
+                                                type="text" id="apellidoUno"
+                                                name="apellidoUno"
+                                                th:field="*{apellidoUno}"
+                                                placeholder="Primer apellido del autor">
+                                        <label for="apellidoUno">Primer apellido del autor</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center pb-2">
+                                <div class="col-6">
+                                    <div class="form-floating">
+                                        <input
+                                                th:class="${#fields.hasErrors('apellidoDos')}? 'form-control is-invalid':form-control"
+
+                                                type="text" id="apellidoDos"
+                                                name="apellidoDos"
+                                                th:field="*{apellidoDos}"
+                                                placeholder="Segundo apellido del autor">
+                                        <label for="apellidoDos">Segundo apellido del autor</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center pb-2">
+                                <div class="col-6">
+                                    <div class="form-floating">
+                                        <input
+                                                th:class="${#fields.hasErrors('nacionalidad')}? 'form-control is-invalid':form-control"
+
+                                                type="text" id="nacionalidad"
+                                                name="nacionalidad"
+                                                th:field="*{nacionalidad}"
+                                                placeholder="Nacionalidad">
+                                        <label for="nacionalidad">Nacionalidad</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Understood</button>
+                        <button type="submit" class="btn btn-primary" form="autorForm">Guardar</button>
                     </div>
                 </div>
             </div>
@@ -115,5 +182,14 @@
     </div>
 </main>
 <footer th:replace="~{plantillas/plantilla :: footer}"></footer>
+
+<!-- Script para abrir el modal si hay un error -->
+<script th:if="${showModal}">
+    document.addEventListener("DOMContentLoaded", function () {
+        var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
+        myModal.show();
+    });
+</script>
+
 </body>
 </html>

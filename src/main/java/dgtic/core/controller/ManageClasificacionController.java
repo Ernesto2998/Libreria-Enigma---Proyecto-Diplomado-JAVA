@@ -72,7 +72,7 @@ public class ManageClasificacionController {
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public String errorRuntimeDuplicated(SQLIntegrityConstraintViolationException e,
                                   Model model){
-        String msg= mensaje.getMessage("Error.base.duplicado",
+        String msg= mensaje.getMessage("Error.base.clasificacionDuplicada",
                 null, LocaleContextHolder.getLocale());
         model.addAttribute("explicacion",msg);
         return "error-general";
