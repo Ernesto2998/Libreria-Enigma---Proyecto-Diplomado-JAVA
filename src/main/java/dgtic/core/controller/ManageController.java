@@ -24,9 +24,7 @@ public class ManageController {
         String capGestion = Character.toUpperCase(gestion.charAt(0)) + gestion.substring(1);
         String url = "";
 
-        if (gestion.equals("clasificacion"))
-            url = "principal/gestionClasificacion";
-        else if (gestion.equals("autor"))
+        if (gestion.equals("autor"))
             url = "principal/gestionAutor";
         else if (gestion.equals("libro"))
             url = "principal/gestionLibro";
