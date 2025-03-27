@@ -46,12 +46,10 @@
                 <tr th:each="listaCl: ${listaClasificaciones}">
                     <td th:text="${listaCl.tipoClasificacion}"></td>
                     <td>
-                        <a th:href="@{/lote/modificar-lote/{id} (id=${listaCl.id})}"
-                           class="btn btn-success">Modificar <i class="fas fa-pen-nib"
-                                                                aria-hidden="true"></i> </a>
-                        <a th:href="@{/lote/eliminar-lote/{id} (id=${listaCl.id})}"
-                           class="btn btn-danger">Eliminar <i class="fas fa-trash-alt"
-                                                              aria-hidden="true"></i> </a>
+                        <a th:href="@{/libreria/gestionar/clasificacion/edit-clasificacion/{id} (id=${listaCl.id})}"
+                           class="btn btn-success">Modificar <i class="fas fa-pen-nib" aria-hidden="true"></i> </a>
+                        <a th:href="@{/libreria/gestionar/clasificacion/delete-clasificacion/{id} (id=${listaCl.id})}"
+                           class="btn btn-danger">Eliminar <i class="fas fa-trash-alt" aria-hidden="true"></i> </a>
                     </td>
                 </tr>
                 </tbody>
