@@ -1,24 +1,30 @@
 package dgtic.core.controller;
 
 import dgtic.core.model.Clasificacion;
-import dgtic.core.service.ClasificacionService;
+import dgtic.core.model.dto.ClasificacionDto;
+import dgtic.core.service.clasificacion.ClasificacionService;
+import dgtic.core.util.RenderPagina;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
-@RequestMapping(value = "user/manager/gestionar")
+@RequestMapping(value = "libreria/gestionar/clasificacion")
 public class ManageClasificacionController {
 
     @Autowired
@@ -27,27 +33,43 @@ public class ManageClasificacionController {
     @Autowired
     ClasificacionService clasificacionService;
 
-    @GetMapping("clasificacion")
-    public String getGestionar(Model modelo){
+    @GetMapping("")
+    public String getGestionar(@RequestParam(name="page",defaultValue = "0")int page,
+                               Model modelo)
+    {
+        Pageable pageable= PageRequest.of(page,10);
+        Page<Clasificacion> clasificaciones = clasificacionService.findPage(pageable);
+        RenderPagina<Clasificacion> renderPagina = new RenderPagina<>("clasificacion",clasificaciones);
 
         modelo.addAttribute("clasificacion", new Clasificacion());
-        modelo.addAttribute("contenido", "Gestionar Clasificaiones");
-        modelo.addAttribute("description",
-                "Se mostrará una tabla con Clasificaciones y se podrá editar o añadir");
-        return "principal/gestionClasificacion";
+        modelo.addAttribute("clasificacionB", new Clasificacion());
+        modelo.addAttribute("contenido", "Gestionar Clasificaciones");
+        modelo.addAttribute("listaClasificaciones",clasificaciones);
+        modelo.addAttribute("page",renderPagina);
+        return "principal/clasificacion/gestionClasificacion";
     }
 
-    @PostMapping("recibir-clasificacion")
-    public String recibirClasificacion(@Valid Clasificacion clasificacion,
-                                   BindingResult bindingResult,
-                                   Model model){
+    @PostMapping("add-clasificacion")
+    public String addClasificacion(@RequestParam(name="page",defaultValue = "0")int page,
+                                       @Valid Clasificacion clasificacion,
+                                       BindingResult bindingResult,
+                                       Model model)
+    {
+        Pageable pageable= PageRequest.of(page,10);
+        Page<Clasificacion> clasificaciones = clasificacionService.findPage(pageable);
+        RenderPagina<Clasificacion> renderPagina = new RenderPagina<>("clasificacion",clasificaciones);
+
+        model.addAttribute("contenido", "Gestionar Clasificaciones");
+        model.addAttribute("listaClasificaciones",clasificaciones);
+        model.addAttribute("page",renderPagina);
+        model.addAttribute("clasificacionB", new Clasificacion());
 
         if(bindingResult.hasErrors()){
             for(ObjectError error: bindingResult.getAllErrors()){
                 System.out.println("Error " + error.getDefaultMessage());
             }
             model.addAttribute("showModal", true); // Indica que el modal debe abrirse
-            return "principal/gestionClasificacion";
+            return "principal/clasificacion/gestionClasificacion";
         }
 
         try{
@@ -57,16 +79,43 @@ public class ManageClasificacionController {
                     null, LocaleContextHolder.getLocale());
             bindingResult.rejectValue("tipoClasificacion", "tipoClasificacion", msg);
             model.addAttribute("showModal", true); // También abre el modal si hay error de BD
-            return "principal/gestionClasificacion";
+            return "principal/clasificacion/gestionClasificacion";
         }
 
         String cadena="Clasificación : "+ clasificacion.getTipoClasificacion();
         model.addAttribute("info",cadena);
         model.addAttribute("clasificacion",new Clasificacion());
-        model.addAttribute("contenido","Los datos que ingresas son:");
-        model.addAttribute("description", cadena);
 
-        return "principal/gestionClasificacion";
+        return "redirect:/libreria/gestionar/clasificacion";
+//        return "principal/clasificacion/gestionClasificacion";
+    }
+
+    @GetMapping(value = "buscar-clasificacion-nombre/{dato}", produces = "application/json")
+    public @ResponseBody List<ClasificacionDto> findClasificacion(@PathVariable String dato) {
+        return clasificacionService.findEspecieView(dato);
+    }
+
+    @PostMapping("buscar-clasificacion-tabla")
+    public String buscarReservaconTabla(
+            @RequestParam(name="page",defaultValue = "0")int page,
+            @Valid @ModelAttribute("clasificacionB") Clasificacion clasificacion
+            , BindingResult result, Model model)
+    {
+        Pageable pageable= PageRequest.of(page,10);
+        Page<Clasificacion> clasificaciones = clasificacionService.findPage(pageable);
+        RenderPagina<Clasificacion> renderPagina = new RenderPagina<>("clasificacion",clasificaciones);
+
+        Clasificacion claficicacionObtenida = clasificacionService.findById(clasificacion.getId()).get();
+        List<Clasificacion> lista = List.of(claficicacionObtenida);
+        model.addAttribute("listaClasificaciones", lista);
+
+        model.addAttribute("clasificacion", new Clasificacion());
+        model.addAttribute("clasificacionB", new Clasificacion());
+        model.addAttribute("contenido", "Gestionar Clasificaciones");
+//        model.addAttribute("listaClasificaciones",clasificaciones);
+        model.addAttribute("page",renderPagina);
+
+        return "principal/clasificacion/gestionClasificacion";
     }
 
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)

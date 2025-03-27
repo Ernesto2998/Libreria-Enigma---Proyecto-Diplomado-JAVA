@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/bootstrap/css/jquery-ui.min.css}" rel="stylesheet">
     <link th:href="@{/iconos/bootstrap-icons.css}" rel="stylesheet">
     <link th:href="@{/tema/miestilo.css}" rel="stylesheet">
     <title>Librería</title>
@@ -45,7 +46,7 @@
                             <li><a th:href="@{/user/manager/gestionar/libro}" class="dropdown-item">Gestionar Libros</a></li>
                             <li><a th:href="@{/user/manager/gestionar/autor}" class="dropdown-item">Gestionar Autores</a></li>
                             <li><a th:href="@{/user/manager/gestionar/editorial}" class="dropdown-item">Gestionar Editoriales</a></li>
-                            <li><a th:href="@{/user/manager/gestionar/clasificacion}" class="dropdown-item">Gestionar Clasificaciones</a></li>
+                            <li><a th:href="@{/libreria/gestionar/clasificacion}" class="dropdown-item">Gestionar Clasificaciones</a></li>
                         </ul>
                     </li>
                     <li class="nav-item"><a th:href="@{/user/usuarios}" class="nav-link">Añadir usuario</a></li>
@@ -62,7 +63,10 @@
         <p>Dirección General de Cómputo y de Tecnologías de Información y Comunicación</p>
 
     </div>
+    <script th:src="@{/bootstrap/js/jquery-3.6.3.js}"></script>
+    <script th:src="@{/bootstrap/js/jquery-ui.min.js}"></script>
     <script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/bootstrap/js/popper.min.js}"></script>
 </footer>
 
 </html>

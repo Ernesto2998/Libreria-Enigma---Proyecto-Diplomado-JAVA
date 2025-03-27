@@ -9,93 +9,60 @@
 
         <div class="shadow-lg p-3 my-5 bg-body-tertiary rounded">
             <h1 th:text="${contenido}"></h1>
-            <p th:text="${description}"></p>
+            <!--            <p th:text="${description}"></p>-->
         </div>
 
-        <div class="container">
+        <div class="container text-start">
             <div class="row">
-                <div class="container text-start bg-body-tertiary rounded py-3">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Buscar" aria-label="Buscar" aria-describedby="button-addon2">
-                        <button class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
-                    </div>
+                <div class="col container bg-body-tertiary rounded py-3 me-3">
+                    <form th:action="@{/libreria/gestionar/clasificacion/buscar-clasificacion-tabla}" th:object=${clasificacionB}
+                          method="post">
+                        <div class="input-group">
+                            <input type="text" id="clasificacionName" name="clasificacionName" class="form-control"
+                                   placeholder="Buscar" aria-label="Buscar" aria-describedby="button-addon2"
+                                   required="required" th:field="*{tipoClasificacion}">
+                            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
+                        </div>
+                        <input type="hidden" id="idClasificacion" name="idClasificacion" th:field="*{id}"/>
+                    </form>
+                </div>
+                <div class="col-auto align-self-end container bg-body-tertiary rounded py-3 ms-3">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop">Añadir Clasificación
+                    </button>
+                    <h3 th:text="${info}"></h3>
                 </div>
             </div>
         </div>
 
-        <div class="shadow-lg p-3 my-5 bg-body-tertiary rounded">
-            <table class="table table-hover">
+        <div class="shadow-lg p-3 mt-5 mb-1 bg-body-tertiary rounded">
+            <table th:if="${!listaClasificaciones.isEmpty()}" class="table table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Calle</th>
-                    <th scope="col">Colonia</th>
-                    <th scope="col">Municipio</th>
-                    <th scope="col">...</th>
+                    <th scope="col">Clasificación</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Calle 1</td>
-                    <td>Colonia 1</td>
-                    <td>Municipio 1</td>
-                    <td>...</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Calle 2</td>
-                    <td>Colonia 2</td>
-                    <td>Municipio 2</td>
-                    <td>...</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Calle 3</td>
-                    <td>Colonia 3</td>
-                    <td>Municipio 3</td>
-                    <td>...</td>
-                </tr>
-                <tr>
-                    <th scope="row">4</th>
-                    <td>Calle 4</td>
-                    <td>Colonia 4</td>
-                    <td>Municipio 4</td>
-                    <td>...</td>
-                </tr>
-                <tr>
-                    <th scope="row">5</th>
-                    <td>Calle 5</td>
-                    <td>Colonia 5</td>
-                    <td>Municipio 5</td>
-                    <td>...</td>
-                </tr>
-                <tr>
-                    <th scope="row">6</th>
-                    <td>Calle 6</td>
-                    <td>Colonia 6</td>
-                    <td>Municipio 6</td>
-                    <td>...</td>
-                </tr>
-                <tr>
-                    <th scope="row">7</th>
-                    <td>Calle 7</td>
-                    <td>Colonia 7</td>
-                    <td>Municipio 7</td>
-                    <td>...</td>
+                <tr th:each="listaCl: ${listaClasificaciones}">
+                    <td th:text="${listaCl.tipoClasificacion}"></td>
+                    <td>
+                        <a th:href="@{/lote/modificar-lote/{id} (id=${listaCl.id})}"
+                           class="btn btn-success">Modificar <i class="fas fa-pen-nib"
+                                                                aria-hidden="true"></i> </a>
+                        <a th:href="@{/lote/eliminar-lote/{id} (id=${listaCl.id})}"
+                           class="btn btn-danger">Eliminar <i class="fas fa-trash-alt"
+                                                              aria-hidden="true"></i> </a>
+                    </td>
                 </tr>
                 </tbody>
             </table>
         </div>
+        <nav th:replace="~{plantillas/pag-nav::paginador}"></nav>
 
-        <div class="row mb-3">
-            <div class="container text-start bg-body-tertiary rounded py-3">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Añadir Clasificación</button>
-                <h3 th:text="${info}"></h3>
-            </div>
-        </div>
+
         <!-- Vertically centered modal -->
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+             data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -104,7 +71,8 @@
                     </div>
                     <div class="modal-body">
 
-                        <form id="clasificacionForm" th:action="@{recibir-clasificacion}" th:object="${clasificacion}" method="post">
+                        <form id="clasificacionForm" th:action="@{/libreria/gestionar/clasificacion/add-clasificacion}" th:object="${clasificacion}"
+                              method="post">
                             <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role="alert">
                                 Verifique los siguientes inconvenientes
                                 <ul>
@@ -140,6 +108,7 @@
 </main>
 <footer th:replace="~{plantillas/plantilla :: footer}"></footer>
 
+<script th:replace="~{principal/clasificacion/js/autocompletar :: jsclasificacion}"></script>
 <!-- Script para abrir el modal si hay un error -->
 <script th:if="${showModal}">
     document.addEventListener("DOMContentLoaded", function () {
