@@ -12,6 +12,7 @@ public interface ClasificacionService {
     List<Clasificacion> findAll();
     Optional<Clasificacion> findById(Integer id);
     Page<Clasificacion> findPage(Pageable pageable);
+    Page<Clasificacion> findClasificacionByName(String tipoClasificacion, Pageable pageable);
     void save(Clasificacion clasificacion);
     void deleteById(Integer id);
     List<ClasificacionDto> findEspecieView(String dato);

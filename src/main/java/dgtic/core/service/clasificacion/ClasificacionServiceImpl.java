@@ -36,6 +36,12 @@ public class ClasificacionServiceImpl implements ClasificacionService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Page<Clasificacion> findClasificacionByName(String tipoClasificacion, Pageable pageable) {
+        return clasificacionRepository.findByTipoClasificacionContainingIgnoreCase(tipoClasificacion, pageable);
+    }
+
+    @Override
     @Transactional
     public void save(Clasificacion clasificacion) {
         clasificacionRepository.save(clasificacion);

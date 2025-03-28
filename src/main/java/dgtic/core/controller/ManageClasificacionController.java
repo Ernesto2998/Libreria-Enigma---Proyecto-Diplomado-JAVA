@@ -55,11 +55,12 @@ public class ManageClasificacionController {
                                    Model model) {
         Pageable pageable = PageRequest.of(page, 10);
         Page<Clasificacion> clasificaciones = clasificacionService.findPage(pageable);
-        RenderPagina<Clasificacion> renderPagina = new RenderPagina<>("clasificacion", clasificaciones);
+        RenderPagina<Clasificacion> renderPagina = new RenderPagina<>("/libreria/gestionar/clasificacion/buscar-clasificacion-tabla", clasificaciones);
 
         model.addAttribute("contenido", "Gestionar Clasificaciones");
         model.addAttribute("listaClasificaciones", clasificaciones);
         model.addAttribute("page", renderPagina);
+//        model.addAttribute("clasificacion", new Clasificacion());
         model.addAttribute("clasificacionB", new Clasificacion());
 
         if (bindingResult.hasErrors()) {
@@ -87,9 +88,28 @@ public class ManageClasificacionController {
         return "redirect:/libreria/gestionar/clasificacion";
     }
 
+    @GetMapping("add-clasificacion")
+    public String GetaddClasificacion(@RequestParam(name = "page", defaultValue = "0") int page,
+                                      @RequestParam(name = "tipoClasificacion", required = false, defaultValue = "") String tipoClasificacion,
+                                      BindingResult bindingResult,
+                                      Model model) {
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<Clasificacion> clasificaciones = clasificacionService.findPage(pageable);
+        RenderPagina<Clasificacion> renderPagina = new RenderPagina<>("/libreria/gestionar/clasificacion/add-clasificacion", clasificaciones);
+
+        model.addAttribute("contenido", "Gestionar Clasificaciones");
+        model.addAttribute("listaClasificaciones", clasificaciones);
+        model.addAttribute("page", renderPagina);
+        model.addAttribute("clasificacion", new Clasificacion());
+        model.addAttribute("clasificacionB", new Clasificacion());
+        model.addAttribute("tipoClasificacion", tipoClasificacion);
+
+        return "principal/clasificacion/gestionClasificacion";
+    }
+
     @GetMapping("delete-clasificacion/{id}")
-    public String eliminarClasificacion(@PathVariable("id")Integer id,
-                               RedirectAttributes modelo){
+    public String eliminarClasificacion(@PathVariable("id") Integer id,
+                                        RedirectAttributes modelo) {
         clasificacionService.deleteById(id);
 //        modelo.addFlashAttribute("success","Se borro con éxito Lote");
         return "redirect:/libreria/gestionar/clasificacion";
@@ -100,27 +120,42 @@ public class ManageClasificacionController {
         return clasificacionService.findEspecieView(dato);
     }
 
-    /**
-     *
-     */
-    @PostMapping("buscar-clasificacion-tabla")
-    public String buscarReservaconTabla(
-            @RequestParam(name="page",defaultValue = "0")int page,
-            @Valid @ModelAttribute("clasificacionB") Clasificacion clasificacion
-            , BindingResult result, Model model)
-    {
-        Pageable pageable= PageRequest.of(page,10);
-        Page<Clasificacion> clasificaciones = clasificacionService.findPage(pageable);
-        RenderPagina<Clasificacion> renderPagina = new RenderPagina<>("clasificacion",clasificaciones);
+    @GetMapping("buscar-clasificacion-tabla")
+    public String getBuscarClasificacionTabla(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "tipoClasificacion", required = false, defaultValue = "") String tipoClasificacion,
+            Model model) {
 
-        Clasificacion claficicacionObtenida = clasificacionService.findById(clasificacion.getId()).get();
-        List<Clasificacion> lista = List.of(claficicacionObtenida);
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<Clasificacion> pageClasificaciones = clasificacionService.findClasificacionByName(tipoClasificacion, pageable);
+        RenderPagina<Clasificacion> renderPagina = new RenderPagina<>("/libreria/gestionar/clasificacion/buscar-clasificacion-tabla", pageClasificaciones);
 
-        model.addAttribute("listaClasificaciones", lista);
         model.addAttribute("clasificacion", new Clasificacion());
-        model.addAttribute("clasificacionB", new Clasificacion());
+        model.addAttribute("clasificacionB", new Clasificacion(tipoClasificacion));
         model.addAttribute("contenido", "Gestionar Clasificaciones");
-        model.addAttribute("page",renderPagina);
+        model.addAttribute("listaClasificaciones", pageClasificaciones);
+        model.addAttribute("page", renderPagina);
+        model.addAttribute("tipoClasificacion", tipoClasificacion);
+
+        return "principal/clasificacion/gestionClasificacion";
+    }
+
+    @PostMapping("buscar-clasificacion-tabla")
+    public String buscarClasificacionTabla(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "tipoClasificacion", required = false, defaultValue = "") String tipoClasificacion,
+            Model model) {
+
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<Clasificacion> pageClasificaciones = clasificacionService.findClasificacionByName(tipoClasificacion, pageable);
+        RenderPagina<Clasificacion> renderPagina = new RenderPagina<>("/libreria/gestionar/clasificacion/buscar-clasificacion-tabla", pageClasificaciones);
+
+        model.addAttribute("clasificacion", new Clasificacion());
+        model.addAttribute("clasificacionB", new Clasificacion(tipoClasificacion));
+        model.addAttribute("contenido", "Gestionar Clasificaciones");
+        model.addAttribute("listaClasificaciones", pageClasificaciones);
+        model.addAttribute("page", renderPagina);
+        model.addAttribute("tipoClasificacion", tipoClasificacion);
 
         return "principal/clasificacion/gestionClasificacion";
     }

@@ -15,15 +15,13 @@
         <div class="container text-start">
             <div class="row">
                 <div class="col container bg-body-tertiary rounded py-3 me-3">
-                    <form th:action="@{/libreria/gestionar/clasificacion/buscar-clasificacion-tabla}" th:object=${clasificacionB}
-                          method="post">
+                    <form th:action="@{/libreria/gestionar/clasificacion/buscar-clasificacion-tabla}" method="get">
                         <div class="input-group">
-                            <input type="text" id="clasificacionName" name="clasificacionName" class="form-control"
+                            <input type="text" id="clasificacionName" name="tipoClasificacion" class="form-control"
                                    placeholder="Buscar" aria-label="Buscar" aria-describedby="button-addon2"
-                                   required="required" th:field="*{tipoClasificacion}">
+                                   required="required" th:value="${clasificacionB.tipoClasificacion}">
                             <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
                         </div>
-                        <input type="hidden" id="idClasificacion" name="idClasificacion" th:field="*{id}"/>
                     </form>
                 </div>
                 <div class="col-auto align-self-end container bg-body-tertiary rounded py-3 ms-3">
