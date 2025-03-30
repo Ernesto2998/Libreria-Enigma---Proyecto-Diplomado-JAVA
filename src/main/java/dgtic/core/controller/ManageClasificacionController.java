@@ -51,7 +51,7 @@ public class ManageClasificacionController {
     @PostMapping("add-clasificacion")
     public String addClasificacion(@RequestParam(name = "page", defaultValue = "0") int page,
                                    @Valid Clasificacion clasificacion,
-                                   RedirectAttributes redirectAttributes,
+//                                   RedirectAttributes redirectAttributes,
                                    BindingResult bindingResult,
                                    Model model) {
         Pageable pageable = PageRequest.of(page, 10);
@@ -84,7 +84,7 @@ public class ManageClasificacionController {
         String cadena = "Clasificación : " + clasificacion.getTipoClasificacion();
         model.addAttribute("info", cadena);
         model.addAttribute("clasificacion", new Clasificacion());
-        redirectAttributes.addFlashAttribute("success","Se almaceno con éxito: " + clasificacion.getTipoClasificacion());
+//        redirectAttributes.addFlashAttribute("success","Se almaceno con éxito: " + clasificacion.getTipoClasificacion());
         return "redirect:/libreria/gestionar/clasificacion";
     }
 
