@@ -59,7 +59,7 @@ public class ClasificacionServiceImpl implements ClasificacionService {
     }
 
     @Override
-    public List<ClasificacionDto> findEspecieView(String dato) {
-        return clasificacionRepository.findEspecieView(dato);
+    public List<ClasificacionDto> findClasificacionView(String dato) {
+        return clasificacionRepository.findClasificacionView(dato);
     }
 }

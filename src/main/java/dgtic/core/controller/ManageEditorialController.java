@@ -1,21 +1,29 @@
 package dgtic.core.controller;
 
 import dgtic.core.model.Editorial;
+import dgtic.core.model.dto.EditorialDto;
 import dgtic.core.service.EditorialService;
+import dgtic.core.util.RenderPagina;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
-@RequestMapping(value = "user/manager/gestionar")
+@RequestMapping(value = "libreria/gestionar/editorial")
 public class ManageEditorialController {
 
     @Autowired
@@ -24,18 +32,23 @@ public class ManageEditorialController {
     @Autowired
     EditorialService editorialService;
 
-    @GetMapping("editorial")
-    public String getGestionar(Model modelo){
+    @GetMapping("")
+    public String getGestionar(@RequestParam(name = "page", defaultValue = "0") int page,
+                               Model modelo) {
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<Editorial> editoriales = editorialService.findPage(pageable);
+        RenderPagina<Editorial> renderPagina = new RenderPagina<>("editorial", editoriales);
 
         modelo.addAttribute("editorial", new Editorial());
+        modelo.addAttribute("editorialB", new Editorial());
         modelo.addAttribute("contenido", "Gestionar Editorial");
-        modelo.addAttribute("description",
-                "Se mostrará una tabla con Editoriales y se podrá editar o añadir");
-        return "principal/gestionEditorial";
+        modelo.addAttribute("listaEditoriales", editoriales);
+        modelo.addAttribute("page", renderPagina);
+        return "principal/editorial/gestionEditorial";
     }
 
-    @PostMapping("recibir-editorial")
-    public String recibirEditorial(@Valid Editorial editorial,
+    @PostMapping("add-editorial")
+    public String addEditorial(@Valid Editorial editorial,
                                    BindingResult bindingResult,
                                    Model model){
 
@@ -64,6 +77,82 @@ public class ManageEditorialController {
         model.addAttribute("description", cadena);
 
         return "principal/gestionEditorial";
+    }
+
+    @GetMapping("add-editorial")
+    public String getAddEditorial(@RequestParam(name = "page", defaultValue = "0") int page,
+                                      @RequestParam(name = "editorialName", required = false, defaultValue = "") String editorialName,
+                                      BindingResult bindingResult,
+                                      Model model) {
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<Editorial> editoriales = editorialService.findPage(pageable);
+        RenderPagina<Editorial> renderPagina = new RenderPagina<>("/libreria/gestionar/editorial/add-editorial", editoriales);
+
+        model.addAttribute("contenido", "Gestionar Editoriales");
+        model.addAttribute("listaEditoriales", editoriales);
+        model.addAttribute("page", renderPagina);
+        model.addAttribute("editorial", new Editorial());
+        model.addAttribute("editorialB", new Editorial());
+        model.addAttribute("editorialName", editorialName);
+
+        return "principal/clasificacion/gestionClasificacion";
+    }
+
+    @PostMapping("edit-editorial")
+    public String editEditorial( @Valid Editorial editorial,
+                                     BindingResult bindingResult,
+                                     RedirectAttributes redirectAttributes,
+                                     Model model) {
+        model.addAttribute("contenido", "Gestionar Editoriales");
+
+        if (bindingResult.hasErrors()) {
+            for (ObjectError error : bindingResult.getAllErrors()) {
+                System.out.println("Error " + error.getDefaultMessage());
+            }
+            model.addAttribute("showModal", true); // Indica que el modal debe abrirse
+            return "principal/editorial/gestionEditorial";
+        }
+
+        try {
+            Editorial editorialEdit = new Editorial();
+            Optional<Editorial> editorialOp = editorialService.findById(editorial.getId());
+            if(editorialOp.isPresent()){editorialEdit = editorialOp.get();}
+            editorialEdit.setEditorialName(editorial.getEditorialName());
+            editorialService.save(editorialEdit);
+            redirectAttributes.addFlashAttribute("success","Se almaceno con éxito: " + editorialEdit.getEditorialName());
+        } catch (Exception e) {
+            String msg = mensaje.getMessage("Error.base.editorialDuplicada",
+                    null, LocaleContextHolder.getLocale());
+            model.addAttribute("id", editorial.getId());
+            bindingResult.rejectValue("editorialName", "editorialName", msg);
+            return "principal/editorial/editEditorial";
+        }
+
+        String cadena = "Editorial : " + editorial.getEditorialName();
+        model.addAttribute("info", cadena);
+        model.addAttribute("editorial", new Editorial());
+
+        return "redirect:/libreria/gestionar/editorial";
+    }
+
+    @GetMapping("edit-editorial/{id}")
+    public String modificarEditorial(@PathVariable("id") Integer id, Model modelo) {
+        Optional<Editorial> editorial = editorialService.findById(id);
+        modelo.addAttribute("editorial", editorial);
+        modelo.addAttribute("contenido", "Modificar Editorial");
+        return "principal/editorial/editEditorial";
+    }
+
+    @GetMapping("delete-editorial/{id}")
+    public String eliminarEditorial(@PathVariable("id") Integer id,
+                                        RedirectAttributes modelo) {
+        editorialService.deleteById(id);
+        return "redirect:/libreria/gestionar/editorial";
+    }
+
+    @GetMapping(value = "buscar-editorial-nombre/{dato}", produces = "application/json")
+    public @ResponseBody List<EditorialDto> findEditorial(@PathVariable String dato) {
+        return editorialService.findEditorialView(dato);
     }
 
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)

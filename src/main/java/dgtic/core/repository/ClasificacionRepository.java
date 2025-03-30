@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public interface ClasificacionRepository extends JpaRepository<Clasificacion, Integer> {
     @Query("select new dgtic.core.model.dto.ClasificacionDto(cl.id,cl.tipoClasificacion) from clasificacion cl where cl.tipoClasificacion like %?1%")
-    List<ClasificacionDto> findEspecieView(String dato);
+    List<ClasificacionDto> findClasificacionView(String dato);
 
     Page<Clasificacion> findByTipoClasificacionContainingIgnoreCase(String tipoClasificacion, Pageable pageable);
 

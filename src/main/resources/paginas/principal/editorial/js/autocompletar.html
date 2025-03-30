@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="es">
+<body>
+<script type="text/javascript" th:fragment="jseditorial">
+        $(document).ready(function(){
+        $("#editorialNameB").autocomplete({
+            source: function(request,response){
+              $.ajax({
+                    url:"/libreria/gestionar/editorial/buscar-editorial-nombre/"+request.term,
+                    dataType:"json",
+                    data:{
+                        term: request.term
+                    },
+                    success: function(data){
+                        response($.map(data,function(item){
+                            return{
+                                 value:item.id,
+                                 label:item.editorialName,
+                            };
+                        }));
+                    },
+              });
+            },
+            select: function(event,ui){
+               $("#editorialNameB").val(ui.item.label);
+               $("#idEditorial").val(ui.item.value);
+               return false;
+            }
+        });
+    }
+    );
+
+</script>
+</body>
+</html>

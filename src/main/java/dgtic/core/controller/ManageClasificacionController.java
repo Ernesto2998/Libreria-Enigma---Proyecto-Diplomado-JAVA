@@ -16,7 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.sql.SQLIntegrityConstraintViolationException;
@@ -89,7 +88,7 @@ public class ManageClasificacionController {
     }
 
     @GetMapping("add-clasificacion")
-    public String GetaddClasificacion(@RequestParam(name = "page", defaultValue = "0") int page,
+    public String getAddClasificacion(@RequestParam(name = "page", defaultValue = "0") int page,
                                       @RequestParam(name = "tipoClasificacion", required = false, defaultValue = "") String tipoClasificacion,
                                       BindingResult bindingResult,
                                       Model model) {
@@ -144,6 +143,15 @@ public class ManageClasificacionController {
         return "redirect:/libreria/gestionar/clasificacion";
     }
 
+    @GetMapping("edit-clasificacion/{id}")
+    public String modificarClasificacion(@PathVariable("id") Integer id, Model modelo) {
+        Optional<Clasificacion> clasificacion = clasificacionService.findById(id);
+        modelo.addAttribute("clasificacion", clasificacion);
+        modelo.addAttribute("contenido", "Modificar Clasificacion");
+        return "principal/clasificacion/editClasificacion";
+    }
+
+
     @GetMapping("delete-clasificacion/{id}")
     public String eliminarClasificacion(@PathVariable("id") Integer id,
                                         RedirectAttributes modelo) {
@@ -154,7 +162,7 @@ public class ManageClasificacionController {
 
     @GetMapping(value = "buscar-clasificacion-nombre/{dato}", produces = "application/json")
     public @ResponseBody List<ClasificacionDto> findClasificacion(@PathVariable String dato) {
-        return clasificacionService.findEspecieView(dato);
+        return clasificacionService.findClasificacionView(dato);
     }
 
     @GetMapping("buscar-clasificacion-tabla")
@@ -195,14 +203,6 @@ public class ManageClasificacionController {
         model.addAttribute("tipoClasificacion", tipoClasificacion);
 
         return "principal/clasificacion/gestionClasificacion";
-    }
-
-    @GetMapping("edit-clasificacion/{id}")
-    public String modificarLos(@PathVariable("id") Integer id, Model modelo) {
-        Optional<Clasificacion> clasificacion = clasificacionService.findById(id);
-        modelo.addAttribute("clasificacion", clasificacion);
-        modelo.addAttribute("contenido", "Modificar Clasificacion");
-        return "principal/clasificacion/editClasificacion";
     }
 
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)

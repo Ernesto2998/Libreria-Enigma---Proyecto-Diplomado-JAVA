@@ -2,8 +2,11 @@ package dgtic.core.service;
 
 import dgtic.core.model.Autor;
 import dgtic.core.model.Editorial;
+import dgtic.core.model.dto.EditorialDto;
 import dgtic.core.repository.EditorialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +31,11 @@ public class EditorialServiceImpl implements EditorialService{
     }
 
     @Override
+    public Optional<Editorial> findByEditorialName(String editorialName) {
+        return editorialRepository.findByEditorialName(editorialName);
+    }
+
+    @Override
     @Transactional
     public void save(Editorial editorial) {
         editorialRepository.save(editorial);
@@ -37,5 +45,20 @@ public class EditorialServiceImpl implements EditorialService{
     @Transactional
     public void deleteById(Integer id) {
         editorialRepository.deleteById(id);
+    }
+
+    @Override
+    public List<EditorialDto> findEditorialView(String dato) {
+        return editorialRepository.findEditorialView(dato);
+    }
+
+    @Override
+    public Page<Editorial> findPage(Pageable pageable) {
+        return editorialRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Editorial> findEditorialByName(String editorialName, Pageable pageable) {
+        return editorialRepository.findByEditorialNameContainingIgnoreCase(editorialName, pageable);
     }
 }
