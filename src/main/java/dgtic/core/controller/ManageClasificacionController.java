@@ -51,6 +51,7 @@ public class ManageClasificacionController {
     @PostMapping("add-clasificacion")
     public String addClasificacion(@RequestParam(name = "page", defaultValue = "0") int page,
                                    @Valid Clasificacion clasificacion,
+                                   RedirectAttributes redirectAttributes,
                                    BindingResult bindingResult,
                                    Model model) {
         Pageable pageable = PageRequest.of(page, 10);
@@ -60,7 +61,6 @@ public class ManageClasificacionController {
         model.addAttribute("contenido", "Gestionar Clasificaciones");
         model.addAttribute("listaClasificaciones", clasificaciones);
         model.addAttribute("page", renderPagina);
-//        model.addAttribute("clasificacion", new Clasificacion());
         model.addAttribute("clasificacionB", new Clasificacion());
 
         if (bindingResult.hasErrors()) {
@@ -84,7 +84,7 @@ public class ManageClasificacionController {
         String cadena = "Clasificación : " + clasificacion.getTipoClasificacion();
         model.addAttribute("info", cadena);
         model.addAttribute("clasificacion", new Clasificacion());
-
+        redirectAttributes.addFlashAttribute("success","Se almaceno con éxito: " + clasificacion.getTipoClasificacion());
         return "redirect:/libreria/gestionar/clasificacion";
     }
 
@@ -105,6 +105,43 @@ public class ManageClasificacionController {
         model.addAttribute("tipoClasificacion", tipoClasificacion);
 
         return "principal/clasificacion/gestionClasificacion";
+    }
+
+    @PostMapping("edit-clasificacion")
+    public String editClasificacion( @Valid Clasificacion clasificacion,
+                                   BindingResult bindingResult,
+                                   RedirectAttributes redirectAttributes,
+                                   Model model) {
+        model.addAttribute("contenido", "Gestionar Clasificaciones");
+
+        if (bindingResult.hasErrors()) {
+            for (ObjectError error : bindingResult.getAllErrors()) {
+                System.out.println("Error " + error.getDefaultMessage());
+            }
+            model.addAttribute("showModal", true); // Indica que el modal debe abrirse
+            return "principal/clasificacion/gestionClasificacion";
+        }
+
+        try {
+            Clasificacion clasificacionEdit = new Clasificacion();
+            Optional<Clasificacion> clasificacionOp = clasificacionService.findById(clasificacion.getId());
+            if(clasificacionOp.isPresent()){clasificacionEdit = clasificacionOp.get();}
+            clasificacionEdit.setTipoClasificacion(clasificacion.getTipoClasificacion());
+            clasificacionService.save(clasificacionEdit);
+            redirectAttributes.addFlashAttribute("success","Se almaceno con éxito: " + clasificacionEdit.getTipoClasificacion());
+        } catch (Exception e) {
+            String msg = mensaje.getMessage("Error.base.clasificacionDuplicada",
+                    null, LocaleContextHolder.getLocale());
+            model.addAttribute("id", clasificacion.getId());
+            bindingResult.rejectValue("tipoClasificacion", "tipoClasificacion", msg);
+            return "principal/clasificacion/editClasificacion";
+        }
+
+        String cadena = "Clasificación : " + clasificacion.getTipoClasificacion();
+        model.addAttribute("info", cadena);
+        model.addAttribute("clasificacion", new Clasificacion());
+
+        return "redirect:/libreria/gestionar/clasificacion";
     }
 
     @GetMapping("delete-clasificacion/{id}")
@@ -158,6 +195,14 @@ public class ManageClasificacionController {
         model.addAttribute("tipoClasificacion", tipoClasificacion);
 
         return "principal/clasificacion/gestionClasificacion";
+    }
+
+    @GetMapping("edit-clasificacion/{id}")
+    public String modificarLos(@PathVariable("id") Integer id, Model modelo) {
+        Optional<Clasificacion> clasificacion = clasificacionService.findById(id);
+        modelo.addAttribute("clasificacion", clasificacion);
+        modelo.addAttribute("contenido", "Modificar Clasificacion");
+        return "principal/clasificacion/editClasificacion";
     }
 
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)

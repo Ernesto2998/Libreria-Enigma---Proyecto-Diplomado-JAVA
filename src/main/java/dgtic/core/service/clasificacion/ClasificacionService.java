@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface ClasificacionService {
     List<Clasificacion> findAll();
     Optional<Clasificacion> findById(Integer id);
+    Optional<Clasificacion> findByTipoClasificacion(String tipoClasificacion);
     Page<Clasificacion> findPage(Pageable pageable);
     Page<Clasificacion> findClasificacionByName(String tipoClasificacion, Pageable pageable);
     void save(Clasificacion clasificacion);

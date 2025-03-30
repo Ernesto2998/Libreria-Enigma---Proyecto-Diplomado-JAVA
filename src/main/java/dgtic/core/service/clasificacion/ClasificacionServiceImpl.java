@@ -30,6 +30,11 @@ public class ClasificacionServiceImpl implements ClasificacionService {
     }
 
     @Override
+    public Optional<Clasificacion> findByTipoClasificacion(String tipoClasificacion) {
+        return clasificacionRepository.findByTipoClasificacion(tipoClasificacion);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Page<Clasificacion> findPage(Pageable pageable) {
         return clasificacionRepository.findAll(pageable);
