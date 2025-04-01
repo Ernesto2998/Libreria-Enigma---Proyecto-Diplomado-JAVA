@@ -151,7 +151,6 @@ public class ManageClasificacionController {
         return "principal/clasificacion/editClasificacion";
     }
 
-
     @GetMapping("delete-clasificacion/{id}")
     public String eliminarClasificacion(@PathVariable("id") Integer id,
                                         RedirectAttributes modelo) {

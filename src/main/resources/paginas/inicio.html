@@ -19,40 +19,41 @@
     </div>
 </header>
 <body>
-    <div class="container text-center">
-        <main>
+<div class="container text-center">
+    <main>
 
-            <div class="row">
-                <div class="col-12 py-2">
-                    <img class="img-fluid" th:src="@{/image/logo_inicio.png}" width="35%" height="35%" style="border-radius: 50%;">
+        <div class="row">
+            <div class="col-12 py-2">
+                <img class="img-fluid" th:src="@{/image/logo_inicio.png}" width="35%" height="35%"
+                     style="border-radius: 50%;">
+            </div>
+        </div>
+
+        <div class="container text-center shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+            <h1 th:text="${contenido}"></h1>
+            <p th:text="${contenido2}"></p>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
+                <div class="container text-start shadow-lg p-3 px-5 mb-5 bg-body-tertiary rounded">
+                    <form>
+                        <div class="mb-3">
+                            <label for="inputEmail1" class="form-label">Nombre de usuario</label>
+                            <input type="email" class="form-control" id="inputEmail1" aria-describedby="emailHelp">
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputPassword" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="inputPassword">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Ingresar</button>
+                    </form>
                 </div>
             </div>
+        </div>
 
-            <div class="container text-center shadow-lg p-3 mb-5 bg-body-tertiary rounded">
-                <h1 th:text="${contenido}"></h1>
-                <p th:text="${contenido2}"></p>
-            </div>
-
-            <div class="row">
-                <div class="col-12 col-sm-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
-                    <div class="container text-start shadow-lg p-3 px-5 mb-5 bg-body-tertiary rounded">
-                        <form>
-                            <div class="mb-3">
-                                <label for="inputEmail1" class="form-label">Nombre de usuario</label>
-                                <input type="email" class="form-control" id="inputEmail1" aria-describedby="emailHelp">
-                            </div>
-                            <div class="mb-3">
-                                <label for="inputPassword" class="form-label">Contraseña</label>
-                                <input type="password" class="form-control" id="inputPassword">
-                            </div>
-                            <button type="submit" class="btn btn-primary">Ingresar</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-        </main>
-    </div>
+    </main>
+</div>
 </body>
 <footer th:replace="~{plantillas/plantilla :: footer}"></footer>
 </html>

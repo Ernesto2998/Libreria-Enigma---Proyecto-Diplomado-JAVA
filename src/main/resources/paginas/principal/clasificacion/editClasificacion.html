@@ -12,7 +12,8 @@
         </div>
 
         <div class="card-body">
-            <form id="clasificacionForm" th:action="@{/libreria/gestionar/clasificacion/edit-clasificacion}" th:object="${clasificacion}"
+            <form id="clasificacionForm" th:action="@{/libreria/gestionar/clasificacion/edit-clasificacion}"
+                  th:object="${clasificacion}"
                   method="post">
                 <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role="alert">
                     Verifique los siguientes inconvenientes

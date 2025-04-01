@@ -3,33 +3,33 @@
       lang="es">
 <body>
 <script type="text/javascript" th:fragment="jsclasificacion">
-        $(document).ready(function(){
-        $("#clasificacionName").autocomplete({
-            source: function(request,response){
-              $.ajax({
-                    url:"/libreria/gestionar/clasificacion/buscar-clasificacion-nombre/"+request.term,
-                    dataType:"json",
-                    data:{
-                        term: request.term
-                    },
-                    success: function(data){
-                        response($.map(data,function(item){
-                            return{
-                                 value:item.id,
-                                 label:item.tipoClasificacion,
-                            };
-                        }));
-                    },
-              });
-            },
-            select: function(event,ui){
-               $("#clasificacionName").val(ui.item.label);
-               $("#idClasificacion").val(ui.item.value);
-               return false;
-            }
-        });
-    }
-    );
+    $(document).ready(function(){
+    $("#clasificacionName").autocomplete({
+        source: function(request,response){
+          $.ajax({
+                url:"/libreria/gestionar/clasificacion/buscar-clasificacion-nombre/"+request.term,
+                dataType:"json",
+                data:{
+                    term: request.term
+                },
+                success: function(data){
+                    response($.map(data,function(item){
+                        return{
+                             value:item.id,
+                             label:item.tipoClasificacion,
+                        };
+                    }));
+                },
+          });
+        },
+        select: function(event,ui){
+           $("#clasificacionName").val(ui.item.label);
+           $("#idClasificacion").val(ui.item.value);
+           return false;
+        }
+    });
+}
+);
 
 </script>
 </body>

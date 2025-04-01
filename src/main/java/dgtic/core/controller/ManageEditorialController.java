@@ -48,42 +48,50 @@ public class ManageEditorialController {
     }
 
     @PostMapping("add-editorial")
-    public String addEditorial(@Valid Editorial editorial,
-                                   BindingResult bindingResult,
-                                   Model model){
+    public String addEditorial(@RequestParam(name = "page", defaultValue = "0") int page,
+                               @Valid Editorial editorial,
+//                                   RedirectAttributes redirectAttributes,
+                               BindingResult bindingResult,
+                               Model model) {
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<Editorial> editoriales = editorialService.findPage(pageable);
+        RenderPagina<Editorial> renderPagina = new RenderPagina<>("/libreria/gestionar/editorial/buscar-editorial-tabla", editoriales);
 
-        if(bindingResult.hasErrors()){
-            for(ObjectError error: bindingResult.getAllErrors()){
+        model.addAttribute("contenido", "Gestionar Editoriales");
+        model.addAttribute("listaEditoriales", editoriales);
+        model.addAttribute("page", renderPagina);
+        model.addAttribute("editorialB", new Editorial());
+
+        if (bindingResult.hasErrors()) {
+            for (ObjectError error : bindingResult.getAllErrors()) {
                 System.out.println("Error " + error.getDefaultMessage());
             }
             model.addAttribute("showModal", true); // Indica que el modal debe abrirse
-            return "principal/gestionEditorial";
+            return "principal/editorial/gestionEditorial";
         }
 
-        try{
+        try {
             editorialService.save(editorial);
-        }catch (Exception e) {
+        } catch (Exception e) {
             String msg = mensaje.getMessage("Error.base.editorialDuplicada",
                     null, LocaleContextHolder.getLocale());
             bindingResult.rejectValue("editorialName", "editorialName", msg);
             model.addAttribute("showModal", true); // También abre el modal si hay error de BD
-            return "principal/gestionEditorial";
+            return "principal/editorial/gestionEditorial";
         }
 
-        String cadena="Editorial : "+editorial.getEditorialName();
-        model.addAttribute("info",cadena);
-        model.addAttribute("editorial",new Editorial());
-        model.addAttribute("contenido","Los datos que ingresas son:");
-        model.addAttribute("description", cadena);
-
-        return "principal/gestionEditorial";
+        String cadena = "Editorial : " + editorial.getEditorialName();
+        model.addAttribute("info", cadena);
+        model.addAttribute("editorial", new Editorial());
+//        redirectAttributes.addFlashAttribute("success","Se almaceno con éxito: " + editorial.getTipoClasificacion());
+        return "redirect:/libreria/gestionar/editorial";
     }
 
     @GetMapping("add-editorial")
     public String getAddEditorial(@RequestParam(name = "page", defaultValue = "0") int page,
-                                      @RequestParam(name = "editorialName", required = false, defaultValue = "") String editorialName,
-                                      BindingResult bindingResult,
-                                      Model model) {
+                                  @RequestParam(name = "editorialName", required = false, defaultValue = "") String editorialName,
+                                  BindingResult bindingResult,
+                                  Model model) {
         Pageable pageable = PageRequest.of(page, 10);
         Page<Editorial> editoriales = editorialService.findPage(pageable);
         RenderPagina<Editorial> renderPagina = new RenderPagina<>("/libreria/gestionar/editorial/add-editorial", editoriales);
@@ -99,10 +107,10 @@ public class ManageEditorialController {
     }
 
     @PostMapping("edit-editorial")
-    public String editEditorial( @Valid Editorial editorial,
-                                     BindingResult bindingResult,
-                                     RedirectAttributes redirectAttributes,
-                                     Model model) {
+    public String editEditorial(@Valid Editorial editorial,
+                                BindingResult bindingResult,
+                                RedirectAttributes redirectAttributes,
+                                Model model) {
         model.addAttribute("contenido", "Gestionar Editoriales");
 
         if (bindingResult.hasErrors()) {
@@ -116,10 +124,12 @@ public class ManageEditorialController {
         try {
             Editorial editorialEdit = new Editorial();
             Optional<Editorial> editorialOp = editorialService.findById(editorial.getId());
-            if(editorialOp.isPresent()){editorialEdit = editorialOp.get();}
+            if (editorialOp.isPresent()) {
+                editorialEdit = editorialOp.get();
+            }
             editorialEdit.setEditorialName(editorial.getEditorialName());
             editorialService.save(editorialEdit);
-            redirectAttributes.addFlashAttribute("success","Se almaceno con éxito: " + editorialEdit.getEditorialName());
+            redirectAttributes.addFlashAttribute("success", "Se almaceno con éxito: " + editorialEdit.getEditorialName());
         } catch (Exception e) {
             String msg = mensaje.getMessage("Error.base.editorialDuplicada",
                     null, LocaleContextHolder.getLocale());
@@ -145,8 +155,9 @@ public class ManageEditorialController {
 
     @GetMapping("delete-editorial/{id}")
     public String eliminarEditorial(@PathVariable("id") Integer id,
-                                        RedirectAttributes modelo) {
+                                    RedirectAttributes modelo) {
         editorialService.deleteById(id);
+
         return "redirect:/libreria/gestionar/editorial";
     }
 
@@ -155,12 +166,52 @@ public class ManageEditorialController {
         return editorialService.findEditorialView(dato);
     }
 
+    @GetMapping("buscar-editorial-tabla")
+    public String getBuscarEditorialTabla(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "editorialName", required = false, defaultValue = "") String editorialName,
+            Model model) {
+
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<Editorial> pageEditoriales = editorialService.findEditorialByName(editorialName, pageable);
+        RenderPagina<Editorial> renderPagina = new RenderPagina<>("/libreria/gestionar/editorial/buscar-editorial-tabla", pageEditoriales);
+
+        model.addAttribute("editorial", new Editorial());
+        model.addAttribute("editorialB", new Editorial(editorialName));
+        model.addAttribute("contenido", "Gestionar Editoriales");
+        model.addAttribute("listaEditoriales", pageEditoriales);
+        model.addAttribute("page", renderPagina);
+        model.addAttribute("editorialName", editorialName);
+
+        return "principal/editorial/gestionEditorial";
+    }
+
+    @PostMapping("buscar-editorial-tabla")
+    public String buscarEdotiralTabla(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "editorialName", required = false, defaultValue = "") String editorialName,
+            Model model) {
+
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<Editorial> pageEditoriales = editorialService.findEditorialByName(editorialName, pageable);
+        RenderPagina<Editorial> renderPagina = new RenderPagina<>("/libreria/gestionar/editorial/buscar-editorial-tabla", pageEditoriales);
+
+        model.addAttribute("editorial", new Editorial());
+        model.addAttribute("editorialB", new Editorial(editorialName));
+        model.addAttribute("contenido", "Gestionar Editoriales");
+        model.addAttribute("listaEditoriales", pageEditoriales);
+        model.addAttribute("page", renderPagina);
+        model.addAttribute("tipoEditoriales", editorialName);
+
+        return "principal/editoriales/gestionEditorial";
+    }
+
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public String errorRuntimeDuplicated(SQLIntegrityConstraintViolationException e,
-                                  Model model){
-        String msg= mensaje.getMessage("Error.base.editorialDuplicada",
+                                         Model model) {
+        String msg = mensaje.getMessage("Error.base.editorialDuplicada",
                 null, LocaleContextHolder.getLocale());
-        model.addAttribute("explicacion",msg);
+        model.addAttribute("explicacion", msg);
         return "error-general";
     }
 }

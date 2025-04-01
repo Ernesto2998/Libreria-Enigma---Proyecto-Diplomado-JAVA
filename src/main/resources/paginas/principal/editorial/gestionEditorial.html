@@ -53,8 +53,10 @@
         </div>
         <nav th:replace="~{plantillas/pag-nav::paginador}"></nav>
 
+
         <!-- Vertically centered modal -->
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -63,7 +65,9 @@
                     </div>
                     <div class="modal-body">
 
-                        <form id="editorialForm" th:action="@{recibir-editorial}" th:object="${editorial}" method="post">
+                        <form id="editorialForm" th:action="@{/libreria/gestionar/editorial/add-editorial}"
+                              th:object="${editorial}"
+                              method="post">
                             <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role="alert">
                                 Verifique los siguientes inconvenientes
                                 <ul>
