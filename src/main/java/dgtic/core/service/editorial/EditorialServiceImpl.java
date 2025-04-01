@@ -1,6 +1,5 @@
-package dgtic.core.service;
+package dgtic.core.service.editorial;
 
-import dgtic.core.model.Autor;
 import dgtic.core.model.Editorial;
 import dgtic.core.model.dto.EditorialDto;
 import dgtic.core.repository.EditorialRepository;
@@ -31,6 +30,7 @@ public class EditorialServiceImpl implements EditorialService{
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<Editorial> findByEditorialName(String editorialName) {
         return editorialRepository.findByEditorialName(editorialName);
     }

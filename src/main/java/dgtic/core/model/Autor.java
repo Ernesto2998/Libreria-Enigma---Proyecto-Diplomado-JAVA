@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,21 +15,27 @@ public class Autor {
     @Id
     @Column(name = "id_autor")
     private Integer id;
+
     @NotBlank(message = "El nombre no puede estar vacío")
     private String nombre;
+
     @NotBlank(message = "El apellido uno no puede estar vacío")
     @Column(name = "apellido_1")
     private String apellidoUno;
+
     @NotBlank(message = "El apellido dos no puede estar vacío")
     @Column(name = "apellido_2")
     private String apellidoDos;
-    @NotBlank(message = "La nacionalidad no puede estar vacía")
-    private String nacionalidad;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_nacionalidad")
+    private Nacionalidad nacionalidad;
 
 //    @ManyToMany(mappedBy = "autores")
 //    private List<Libro> libros;
 
-    public Autor(String nombre, String apellidoUno, String apellidoDos, String nacionalidad) {
+
+    public Autor(String nombre, String apellidoUno, String apellidoDos, Nacionalidad nacionalidad) {
         this.nombre = nombre;
         this.apellidoUno = apellidoUno;
         this.apellidoDos = apellidoDos;
@@ -45,7 +49,7 @@ public class Autor {
                 ", nombre='" + nombre + '\'' +
                 ", apellidoUno='" + apellidoUno + '\'' +
                 ", apellidoDos='" + apellidoDos + '\'' +
-                ", nacionalidad='" + nacionalidad + '\'' +
+                ", nacionalidad='" + nacionalidad.getNacionalidadName() + '\'' +
                 '}';
     }
 }

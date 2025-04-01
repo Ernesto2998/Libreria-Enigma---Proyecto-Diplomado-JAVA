@@ -1,4 +1,4 @@
-package dgtic.core.service;
+package dgtic.core.service.editorial;
 
 import dgtic.core.model.Editorial;
 import dgtic.core.model.dto.EditorialDto;

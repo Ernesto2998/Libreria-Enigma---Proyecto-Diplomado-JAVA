@@ -1,7 +1,7 @@
 package dgtic.core.controller;
 
 import dgtic.core.model.Autor;
-import dgtic.core.service.AutorService;
+import dgtic.core.service.autor.AutorService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;

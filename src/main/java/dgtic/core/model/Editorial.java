@@ -15,6 +15,7 @@ public class Editorial {
     @Id
     @Column(name = "id_editorial")
     private Integer id;
+
     @NotBlank(message = "El campo editorial no puede estar vacío")
     @Column(name = "editorial")
     private String editorialName;

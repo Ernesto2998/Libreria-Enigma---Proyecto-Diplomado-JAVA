@@ -1,8 +1,11 @@
-package dgtic.core.service;
+package dgtic.core.service.autor;
 
 import dgtic.core.model.Autor;
+import dgtic.core.model.dto.AutorDto;
 import dgtic.core.repository.AutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,5 +39,23 @@ public class AutorServiceImpl implements AutorService{
     @Transactional
     public void deleteById(Integer id) {
         autorRepository.deleteById(id);
+    }
+
+    @Override
+    public List<AutorDto> findAutorView(String dato) {
+        return autorRepository.findNombreCompletoView(dato);
+    }
+
+    @Override
+    public Page<Autor> findPage(Pageable pageable) {
+        return autorRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Autor> findByNombreOrApellidoUnoOrApellidoDos(String name, String apellidoUno, String apellidoDos, Pageable pageable) {
+        return autorRepository
+                .findByNombreContainingIgnoreCaseOrApellidoUnoContainingIgnoreCaseOrApellidoDosContainingIgnoreCase(
+                        name, apellidoUno, apellidoDos, pageable
+                );
     }
 }

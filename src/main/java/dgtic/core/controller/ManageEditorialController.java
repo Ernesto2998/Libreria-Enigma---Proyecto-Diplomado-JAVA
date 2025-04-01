@@ -2,7 +2,7 @@ package dgtic.core.controller;
 
 import dgtic.core.model.Editorial;
 import dgtic.core.model.dto.EditorialDto;
-import dgtic.core.service.EditorialService;
+import dgtic.core.service.editorial.EditorialService;
 import dgtic.core.util.RenderPagina;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
