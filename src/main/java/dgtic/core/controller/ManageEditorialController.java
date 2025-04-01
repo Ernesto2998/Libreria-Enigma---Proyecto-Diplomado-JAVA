@@ -80,8 +80,6 @@ public class ManageEditorialController {
             return "principal/editorial/gestionEditorial";
         }
 
-        String cadena = "Editorial : " + editorial.getEditorialName();
-        model.addAttribute("info", cadena);
         model.addAttribute("editorial", new Editorial());
 //        redirectAttributes.addFlashAttribute("success","Se almaceno con éxito: " + editorial.getTipoClasificacion());
         return "redirect:/libreria/gestionar/editorial";

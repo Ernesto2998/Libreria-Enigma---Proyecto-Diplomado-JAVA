@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="es">
+<head th:replace="~{plantillas/plantilla :: head}"></head>
+<body>
+<header th:replace="~{plantillas/plantilla :: header}"></header>
+<main class="container">
+    <div class="container text-center">
+
+        <div class="shadow-lg p-3 my-5 bg-body-tertiary rounded">
+            <h1 th:text="${contenido}"></h1>
+        </div>
+
+        <div class="card-body">
+            <form id="autorForm" th:action="@{/libreria/gestionar/autor/edit-autor}"
+                  th:object="${autor}"
+                  method="post">
+                <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role="alert">
+                    Verifique los siguientes inconvenientes
+                    <ul>
+                        <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+                    </ul>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-4">
+                        <div class="form-floating">
+                            <input
+                                    th:class="${#fields.hasErrors('nombre')}? 'form-control is-invalid':form-control"
+
+                                    type="text" id="nombre"
+                                    name="nombre"
+                                    th:field="*{nombre}"
+                                    placeholder="Nombre del autor">
+                            <label for="nombre">Nombre</label>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-floating">
+                            <input
+                                    th:class="${#fields.hasErrors('apellidoUno')}? 'form-control is-invalid':form-control"
+
+                                    type="text" id="apellidoUno"
+                                    name="apellidoUno"
+                                    th:field="*{apellidoUno}"
+                                    placeholder="Apellido Paterno">
+                            <label for="apellidoUno">Apellido Paterno</label>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-floating">
+                            <input
+                                    th:class="${#fields.hasErrors('apellidoDos')}? 'form-control is-invalid':form-control"
+
+                                    type="text" id="apellidoDos"
+                                    name="apellidoDos"
+                                    th:field="*{apellidoDos}"
+                                    placeholder="Apellido Materno">
+                            <label for="apellidoDos">Apellido Materno</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="nacionalidad">Nacionalidades</label>
+                            <select class="form-control" th:field="*{nacionalidad}" id="nacionalidad" name="nacionalidad" required>
+                                <option th:each="sel : ${nacionalidad}" th:value="${sel.id}" th:text="${sel.nacionalidadName}"/>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" name="id" th:value="${id}"/>
+                <button type="submit" class="btn btn-primary" form="autorForm">Guardar</button>
+            </form>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{plantillas/plantilla :: footer}"></footer>
+
+</script>
+
+</body>
+</html>

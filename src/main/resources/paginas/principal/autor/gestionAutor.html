@@ -9,93 +9,59 @@
 
         <div class="shadow-lg p-3 my-5 bg-body-tertiary rounded">
             <h1 th:text="${contenido}"></h1>
-            <p th:text="${description}"></p>
         </div>
 
-        <div class="container">
+        <div class="container text-start">
             <div class="row">
-                <div class="container text-start bg-body-tertiary rounded py-3">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Buscar" aria-label="Buscar" aria-describedby="button-addon2">
-                        <button class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
-                    </div>
+                <div class="col container bg-body-tertiary rounded py-3 me-3">
+                    <form th:action="@{/libreria/gestionar/autor/buscar-autor-tabla}" method="get">
+                        <div class="input-group">
+                            <input type="text" id="autorB" name="nombre" class="form-control"
+                                   placeholder="Buscar" aria-label="Buscar" aria-describedby="button-addon2"
+                                   required="required" th:value="${autorB.nombre}">
+                            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-auto align-self-end container bg-body-tertiary rounded py-3 ms-3">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop">Añadir Autor
+                    </button>
                 </div>
             </div>
         </div>
 
-        <div class="shadow-lg p-3 my-5 bg-body-tertiary rounded">
-            <table class="table table-hover">
+        <div class="shadow-lg p-3 mt-5 mb-1 bg-body-tertiary rounded">
+            <table th:if="${!listaAutores.isEmpty()}" class="table table-hover">
                 <thead>
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Calle</th>
-                    <th scope="col">Colonia</th>
-                    <th scope="col">Municipio</th>
-                    <th scope="col">...</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido Paterno</th>
+                    <th scope="col">Apellido Materno</th>
+                    <th scope="col">Nacionalidad</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Calle 1</td>
-                    <td>Colonia 1</td>
-                    <td>Municipio 1</td>
-                    <td>...</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Calle 2</td>
-                    <td>Colonia 2</td>
-                    <td>Municipio 2</td>
-                    <td>...</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Calle 3</td>
-                    <td>Colonia 3</td>
-                    <td>Municipio 3</td>
-                    <td>...</td>
-                </tr>
-                <tr>
-                    <th scope="row">4</th>
-                    <td>Calle 4</td>
-                    <td>Colonia 4</td>
-                    <td>Municipio 4</td>
-                    <td>...</td>
-                </tr>
-                <tr>
-                    <th scope="row">5</th>
-                    <td>Calle 5</td>
-                    <td>Colonia 5</td>
-                    <td>Municipio 5</td>
-                    <td>...</td>
-                </tr>
-                <tr>
-                    <th scope="row">6</th>
-                    <td>Calle 6</td>
-                    <td>Colonia 6</td>
-                    <td>Municipio 6</td>
-                    <td>...</td>
-                </tr>
-                <tr>
-                    <th scope="row">7</th>
-                    <td>Calle 7</td>
-                    <td>Colonia 7</td>
-                    <td>Municipio 7</td>
-                    <td>...</td>
+                <tr th:each="listaAut: ${listaAutores}">
+                    <td th:text="${listaAut.nombre}"></td>
+                    <td th:text="${listaAut.apellidoUno}"></td>
+                    <td th:text="${listaAut.apellidoDos}"></td>
+                    <td th:text="${listaAut.nacionalidad.nacionalidadName}"></td>
+                    <td>
+                        <a th:href="@{/libreria/gestionar/autor/edit-autor/{id} (id=${listaAut.id})}"
+                           class="btn btn-success">Modificar <i class="fas fa-pen-nib" aria-hidden="true"></i> </a>
+                        <a th:href="@{/libreria/gestionar/autor/delete-autor/{id} (id=${listaAut.id})}"
+                           class="btn btn-danger">Eliminar <i class="fas fa-trash-alt" aria-hidden="true"></i> </a>
+                    </td>
                 </tr>
                 </tbody>
             </table>
         </div>
+        <nav th:replace="~{plantillas/pag-nav::paginador}"></nav>
 
-        <div class="row mb-3">
-            <div class="container text-start bg-body-tertiary rounded py-3">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Añadir Autor</button>
-                <h3 th:text="${info}"></h3>
-            </div>
-        </div>
         <!-- Vertically centered modal -->
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">

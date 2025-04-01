@@ -3,11 +3,13 @@ package dgtic.core.service.nacionalidad;
 import dgtic.core.model.Nacionalidad;
 import dgtic.core.repository.NacionalidadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class NacionalidadServiceImpl implements NacionalidadService{
     @Autowired
     NacionalidadRepository nacionalidadRepository;
