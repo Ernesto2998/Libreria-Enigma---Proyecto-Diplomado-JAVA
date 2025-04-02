@@ -87,38 +87,39 @@ public class ManageClasificacionController {
         return "redirect:/libreria/gestionar/clasificacion";
     }
 
-    @GetMapping("add-clasificacion")
-    public String getAddClasificacion(@RequestParam(name = "page", defaultValue = "0") int page,
-                                      @RequestParam(name = "tipoClasificacion", required = false, defaultValue = "") String tipoClasificacion,
-                                      BindingResult bindingResult,
-                                      Model model) {
-        Pageable pageable = PageRequest.of(page, 10);
-        Page<Clasificacion> clasificaciones = clasificacionService.findPage(pageable);
-        RenderPagina<Clasificacion> renderPagina = new RenderPagina<>("/libreria/gestionar/clasificacion/add-clasificacion", clasificaciones);
-
-        model.addAttribute("contenido", "Gestionar Clasificaciones");
-        model.addAttribute("listaClasificaciones", clasificaciones);
-        model.addAttribute("page", renderPagina);
-        model.addAttribute("clasificacion", new Clasificacion());
-        model.addAttribute("clasificacionB", new Clasificacion());
-        model.addAttribute("tipoClasificacion", tipoClasificacion);
-
-        return "principal/clasificacion/gestionClasificacion";
-    }
+//    @GetMapping("add-clasificacion")
+//    public String getAddClasificacion(@RequestParam(name = "page", defaultValue = "0") int page,
+//                                      @RequestParam(name = "tipoClasificacion", required = false, defaultValue = "") String tipoClasificacion,
+//                                      BindingResult bindingResult,
+//                                      Model model) {
+//        Pageable pageable = PageRequest.of(page, 10);
+//        Page<Clasificacion> clasificaciones = clasificacionService.findPage(pageable);
+//        RenderPagina<Clasificacion> renderPagina = new RenderPagina<>("/libreria/gestionar/clasificacion/add-clasificacion", clasificaciones);
+//
+//        model.addAttribute("contenido", "Gestionar Clasificaciones");
+//        model.addAttribute("listaClasificaciones", clasificaciones);
+//        model.addAttribute("page", renderPagina);
+//        model.addAttribute("clasificacion", new Clasificacion());
+//        model.addAttribute("clasificacionB", new Clasificacion());
+//        model.addAttribute("tipoClasificacion", tipoClasificacion);
+//
+//        return "principal/clasificacion/gestionClasificacion";
+//    }
 
     @PostMapping("edit-clasificacion")
     public String editClasificacion( @Valid Clasificacion clasificacion,
                                    BindingResult bindingResult,
                                    RedirectAttributes redirectAttributes,
                                    Model model) {
+
         model.addAttribute("contenido", "Gestionar Clasificaciones");
+        model.addAttribute("id", clasificacion.getId());
 
         if (bindingResult.hasErrors()) {
             for (ObjectError error : bindingResult.getAllErrors()) {
                 System.out.println("Error " + error.getDefaultMessage());
             }
-            model.addAttribute("showModal", true); // Indica que el modal debe abrirse
-            return "principal/clasificacion/gestionClasificacion";
+            return "principal/clasificacion/editClasificacion";
         }
 
         try {
@@ -131,14 +132,9 @@ public class ManageClasificacionController {
         } catch (Exception e) {
             String msg = mensaje.getMessage("Error.base.clasificacionDuplicada",
                     null, LocaleContextHolder.getLocale());
-            model.addAttribute("id", clasificacion.getId());
             bindingResult.rejectValue("tipoClasificacion", "tipoClasificacion", msg);
             return "principal/clasificacion/editClasificacion";
         }
-
-        String cadena = "Clasificación : " + clasificacion.getTipoClasificacion();
-        model.addAttribute("info", cadena);
-        model.addAttribute("clasificacion", new Clasificacion());
 
         return "redirect:/libreria/gestionar/clasificacion";
     }

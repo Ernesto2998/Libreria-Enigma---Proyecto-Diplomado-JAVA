@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="es">
+<body>
+<script type="text/javascript" th:fragment="jsautor">
+    $(document).ready(function(){
+    $("#autorB").autocomplete({
+        source: function(request,response){
+          $.ajax({
+                url:"/libreria/gestionar/autor/buscar-autor-nombre/"+request.term,
+                dataType:"json",
+                data:{
+                    term: request.term
+                },
+                success: function(data){
+                    response($.map(data,function(item){
+                        return{
+                             value:item.id,
+                             label:item.nombreCompleto,
+                        };
+                    }));
+                },
+          });
+        },
+        select: function(event,ui){
+           $("#autorB").val(ui.item.label);
+           $("#idAutor").val(ui.item.value);
+           return false;
+        }
+    });
+}
+);
+
+</script>
+</body>
+</html>

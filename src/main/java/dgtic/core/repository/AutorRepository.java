@@ -22,6 +22,9 @@ public interface AutorRepository extends JpaRepository<Autor, Integer> {
             "OR LOWER(a.apellidoDos) LIKE LOWER(CONCAT('%', ?1, '%'))")
     List<AutorDto> findNombreCompletoView(String dato);
 
+    @Query("SELECT a FROM Autor a WHERE CONCAT(a.nombre, ' ', a.apellidoUno, ' ', a.apellidoDos) LIKE %?1%")
+    Page<Autor> searchByFullName(String fullName, Pageable pageable);
+
     Page<Autor> findByNombreContainingIgnoreCaseOrApellidoUnoContainingIgnoreCaseOrApellidoDosContainingIgnoreCase
             (String nombre, String apellidoUno, String apellidoDos, Pageable pageable);
 

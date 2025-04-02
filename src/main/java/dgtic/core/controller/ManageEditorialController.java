@@ -85,24 +85,24 @@ public class ManageEditorialController {
         return "redirect:/libreria/gestionar/editorial";
     }
 
-    @GetMapping("add-editorial")
-    public String getAddEditorial(@RequestParam(name = "page", defaultValue = "0") int page,
-                                  @RequestParam(name = "editorialName", required = false, defaultValue = "") String editorialName,
-                                  BindingResult bindingResult,
-                                  Model model) {
-        Pageable pageable = PageRequest.of(page, 10);
-        Page<Editorial> editoriales = editorialService.findPage(pageable);
-        RenderPagina<Editorial> renderPagina = new RenderPagina<>("/libreria/gestionar/editorial/add-editorial", editoriales);
-
-        model.addAttribute("contenido", "Gestionar Editoriales");
-        model.addAttribute("listaEditoriales", editoriales);
-        model.addAttribute("page", renderPagina);
-        model.addAttribute("editorial", new Editorial());
-        model.addAttribute("editorialB", new Editorial());
-        model.addAttribute("editorialName", editorialName);
-
-        return "principal/clasificacion/gestionClasificacion";
-    }
+//    @GetMapping("add-editorial")
+//    public String getAddEditorial(@RequestParam(name = "page", defaultValue = "0") int page,
+//                                  @RequestParam(name = "editorialName", required = false, defaultValue = "") String editorialName,
+//                                  BindingResult bindingResult,
+//                                  Model model) {
+//        Pageable pageable = PageRequest.of(page, 10);
+//        Page<Editorial> editoriales = editorialService.findPage(pageable);
+//        RenderPagina<Editorial> renderPagina = new RenderPagina<>("/libreria/gestionar/editorial/add-editorial", editoriales);
+//
+//        model.addAttribute("contenido", "Gestionar Editoriales");
+//        model.addAttribute("listaEditoriales", editoriales);
+//        model.addAttribute("page", renderPagina);
+//        model.addAttribute("editorial", new Editorial());
+//        model.addAttribute("editorialB", new Editorial());
+//        model.addAttribute("editorialName", editorialName);
+//
+//        return "principal/clasificacion/gestionClasificacion";
+//    }
 
     @PostMapping("edit-editorial")
     public String editEditorial(@Valid Editorial editorial,
@@ -110,13 +110,13 @@ public class ManageEditorialController {
                                 RedirectAttributes redirectAttributes,
                                 Model model) {
         model.addAttribute("contenido", "Gestionar Editoriales");
+        model.addAttribute("id", editorial.getId());
 
         if (bindingResult.hasErrors()) {
             for (ObjectError error : bindingResult.getAllErrors()) {
                 System.out.println("Error " + error.getDefaultMessage());
             }
-            model.addAttribute("showModal", true); // Indica que el modal debe abrirse
-            return "principal/editorial/gestionEditorial";
+            return "principal/editorial/editEditorial";
         }
 
         try {
@@ -131,14 +131,9 @@ public class ManageEditorialController {
         } catch (Exception e) {
             String msg = mensaje.getMessage("Error.base.editorialDuplicada",
                     null, LocaleContextHolder.getLocale());
-            model.addAttribute("id", editorial.getId());
             bindingResult.rejectValue("editorialName", "editorialName", msg);
             return "principal/editorial/editEditorial";
         }
-
-        String cadena = "Editorial : " + editorial.getEditorialName();
-        model.addAttribute("info", cadena);
-        model.addAttribute("editorial", new Editorial());
 
         return "redirect:/libreria/gestionar/editorial";
     }

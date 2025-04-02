@@ -42,6 +42,10 @@ public class Autor {
         this.nacionalidad = nacionalidad;
     }
 
+    public Autor(String nombre) {
+        this.nombre = nombre;
+    }
+
     @Override
     public String toString() {
         return "Autor{" +

@@ -18,7 +18,7 @@
                         <div class="input-group">
                             <input type="text" id="autorB" name="nombre" class="form-control"
                                    placeholder="Buscar" aria-label="Buscar" aria-describedby="button-addon2"
-                                   required="required" th:value="${autorB.nombre}">
+                                    th:value="${autorB.nombre}">
                             <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
                         </div>
                     </form>
@@ -70,7 +70,7 @@
                     </div>
                     <div class="modal-body">
 
-                        <form id="autorForm" th:action="@{recibir-autor}" th:object="${autor}" method="post">
+                        <form id="autorForm" th:action="@{/libreria/gestionar/autor/add-autor}" th:object="${autor}" method="post">
                             <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role="alert">
                                 Verifique los siguientes inconvenientes
                                 <ul>
@@ -121,15 +121,11 @@
                             </div>
                             <div class="row justify-content-center pb-2">
                                 <div class="col-6">
-                                    <div class="form-floating">
-                                        <input
-                                                th:class="${#fields.hasErrors('nacionalidad')}? 'form-control is-invalid':form-control"
-
-                                                type="text" id="nacionalidad"
-                                                name="nacionalidad"
-                                                th:field="*{nacionalidad}"
-                                                placeholder="Nacionalidad">
+                                    <div class="form-group">
                                         <label for="nacionalidad">Nacionalidad</label>
+                                        <select class="form-control" th:field="*{nacionalidad}" id="nacionalidad" name="nacionalidad" required>
+                                            <option th:each="sel : ${nacionalidad}" th:value="${sel.id}" th:text="${sel.nacionalidadName}"></option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -149,6 +145,7 @@
 </main>
 <footer th:replace="~{plantillas/plantilla :: footer}"></footer>
 
+<script th:replace="~{principal/autor/js/autocompletar :: jsautor}"></script>
 <!-- Script para abrir el modal si hay un error -->
 <script th:if="${showModal}">
     document.addEventListener("DOMContentLoaded", function () {

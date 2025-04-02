@@ -80,7 +80,7 @@ class AutorTest {
 
     @Test
     void findNombreCompletoViewTest() {
-        String name = "Ma";
+        String name = "Gabriel";
 
         List<AutorDto> autores = autorRepository.findNombreCompletoView(name);
 

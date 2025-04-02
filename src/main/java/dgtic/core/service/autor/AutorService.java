@@ -23,4 +23,6 @@ public interface AutorService {
             Pageable pageable
     );
 
+    Page<Autor> searchAutor(String input,Pageable pageable);
+
 }

@@ -58,4 +58,12 @@ public class AutorServiceImpl implements AutorService{
                         name, apellidoUno, apellidoDos, pageable
                 );
     }
+
+    @Override
+    public Page<Autor> searchAutor(String input, Pageable pageable) {
+        if (input.contains(" ")) {
+            return autorRepository.searchByFullName(input, pageable);
+        }
+        return autorRepository.findByNombreContainingIgnoreCaseOrApellidoUnoContainingIgnoreCaseOrApellidoDosContainingIgnoreCase(input, input, input, pageable);
+    }
 }

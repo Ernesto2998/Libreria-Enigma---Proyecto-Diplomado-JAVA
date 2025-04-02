@@ -17,7 +17,7 @@ public class Clasificacion {
     @Column(name = "id_clasificacion")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Integer id;
-    @NotBlank
+    @NotBlank(message = "El campo clasificacion no puede estar vacío")
     @Column(name = "tipo_clasificacion")
     private String tipoClasificacion;
 

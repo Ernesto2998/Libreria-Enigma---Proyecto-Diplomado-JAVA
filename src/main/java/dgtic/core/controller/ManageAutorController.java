@@ -2,6 +2,7 @@ package dgtic.core.controller;
 
 import dgtic.core.model.Autor;
 import dgtic.core.model.Nacionalidad;
+import dgtic.core.model.dto.AutorDto;
 import dgtic.core.service.autor.AutorService;
 import dgtic.core.service.nacionalidad.NacionalidadService;
 import dgtic.core.util.RenderPagina;
@@ -42,26 +43,39 @@ public class ManageAutorController {
         Pageable pageable = PageRequest.of(page, 10);
         Page<Autor> autores = autorService.findPage(pageable);
         RenderPagina<Autor> renderPagina = new RenderPagina<>("autor", autores);
+        List<Nacionalidad> nacionalidades = nacionalidadService.findAll();
+
 
         modelo.addAttribute("autor", new Autor());
         modelo.addAttribute("autorB", new Autor());
-        modelo.addAttribute("contenido", "Gestionar Autor");
+        modelo.addAttribute("nacionalidad", nacionalidades);
+        modelo.addAttribute("contenido", "Gestionar Autores");
         modelo.addAttribute("listaAutores", autores);
         modelo.addAttribute("page", renderPagina);
         return "principal/autor/gestionAutor";
     }
-/*
+
     @PostMapping("add-autor")
-    public String recibirAutor(@Valid Autor autor,
+    public String addAutor(@RequestParam(name = "page", defaultValue = "0") int page,
+                               @Valid Autor autor,
+//                                   RedirectAttributes redirectAttributes,
                                BindingResult bindingResult,
                                Model model) {
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<Autor> autores = autorService.findPage(pageable);
+        RenderPagina<Autor> renderPagina = new RenderPagina<>("/libreria/gestionar/autor/buscar-autor-tabla", autores);
+
+        model.addAttribute("contenido", "Gestionar Autores");
+        model.addAttribute("listaAutores", autores);
+        model.addAttribute("page", renderPagina);
+        model.addAttribute("autoreB", new Autor());
 
         if (bindingResult.hasErrors()) {
             for (ObjectError error : bindingResult.getAllErrors()) {
                 System.out.println("Error " + error.getDefaultMessage());
             }
             model.addAttribute("showModal", true); // Indica que el modal debe abrirse
-            return "principal/gestionAutor";
+            return "principal/autor/gestionAutor";
         }
 
         try {
@@ -71,35 +85,54 @@ public class ManageAutorController {
                     null, LocaleContextHolder.getLocale());
             bindingResult.rejectValue("nombre", "nombre", msg);
             bindingResult.rejectValue("apellidoUno", "apellidoUno", msg);
-            bindingResult.rejectValue("apellidoDos", "apellidoDos", msg);
+            bindingResult.rejectValue("apelldidoDos", "apelldidoDos", msg);
+            bindingResult.rejectValue("nacionalidad", "nacionalidad", msg);
             model.addAttribute("showModal", true); // También abre el modal si hay error de BD
-            return "principal/gestionAutor";
+            return "principal/autor/gestionAutor";
         }
 
-        String cadena = "Autor : " + autor.getNombre() + " " + autor.getApellidoUno() + " " + autor.getApellidoDos() +
-                "\nNacionalidad: " + autor.getNacionalidad();
-        model.addAttribute("info", cadena);
         model.addAttribute("autor", new Autor());
-        model.addAttribute("contenido", "Los datos que ingresas son:");
-        model.addAttribute("description", cadena);
-
-        return "principal/gestionAutor";
+//        redirectAttributes.addFlashAttribute("success","Se almaceno con éxito: " + editorial.getTipoClasificacion());
+        return "redirect:/libreria/gestionar/autor";
     }
-*/
+
+/*    @GetMapping("add-autor")
+    public String getAddAutor(@RequestParam(name = "page", defaultValue = "0") int page,
+                                  @RequestParam(name = "editorialName", required = false, defaultValue = "") String editorialName,
+                                  BindingResult bindingResult,
+                                  Model model) {
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<Editorial> editoriales = editorialService.findPage(pageable);
+        RenderPagina<Editorial> renderPagina = new RenderPagina<>("/libreria/gestionar/editorial/add-editorial", editoriales);
+
+        model.addAttribute("contenido", "Gestionar Editoriales");
+        model.addAttribute("listaEditoriales", editoriales);
+        model.addAttribute("page", renderPagina);
+        model.addAttribute("editorial", new Editorial());
+        model.addAttribute("editorialB", new Editorial());
+        model.addAttribute("editorialName", editorialName);
+
+        return "principal/clasificacion/gestionClasificacion";
+    }
+ */
 
     @PostMapping("edit-autor")
     public String editAutor(@Valid Autor autor,
                             BindingResult bindingResult,
                             RedirectAttributes redirectAttributes,
                             Model model) {
-        model.addAttribute("contenido", "Gestionar Autor");
+
+        List<Nacionalidad> nacionalidades = nacionalidadService.findAll();
+
+        model.addAttribute("contenido", "Gestionar Autores");
+        model.addAttribute("id", autor.getId());
+        model.addAttribute("nacionalidad", nacionalidades);
 
         if (bindingResult.hasErrors()) {
             for (ObjectError error : bindingResult.getAllErrors()) {
                 System.out.println("Error " + error.getDefaultMessage());
             }
-            model.addAttribute("showModal", true); // Indica que el modal debe abrirse
-            return "principal/autor/gestionAutor";
+            return "principal/autor/editAutor";
         }
 
         try {
@@ -124,15 +157,12 @@ public class ManageAutorController {
         } catch (Exception e) {
             String msg = mensaje.getMessage("Error.base.autorDuplicado",
                     null, LocaleContextHolder.getLocale());
-            model.addAttribute("id", autor.getId());
             bindingResult.rejectValue("nombre", "nombre", msg);
             bindingResult.rejectValue("apellidoUno", "apellidoUno", msg);
             bindingResult.rejectValue("apelldidoDos", "apelldidoDos", msg);
             bindingResult.rejectValue("nacionalidad", "nacionalidad", msg);
             return "principal/autor/editAutor";
         }
-
-        model.addAttribute("autor", new Autor());
 
         return "redirect:/libreria/gestionar/autor";
     }
@@ -146,6 +176,63 @@ public class ManageAutorController {
         modelo.addAttribute("nacionalidad", nacionalidad);
         modelo.addAttribute("contenido", "Modificar Autor");
         return "principal/autor/editAutor";
+    }
+
+    @GetMapping("delete-autor/{id}")
+    public String eliminarAutor(@PathVariable("id") Integer id,
+                                RedirectAttributes modelo) {
+        autorService.deleteById(id);
+
+        return "redirect:/libreria/gestionar/autor";
+    }
+
+    @GetMapping(value = "buscar-autor-nombre/{dato}", produces = "application/json")
+    public @ResponseBody List<AutorDto> findAutor(@PathVariable String dato) {
+        return autorService.findAutorView(dato);
+    }
+
+    @GetMapping("buscar-autor-tabla")
+    public String getBuscarAutorTabla(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "nombre", required = false, defaultValue = "") String nombre,
+            Model model) {
+
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<Autor> pageAutores = autorService.searchAutor(nombre, pageable);
+        RenderPagina<Autor> renderPagina = new RenderPagina<>("/libreria/gestionar/autor/buscar-autor-tabla", pageAutores);
+        List<Nacionalidad> nacionalidades = nacionalidadService.findAll();
+
+        model.addAttribute("autor", new Autor());
+        model.addAttribute("autorB", new Autor(nombre));
+        model.addAttribute("nacionalidad", nacionalidades);
+        model.addAttribute("contenido", "Gestionar Autores");
+        model.addAttribute("listaAutores", pageAutores);
+        model.addAttribute("page", renderPagina);
+        model.addAttribute("nombre", nombre);
+
+        return "principal/autor/gestionAutor";
+    }
+
+    @PostMapping("buscar-autor-tabla")
+    public String buscarAutorTabla(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "nombre", required = false, defaultValue = "") String nombre,
+            Model model) {
+
+        Pageable pageable = PageRequest.of(page, 10);
+        Page<Autor> pageAutores = autorService.searchAutor(nombre, pageable);
+        RenderPagina<Autor> renderPagina = new RenderPagina<>("/libreria/gestionar/autor/buscar-autor-tabla", pageAutores);
+        List<Nacionalidad> nacionalidades = nacionalidadService.findAll();
+
+        model.addAttribute("autor", new Autor());
+        model.addAttribute("autorB", new Autor(nombre));
+        model.addAttribute("nacionalidad", nacionalidades);
+        model.addAttribute("contenido", "Gestionar Autores");
+        model.addAttribute("listaEditoriales", pageAutores);
+        model.addAttribute("page", renderPagina);
+        model.addAttribute("tipoEditoriales", nombre);
+
+        return "principal/editoriales/gestionEditorial";
     }
 
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
