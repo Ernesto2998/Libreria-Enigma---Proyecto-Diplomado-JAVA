@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,8 +22,8 @@ public class Editorial {
     @Column(name = "editorial")
     private String editorialName;
 
-//    @OneToMany(mappedBy = "editorial")
-//    private List<Libro> libros;
+    @OneToMany(mappedBy = "editorial")
+    private List<Libro> libros;
 
     public Editorial(String editorialName) {
         this.editorialName = editorialName;

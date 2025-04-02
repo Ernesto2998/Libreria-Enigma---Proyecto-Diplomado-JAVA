@@ -21,8 +21,8 @@ public class Clasificacion {
     @Column(name = "tipo_clasificacion")
     private String tipoClasificacion;
 
-//    @ManyToMany(mappedBy = "clasificaciones")
-//    private List<Libro> libros;
+    @ManyToMany(mappedBy = "clasificaciones")
+    private List<Libro> libros;
 
     public Clasificacion(String tipoClasificacion) {
         this.tipoClasificacion = tipoClasificacion;

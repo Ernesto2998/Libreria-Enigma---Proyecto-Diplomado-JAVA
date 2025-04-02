@@ -30,7 +30,6 @@ public class ManageAutorController {
 
     @Autowired
     MessageSource mensaje;
-
     @Autowired
     AutorService autorService;
     @Autowired
@@ -95,26 +94,6 @@ public class ManageAutorController {
 //        redirectAttributes.addFlashAttribute("success","Se almaceno con éxito: " + editorial.getTipoClasificacion());
         return "redirect:/libreria/gestionar/autor";
     }
-
-/*    @GetMapping("add-autor")
-    public String getAddAutor(@RequestParam(name = "page", defaultValue = "0") int page,
-                                  @RequestParam(name = "editorialName", required = false, defaultValue = "") String editorialName,
-                                  BindingResult bindingResult,
-                                  Model model) {
-        Pageable pageable = PageRequest.of(page, 10);
-        Page<Editorial> editoriales = editorialService.findPage(pageable);
-        RenderPagina<Editorial> renderPagina = new RenderPagina<>("/libreria/gestionar/editorial/add-editorial", editoriales);
-
-        model.addAttribute("contenido", "Gestionar Editoriales");
-        model.addAttribute("listaEditoriales", editoriales);
-        model.addAttribute("page", renderPagina);
-        model.addAttribute("editorial", new Editorial());
-        model.addAttribute("editorialB", new Editorial());
-        model.addAttribute("editorialName", editorialName);
-
-        return "principal/clasificacion/gestionClasificacion";
-    }
- */
 
     @PostMapping("edit-autor")
     public String editAutor(@Valid Autor autor,

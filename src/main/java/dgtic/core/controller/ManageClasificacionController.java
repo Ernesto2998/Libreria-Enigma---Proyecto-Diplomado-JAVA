@@ -87,25 +87,6 @@ public class ManageClasificacionController {
         return "redirect:/libreria/gestionar/clasificacion";
     }
 
-//    @GetMapping("add-clasificacion")
-//    public String getAddClasificacion(@RequestParam(name = "page", defaultValue = "0") int page,
-//                                      @RequestParam(name = "tipoClasificacion", required = false, defaultValue = "") String tipoClasificacion,
-//                                      BindingResult bindingResult,
-//                                      Model model) {
-//        Pageable pageable = PageRequest.of(page, 10);
-//        Page<Clasificacion> clasificaciones = clasificacionService.findPage(pageable);
-//        RenderPagina<Clasificacion> renderPagina = new RenderPagina<>("/libreria/gestionar/clasificacion/add-clasificacion", clasificaciones);
-//
-//        model.addAttribute("contenido", "Gestionar Clasificaciones");
-//        model.addAttribute("listaClasificaciones", clasificaciones);
-//        model.addAttribute("page", renderPagina);
-//        model.addAttribute("clasificacion", new Clasificacion());
-//        model.addAttribute("clasificacionB", new Clasificacion());
-//        model.addAttribute("tipoClasificacion", tipoClasificacion);
-//
-//        return "principal/clasificacion/gestionClasificacion";
-//    }
-
     @PostMapping("edit-clasificacion")
     public String editClasificacion( @Valid Clasificacion clasificacion,
                                    BindingResult bindingResult,

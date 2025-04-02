@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -31,8 +33,8 @@ public class Autor {
     @JoinColumn(name = "id_nacionalidad")
     private Nacionalidad nacionalidad;
 
-//    @ManyToMany(mappedBy = "autores")
-//    private List<Libro> libros;
+    @ManyToMany(mappedBy = "autores")
+    private List<Libro> libros;
 
 
     public Autor(String nombre, String apellidoUno, String apellidoDos, Nacionalidad nacionalidad) {
