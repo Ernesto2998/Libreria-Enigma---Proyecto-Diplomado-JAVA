@@ -14,14 +14,26 @@
         <div class="container text-start">
             <div class="row">
                 <div class="col container bg-body-tertiary rounded py-3">
-                    <form th:action="@{/libreria/gestionar/libro/buscar-libro-tabla}"
-                          th:object="${libroB}"
-                          method="get">
-                        <div class="input-group">
-                            <input type="text" id="buscarTitulo" name="datoAbuscar" class="form-control"
-                                   placeholder="Buscar" aria-label="Buscar" aria-describedby="button-addon2"
-                                   th:value="${libroB.titulo}">
-                            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar por título</button>
+                    <form th:action="@{/libreria/gestionar/libro/buscar-libro-tabla}" th:object="${libroB}" method="get">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="input-group mb-2">
+                                    <input type="text" id="buscarTitulo" name="datoAbuscar" class="form-control"
+                                           placeholder="Buscar" aria-label="Buscar" aria-describedby="button-addon2"
+                                           th:value="*{titulo}">
+                                    <button class="btn btn-outline-secondary" type="submit">Buscar por título</button>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="input-group mb-2">
+                                    <select class="form-select" id="buscarTipoPasta" name="tipoPasta">
+                                        <option value="" th:selected="*{tipoPasta == null or tipoPasta == ''}">Todos</option>
+                                        <option value="Blanda" th:selected="*{tipoPasta == 'Blanda'}">Blanda</option>
+                                        <option value="Dura" th:selected="*{tipoPasta == 'Dura'}">Dura</option>
+                                    </select>
+                                    <button class="btn btn-outline-secondary" type="submit">Buscar por tipo de pasta</button>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -56,10 +68,11 @@
                     <td th:utext="${#strings.abbreviate(listaL.sinopsis, 20)}"></td>
                     <td th:text="${'$' + listaL.precio}"></td>
                     <td th:text="${listaL.descuento + '%'}"></td>
-<!--                    <td th:text="${listaL.nacionalidad.nacionalidadName}"></td>-->
+                    <!--                    <td th:text="${listaL.nacionalidad.nacionalidadName}"></td>-->
                     <td>
                         <a th:href="@{/libreria/gestionar/libro/edit-libro/{id} (id=${listaL.id})}"
-                           class="btn btn-success mb-md-1">Modificar <i class="fas fa-pen-nib" aria-hidden="true"></i> </a>
+                           class="btn btn-success mb-md-1">Modificar <i class="fas fa-pen-nib" aria-hidden="true"></i>
+                        </a>
                         <a th:href="@{/libreria/gestionar/libro/delete-libro/{id} (id=${listaL.id})}"
                            class="btn btn-danger">Eliminar <i class="fas fa-trash-alt" aria-hidden="true"></i> </a>
                     </td>
@@ -67,10 +80,11 @@
                 </tbody>
             </table>
         </div>
-        <nav th:replace="~{plantillas/pag-nav::paginador}"></nav>
+        <nav th:replace="~{plantillas/pag-nav-libro::paginador}"></nav>
 
         <!-- Vertically centered modal -->
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">

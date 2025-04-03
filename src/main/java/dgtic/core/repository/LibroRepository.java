@@ -18,6 +18,8 @@ public interface LibroRepository extends JpaRepository<Libro, Integer> {
 
     Page<Libro> findByTituloContainingIgnoreCase(String titulo, Pageable pageable);
 
+    Page<Libro> findByTipoPastaContainingIgnoreCase(String tipoPasta, Pageable pageable);
+
     Optional<Libro> findByTitulo(@Param("titulo") String titulo);
 
 }

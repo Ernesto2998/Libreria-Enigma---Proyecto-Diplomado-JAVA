@@ -55,4 +55,9 @@ public class LibroServiceImpl implements LibroService{
     public Page<Libro> findLibroByTitulo(String titulo, Pageable pageable) {
         return libroRepository.findByTituloContainingIgnoreCase(titulo, pageable);
     }
+
+    @Override
+    public Page<Libro> findLibroByTipoPasta(String titulo, Pageable pageable) {
+        return libroRepository.findByTipoPastaContainingIgnoreCase(titulo, pageable);
+    }
 }
