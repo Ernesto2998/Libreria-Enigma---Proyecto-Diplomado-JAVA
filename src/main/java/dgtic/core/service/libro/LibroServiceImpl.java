@@ -41,7 +41,7 @@ public class LibroServiceImpl implements LibroService{
     @Override
     @Transactional(readOnly = true)
     public Page<Libro> findPage(Pageable pageable) {
-        return null;
+        return libroRepository.findAll(pageable);
     }
 
     @Override

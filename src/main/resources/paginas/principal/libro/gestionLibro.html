@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="es">
+<head th:replace="~{plantillas/plantilla :: head}"></head>
+<body>
+<header th:replace="~{plantillas/plantilla :: header}"></header>
+<main class="container">
+    <div class="container text-center">
+
+        <div class="shadow-lg p-3 my-5 bg-body-tertiary rounded">
+            <h1 th:text="${contenido}"></h1>
+        </div>
+
+        <div class="container text-start">
+            <div class="row">
+                <div class="col container bg-body-tertiary rounded py-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Buscar" aria-label="Buscar" aria-describedby="button-addon2">
+                        <button class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
+                    </div>
+                </div>
+                <div class="col-auto align-self-end container bg-body-tertiary rounded py-3 ms-3">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop">Añadir Libro
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="shadow-lg p-3 mt-5 mb-1 bg-body-tertiary rounded">
+            <table th:if="${!listaLibros.isEmpty()}" class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Título</th>
+                    <th scope="col">Autor</th>
+                    <th scope="col">Editorial</th>
+                    <th scope="col">Tipo de pasta</th>
+                    <th scope="col">Sinopsis</th>
+                    <th scope="col">Precio $</th>
+                    <th scope="col">Descuento %</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="listaL: ${listaLibros}">
+                    <td th:text="${listaL.titulo}"></td>
+                    <td th:text="${listaL.titulo}"></td>
+                    <td th:text="${listaL.titulo}"></td>
+                    <td th:text="${listaL.tipoPasta}"></td>
+                    <td th:utext="${#strings.abbreviate(listaL.sinopsis, 20)}"></td>
+                    <td th:text="${'$' + listaL.precio}"></td>
+                    <td th:text="${listaL.descuento + '%'}"></td>
+<!--                    <td th:text="${listaL.nacionalidad.nacionalidadName}"></td>-->
+                    <td>
+                        <a th:href="@{/libreria/gestionar/libro/edit-libro/{id} (id=${listaL.id})}"
+                           class="btn btn-success mb-md-1">Modificar <i class="fas fa-pen-nib" aria-hidden="true"></i> </a>
+                        <a th:href="@{/libreria/gestionar/libro/delete-libro/{id} (id=${listaL.id})}"
+                           class="btn btn-danger">Eliminar <i class="fas fa-trash-alt" aria-hidden="true"></i> </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <nav th:replace="~{plantillas/pag-nav::paginador}"></nav>
+
+        <!-- Vertically centered modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Modal body text goes here.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Understood</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+<footer th:replace="~{plantillas/plantilla :: footer}"></footer>
+
+<!--<script th:replace="~{principal/libro/js/autocompletar :: jslibro}"></script>-->
+<!-- Script para abrir el modal si hay un error -->
+<script th:if="${showModal}">
+    document.addEventListener("DOMContentLoaded", function () {
+        var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
+        myModal.show();
+    });
+</script>
+
+</body>
+</html>

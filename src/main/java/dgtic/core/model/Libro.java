@@ -29,9 +29,8 @@ public class Libro {
     @NotBlank(message = "La sinopsis no puede estar vacía")
     private String sinopsis;
 
-    @Digits(integer = 3,fraction = 2)
     @DecimalMin(value = "0.0",inclusive = false, message = "El precio no puede ser menor de $0.0")
-    private Double precio;
+    private Float precio;
 
     @Min(value = 0, message = "El decuento NO puede ser menor de 0%")
     @Max(value = 100, message = "El decuento NO puede superar el 100%")
