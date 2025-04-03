@@ -144,7 +144,7 @@ public class ManageClasificacionController {
     @GetMapping("buscar-clasificacion-tabla")
     public String getBuscarClasificacionTabla(
             @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestParam(name = "tipoClasificacion", required = false, defaultValue = "") String tipoClasificacion,
+            @RequestParam(name = "datoAbuscar", required = false, defaultValue = "") String tipoClasificacion,
             Model model) {
 
         Pageable pageable = PageRequest.of(page, 10);
@@ -156,7 +156,7 @@ public class ManageClasificacionController {
         model.addAttribute("contenido", "Gestionar Clasificaciones");
         model.addAttribute("listaClasificaciones", pageClasificaciones);
         model.addAttribute("page", renderPagina);
-        model.addAttribute("tipoClasificacion", tipoClasificacion);
+        model.addAttribute("datoAbuscar", tipoClasificacion);
 
         return "principal/clasificacion/gestionClasificacion";
     }
@@ -164,7 +164,7 @@ public class ManageClasificacionController {
     @PostMapping("buscar-clasificacion-tabla")
     public String buscarClasificacionTabla(
             @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestParam(name = "tipoClasificacion", required = false, defaultValue = "") String tipoClasificacion,
+            @RequestParam(name = "datoAbuscar", required = false, defaultValue = "") String tipoClasificacion,
             Model model) {
 
         Pageable pageable = PageRequest.of(page, 10);
@@ -176,7 +176,7 @@ public class ManageClasificacionController {
         model.addAttribute("contenido", "Gestionar Clasificaciones");
         model.addAttribute("listaClasificaciones", pageClasificaciones);
         model.addAttribute("page", renderPagina);
-        model.addAttribute("tipoClasificacion", tipoClasificacion);
+        model.addAttribute("datoAbuscar", tipoClasificacion);
 
         return "principal/clasificacion/gestionClasificacion";
     }

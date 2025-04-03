@@ -173,7 +173,7 @@ public class ManageAutorController {
     @GetMapping("buscar-autor-tabla")
     public String getBuscarAutorTabla(
             @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestParam(name = "nombre", required = false, defaultValue = "") String nombre,
+            @RequestParam(name = "datoAbuscar", required = false, defaultValue = "") String nombre,
             Model model) {
 
         Pageable pageable = PageRequest.of(page, 10);
@@ -187,7 +187,7 @@ public class ManageAutorController {
         model.addAttribute("contenido", "Gestionar Autores");
         model.addAttribute("listaAutores", pageAutores);
         model.addAttribute("page", renderPagina);
-        model.addAttribute("nombre", nombre);
+        model.addAttribute("datoAbuscar", nombre);
 
         return "principal/autor/gestionAutor";
     }
@@ -195,7 +195,7 @@ public class ManageAutorController {
     @PostMapping("buscar-autor-tabla")
     public String buscarAutorTabla(
             @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestParam(name = "nombre", required = false, defaultValue = "") String nombre,
+            @RequestParam(name = "datoAbuscar", required = false, defaultValue = "") String nombre,
             Model model) {
 
         Pageable pageable = PageRequest.of(page, 10);
@@ -209,9 +209,9 @@ public class ManageAutorController {
         model.addAttribute("contenido", "Gestionar Autores");
         model.addAttribute("listaEditoriales", pageAutores);
         model.addAttribute("page", renderPagina);
-        model.addAttribute("tipoEditoriales", nombre);
+        model.addAttribute("datoAbuscar", nombre);
 
-        return "principal/editoriales/gestionEditorial";
+        return "principal/autor/gestionAutor";
     }
 
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)

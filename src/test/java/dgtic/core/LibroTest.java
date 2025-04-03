@@ -4,6 +4,8 @@ import dgtic.core.model.Autor;
 import dgtic.core.model.Clasificacion;
 import dgtic.core.model.Editorial;
 import dgtic.core.model.Libro;
+import dgtic.core.model.dto.AutorDto;
+import dgtic.core.model.dto.LibroDto;
 import dgtic.core.repository.AutorRepository;
 import dgtic.core.repository.ClasificacionRepository;
 import dgtic.core.repository.EditorialRepository;
@@ -11,6 +13,9 @@ import dgtic.core.repository.LibroRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,6 +52,23 @@ class LibroTest {
         assertThat(libro.get().getId()).isEqualTo(id);
 
         System.out.println(libro);
+    }
+
+    @Test
+    void findByTituloContainingIgnoreCaseTest() {
+        String name = "Cuentos";
+        Pageable pageable = PageRequest.of(0, 10);
+
+        Page<Libro> libroPage = libroRepository.findByTituloContainingIgnoreCase(name, pageable);
+
+        libroPage.stream()
+                .map(libro -> "ID: " + libro.getId()
+                        + ", Título: " + libro.getTitulo()
+                        + ", Tipo Pasta: " + libro.getTipoPasta()
+                        + ", Sinopsis: " + libro.getSinopsis()
+                        + ", Precio: " + libro.getPrecio()
+                        + ", Descuento: " + libro.getDescuento())
+                .forEach(System.out::println);
     }
 
     @Test

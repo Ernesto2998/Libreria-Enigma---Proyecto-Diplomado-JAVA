@@ -143,7 +143,7 @@ public class ManageEditorialController {
     @GetMapping("buscar-editorial-tabla")
     public String getBuscarEditorialTabla(
             @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestParam(name = "editorialName", required = false, defaultValue = "") String editorialName,
+            @RequestParam(name = "datoAbuscar", required = false, defaultValue = "") String editorialName,
             Model model) {
 
         Pageable pageable = PageRequest.of(page, 10);
@@ -155,7 +155,7 @@ public class ManageEditorialController {
         model.addAttribute("contenido", "Gestionar Editoriales");
         model.addAttribute("listaEditoriales", pageEditoriales);
         model.addAttribute("page", renderPagina);
-        model.addAttribute("editorialName", editorialName);
+        model.addAttribute("datoAbuscar", editorialName);
 
         return "principal/editorial/gestionEditorial";
     }
@@ -163,7 +163,7 @@ public class ManageEditorialController {
     @PostMapping("buscar-editorial-tabla")
     public String buscarEdotiralTabla(
             @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestParam(name = "editorialName", required = false, defaultValue = "") String editorialName,
+            @RequestParam(name = "datoAbuscar", required = false, defaultValue = "") String editorialName,
             Model model) {
 
         Pageable pageable = PageRequest.of(page, 10);
@@ -175,9 +175,9 @@ public class ManageEditorialController {
         model.addAttribute("contenido", "Gestionar Editoriales");
         model.addAttribute("listaEditoriales", pageEditoriales);
         model.addAttribute("page", renderPagina);
-        model.addAttribute("tipoEditoriales", editorialName);
+        model.addAttribute("datoAbuscar", editorialName);
 
-        return "principal/editoriales/gestionEditorial";
+        return "principal/editorial/gestionEditorial";
     }
 
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)

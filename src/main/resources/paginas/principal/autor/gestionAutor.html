@@ -16,7 +16,7 @@
                 <div class="col container bg-body-tertiary rounded py-3 me-3">
                     <form th:action="@{/libreria/gestionar/autor/buscar-autor-tabla}" method="get">
                         <div class="input-group">
-                            <input type="text" id="autorB" name="nombre" class="form-control"
+                            <input type="text" id="autorB" name="datoAbuscar" class="form-control"
                                    placeholder="Buscar" aria-label="Buscar" aria-describedby="button-addon2"
                                     th:value="${autorB.nombre}">
                             <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>

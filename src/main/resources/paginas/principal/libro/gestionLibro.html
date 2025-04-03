@@ -14,10 +14,16 @@
         <div class="container text-start">
             <div class="row">
                 <div class="col container bg-body-tertiary rounded py-3">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Buscar" aria-label="Buscar" aria-describedby="button-addon2">
-                        <button class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
-                    </div>
+                    <form th:action="@{/libreria/gestionar/libro/buscar-libro-tabla}"
+                          th:object="${libroB}"
+                          method="get">
+                        <div class="input-group">
+                            <input type="text" id="buscarTitulo" name="datoAbuscar" class="form-control"
+                                   placeholder="Buscar" aria-label="Buscar" aria-describedby="button-addon2"
+                                   th:value="${libroB.titulo}">
+                            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar por título</button>
+                        </div>
+                    </form>
                 </div>
                 <div class="col-auto align-self-end container bg-body-tertiary rounded py-3 ms-3">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -86,7 +92,7 @@
 </main>
 <footer th:replace="~{plantillas/plantilla :: footer}"></footer>
 
-<!--<script th:replace="~{principal/libro/js/autocompletar :: jslibro}"></script>-->
+<script th:replace="~{principal/libro/js/autocompletar :: jslibro}"></script>
 <!-- Script para abrir el modal si hay un error -->
 <script th:if="${showModal}">
     document.addEventListener("DOMContentLoaded", function () {

@@ -7,14 +7,14 @@
         <li class="page-item">
             <span class="page-link" th:if="${page.first}">Primera</span>
             <a class="page-link" th:if="${not page.first}"
-               th:href="@{${page.url}(page=0, tipoClasificacion=${tipoClasificacion})}">Primera</a>
+               th:href="@{${page.url}(page=0, datoAbuscar=${datoAbuscar})}">Primera</a>
         </li>
 
         <!-- Página anterior -->
         <li class="page-item">
             <span class="page-link" th:if="${not page.hasPrevious}">Anterior</span>
             <a class="page-link" th:if="${page.hasPrevious}"
-               th:href="@{${page.url}(page=${page.paginaActual-2}, tipoClasificacion=${tipoClasificacion})}">Anterior</a>
+               th:href="@{${page.url}(page=${page.paginaActual-2}, datoAbuscar=${datoAbuscar})}">Anterior</a>
         </li>
 
         <!-- Páginas numeradas -->
@@ -22,7 +22,7 @@
             th:class="${item.actual ? 'page-item active' : 'page-item'}">
             <span class="page-link" th:if="${item.actual}" th:text="${item.numero}"></span>
             <a class="page-link" th:if="${not item.actual}"
-               th:href="@{${page.url}(page=${item.numero-1}, tipoClasificacion=${tipoClasificacion})}"
+               th:href="@{${page.url}(page=${item.numero-1}, datoAbuscar=${datoAbuscar})}"
                th:text="${item.numero}"></a>
         </li>
 
@@ -30,14 +30,14 @@
         <li class="page-item">
             <span class="page-link" th:if="${not page.hasNext}">Siguiente</span>
             <a class="page-link" th:if="${page.hasNext}"
-               th:href="@{${page.url}(page=${page.paginaActual}, tipoClasificacion=${tipoClasificacion})}">Siguiente</a>
+               th:href="@{${page.url}(page=${page.paginaActual}, datoAbuscar=${datoAbuscar})}">Siguiente</a>
         </li>
 
         <!-- Última página -->
         <li class="page-item">
             <span class="page-link" th:if="${page.last}">Última</span>
             <a class="page-link" th:if="${not page.last}"
-               th:href="@{${page.url}(page=${page.totalPaginas-1}, tipoClasificacion=${tipoClasificacion})}">Última</a>
+               th:href="@{${page.url}(page=${page.totalPaginas-1}, datoAbuscar=${datoAbuscar})}">Última</a>
         </li>
     </ul>
 </nav>

@@ -1,6 +1,7 @@
 package dgtic.core.service.libro;
 
 import dgtic.core.model.Libro;
+import dgtic.core.model.dto.LibroDto;
 import dgtic.core.repository.LibroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -39,6 +40,11 @@ public class LibroServiceImpl implements LibroService{
     }
 
     @Override
+    public List<LibroDto> findLibroView(String dato) {
+        return libroRepository.findLibroView(dato);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Page<Libro> findPage(Pageable pageable) {
         return libroRepository.findAll(pageable);
@@ -47,6 +53,6 @@ public class LibroServiceImpl implements LibroService{
     @Override
     @Transactional(readOnly = true)
     public Page<Libro> findLibroByTitulo(String titulo, Pageable pageable) {
-        return null;
+        return libroRepository.findByTituloContainingIgnoreCase(titulo, pageable);
     }
 }
