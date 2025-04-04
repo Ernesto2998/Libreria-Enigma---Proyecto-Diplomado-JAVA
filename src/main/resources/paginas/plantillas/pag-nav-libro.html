@@ -7,14 +7,14 @@
         <li class="page-item">
             <span class="page-link" th:if="${page.first}">Primera</span>
             <a class="page-link" th:if="${not page.first}"
-               th:href="@{${page.url}(page=0, datoAbuscar=${libroB.titulo}, tipoPasta=${libroB.tipoPasta})}">Primera</a>
+               th:href="@{${page.url}(page=0, datoAbuscar=${libroB.titulo}, tipoPasta=${libroB.tipoPasta}, autorId=${autorId}, clasificacionId=${clasificacionId}, editorialId=${editorialId} )} ">Primera</a>
         </li>
 
         <!-- Página anterior -->
         <li class="page-item">
             <span class="page-link" th:if="${not page.hasPrevious}">Anterior</span>
             <a class="page-link" th:if="${page.hasPrevious}"
-               th:href="@{${page.url}(page=${page.paginaActual-2}, datoAbuscar=${libroB.titulo}, tipoPasta=${libroB.tipoPasta})}">Anterior</a>
+               th:href="@{${page.url}(page=${page.paginaActual-2}, datoAbuscar=${libroB.titulo}, tipoPasta=${libroB.tipoPasta}, autorId=${autorId}, clasificacionId=${clasificacionId}, editorialId=${editorialId} )}">Anterior</a>
         </li>
 
         <!-- Páginas numeradas -->
@@ -22,7 +22,7 @@
             th:class="${item.actual ? 'page-item active' : 'page-item'}">
             <span class="page-link" th:if="${item.actual}" th:text="${item.numero}"></span>
             <a class="page-link" th:if="${not item.actual}"
-               th:href="@{${page.url}(page=${item.numero-1}, datoAbuscar=${libroB.titulo}, tipoPasta=${libroB.tipoPasta})}"
+               th:href="@{${page.url}(page=${item.numero-1}, datoAbuscar=${libroB.titulo}, tipoPasta=${libroB.tipoPasta}, autorId=${autorId}, clasificacionId=${clasificacionId}, editorialId=${editorialId} )}"
                th:text="${item.numero}"></a>
         </li>
 
@@ -30,14 +30,14 @@
         <li class="page-item">
             <span class="page-link" th:if="${not page.hasNext}">Siguiente</span>
             <a class="page-link" th:if="${page.hasNext}"
-               th:href="@{${page.url}(page=${page.paginaActual}, datoAbuscar=${libroB.titulo}, tipoPasta=${libroB.tipoPasta})}">Siguiente</a>
+               th:href="@{${page.url}(page=${page.paginaActual}, datoAbuscar=${libroB.titulo}, tipoPasta=${libroB.tipoPasta}, autorId=${autorId}, clasificacionId=${clasificacionId}, editorialId=${editorialId} )}">Siguiente</a>
         </li>
 
         <!-- Última página -->
         <li class="page-item">
             <span class="page-link" th:if="${page.last}">Última</span>
             <a class="page-link" th:if="${not page.last}"
-               th:href="@{${page.url}(page=${page.totalPaginas-1}, datoAbuscar=${libroB.titulo}, tipoPasta=${libroB.tipoPasta})}">Última</a>
+               th:href="@{${page.url}(page=${page.totalPaginas-1}, datoAbuscar=${libroB.titulo}, tipoPasta=${libroB.tipoPasta}, autorId=${autorId}, clasificacionId=${clasificacionId}, editorialId=${editorialId} )}">Última</a>
         </li>
     </ul>
 </nav>

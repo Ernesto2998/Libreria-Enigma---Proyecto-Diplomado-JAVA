@@ -19,4 +19,6 @@ public interface LibroService {
     Page<Libro> findLibroByTitulo(String titulo, Pageable pageable);
     Page<Libro> findLibroByTipoPasta(String titulo, Pageable pageable);
     Page<Libro> findLibroByAutorId(Integer autorId, Pageable pageable);
+    Page<Libro> findLibroByClasificacionId(Integer clasificacionId, Pageable pageable);
+    Page<Libro> findLibroByEditorialId(Integer editorialId, Pageable pageable);
 }

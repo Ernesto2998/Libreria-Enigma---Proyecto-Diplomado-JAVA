@@ -19,6 +19,12 @@ public interface LibroRepository extends JpaRepository<Libro, Integer> {
     @Query("SELECT l FROM Libro l JOIN l.autores a WHERE a.id = :autorId")
     Page<Libro> findByAutorId(@Param("autorId") Integer autorId, Pageable pageable);
 
+    @Query("SELECT l FROM Libro l JOIN l.clasificaciones cl WHERE cl.id = :clasificacionId")
+    Page<Libro> findByClasificacionId(@Param("clasificacionId") Integer clasificacionId, Pageable pageable);
+
+    @Query("SELECT l FROM Libro l JOIN l.editorial e WHERE e.id = :editorialId")
+    Page<Libro> findByEditorialId(@Param("editorialId") Integer editorialId, Pageable pageable);
+
     Page<Libro> findByTituloContainingIgnoreCase(String titulo, Pageable pageable);
 
     Page<Libro> findByTipoPastaContainingIgnoreCase(String tipoPasta, Pageable pageable);

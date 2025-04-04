@@ -65,4 +65,14 @@ public class LibroServiceImpl implements LibroService{
     public Page<Libro> findLibroByAutorId(Integer autorId, Pageable pageable) {
         return libroRepository.findByAutorId(autorId, pageable);
     }
+
+    @Override
+    public Page<Libro> findLibroByClasificacionId(Integer clasificacionId, Pageable pageable) {
+        return libroRepository.findByClasificacionId(clasificacionId, pageable);
+    }
+
+    @Override
+    public Page<Libro> findLibroByEditorialId(Integer editorialId, Pageable pageable) {
+        return libroRepository.findByEditorialId(editorialId, pageable);
+    }
 }
