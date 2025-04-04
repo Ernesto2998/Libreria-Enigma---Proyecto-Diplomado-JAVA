@@ -16,6 +16,9 @@ public interface LibroRepository extends JpaRepository<Libro, Integer> {
             "from Libro l where l.titulo like %?1%")
     List<LibroDto> findLibroView(String dato);
 
+    @Query("SELECT l FROM Libro l JOIN l.autores a WHERE a.id = :autorId")
+    Page<Libro> findByAutorId(@Param("autorId") Integer autorId, Pageable pageable);
+
     Page<Libro> findByTituloContainingIgnoreCase(String titulo, Pageable pageable);
 
     Page<Libro> findByTipoPastaContainingIgnoreCase(String tipoPasta, Pageable pageable);

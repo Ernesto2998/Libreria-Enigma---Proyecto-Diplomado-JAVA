@@ -6,6 +6,7 @@ import dgtic.core.model.Libro;
 import dgtic.core.model.Nacionalidad;
 import dgtic.core.model.dto.EditorialDto;
 import dgtic.core.model.dto.LibroDto;
+import dgtic.core.service.autor.AutorService;
 import dgtic.core.service.libro.LibroService;
 import dgtic.core.util.RenderPagina;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,8 @@ public class ManagerLibroController {
     MessageSource mensaje;
     @Autowired
     LibroService libroService;
+    @Autowired
+    AutorService autorService;
 
     @GetMapping("")
     public String getGestionar(@RequestParam(name = "page", defaultValue = "0") int page,
@@ -36,16 +39,17 @@ public class ManagerLibroController {
 
         Pageable pageable = PageRequest.of(page, 10);
         Page<Libro> libros = libroService.findPage(pageable);
+        List<Autor> listaAutores = autorService.findAll();
         RenderPagina<Libro> renderPagina = new RenderPagina<>("libro", libros);
 
 //        modelo.addAttribute("libro", new Libro());
         modelo.addAttribute("libroB", new Libro());
+        modelo.addAttribute("autores", listaAutores);
         modelo.addAttribute("contenido", "Gestionar Libros");
         modelo.addAttribute("listaLibros", libros);
         modelo.addAttribute("page", renderPagina);
         return "principal/libro/gestionLibro";
     }
-
 
 
     @GetMapping("delete-libro/{id}")
@@ -66,26 +70,32 @@ public class ManagerLibroController {
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "datoAbuscar", required = false, defaultValue = "") String titulo,
             @RequestParam(name = "tipoPasta", required = false, defaultValue = "") String tipoPasta,
+            @RequestParam(name = "autorId", required = false) Integer autorId,
             Model model) {
 
         Pageable pageable = PageRequest.of(page, 10);
-        Page<Libro> pageLibros = libroService.findPage(pageable);;
+        Page<Libro> pageLibros = libroService.findPage(pageable);
+        ;
         Libro libroBusqueda = new Libro();
 
         if (!titulo.isEmpty()) {
             pageLibros = libroService.findLibroByTitulo(titulo, pageable);
             libroBusqueda.setTitulo(titulo);
-        } else if(!tipoPasta.isEmpty()){
+        } else if (autorId != null) {
+            pageLibros = libroService.findLibroByAutorId(autorId, pageable);
+
+        } else if (!tipoPasta.isEmpty()) {
             pageLibros = libroService.findLibroByTipoPasta(tipoPasta, pageable);
             libroBusqueda.setTipoPasta(tipoPasta);
         }
 
         RenderPagina<Libro> renderPagina = new RenderPagina<>("/libreria/gestionar/libro/buscar-libro-tabla", pageLibros);
-
-        // Crear y llenar libroB con los datos de búsqueda
+        List<Autor> listaAutores = autorService.findAll();
 
 //        model.addAttribute("libro", new Libro());
         model.addAttribute("libroB", libroBusqueda);
+        model.addAttribute("autorId", autorId);
+        model.addAttribute("autores", listaAutores);
         model.addAttribute("contenido", "Gestionar Libros");
         model.addAttribute("listaLibros", pageLibros);
         model.addAttribute("page", renderPagina);

@@ -33,13 +33,24 @@
                                         </option>
                                         <option value="Blanda" th:selected="*{tipoPasta == 'Blanda'}">Blanda</option>
                                         <option value="Dura" th:selected="*{tipoPasta == 'Dura'}">Dura</option>
-                                        <option value="" th:selected="*{tipoPasta == null or tipoPasta == ''}">Todos
-                                        </option>
-                                        <option value="Blanda" th:selected="*{tipoPasta == 'Blanda'}">Blanda</option>
-                                        <option value="Dura" th:selected="*{tipoPasta == 'Dura'}">Dura</option>
                                     </select>
                                     <button class="btn btn-outline-secondary" type="submit">Buscar por tipo de pasta
                                     </button>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="input-group">
+<!--                                    <label for="autorId" class="form-label">Autor</label>-->
+                                    <label class="input-group-text" for="autorId">Autor</label>
+                                    <select class="form-select" id="autorId" name="autorId">
+                                        <option th:value="''" th:selected="${autorId == null}">-- Todos --</option>
+                                        <option th:each="autor : ${autores}"
+                                                th:value="${autor.id}"
+                                                th:text="${autor.nombre + ' ' + autor.apellidoUno + ' ' + autor.apellidoDos}"
+                                                th:selected="${autor.id == autorId}">
+                                        </option>
+                                    </select>
+                                    <button class="btn btn-outline-secondary" type="submit">Button</button>
                                 </div>
                             </div>
                         </div>
