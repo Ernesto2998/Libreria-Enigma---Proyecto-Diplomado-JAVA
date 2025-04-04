@@ -14,7 +14,9 @@
         <div class="container text-start">
             <div class="row">
                 <div class="col container bg-body-tertiary rounded py-3">
-                    <form th:action="@{/libreria/gestionar/libro/buscar-libro-tabla}" th:object="${libroB}" method="get">
+                    <form th:action="@{/libreria/gestionar/libro/buscar-libro-tabla}" id="busquedaForm"
+                          th:object="${libroB}"
+                          method="get">
                         <div class="row">
                             <div class="col-6">
                                 <div class="input-group mb-2">
@@ -27,14 +29,22 @@
                             <div class="col-6">
                                 <div class="input-group mb-2">
                                     <select class="form-select" id="buscarTipoPasta" name="tipoPasta">
-                                        <option value="" th:selected="*{tipoPasta == null or tipoPasta == ''}">Todos</option>
+                                        <option value="" th:selected="*{tipoPasta == null or tipoPasta == ''}">Todos
+                                        </option>
+                                        <option value="Blanda" th:selected="*{tipoPasta == 'Blanda'}">Blanda</option>
+                                        <option value="Dura" th:selected="*{tipoPasta == 'Dura'}">Dura</option>
+                                        <option value="" th:selected="*{tipoPasta == null or tipoPasta == ''}">Todos
+                                        </option>
                                         <option value="Blanda" th:selected="*{tipoPasta == 'Blanda'}">Blanda</option>
                                         <option value="Dura" th:selected="*{tipoPasta == 'Dura'}">Dura</option>
                                     </select>
-                                    <button class="btn btn-outline-secondary" type="submit">Buscar por tipo de pasta</button>
+                                    <button class="btn btn-outline-secondary" type="submit">Buscar por tipo de pasta
+                                    </button>
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" name="precioSortBy" id="precioSortBy">
+                        <input type="hidden" name="descSortBy" id="descSortBy">
                     </form>
                 </div>
                 <div class="col-auto align-self-end container bg-body-tertiary rounded py-3 ms-3">
@@ -46,39 +56,85 @@
         </div>
 
         <div class="shadow-lg p-3 mt-5 mb-1 bg-body-tertiary rounded">
-            <table th:if="${!listaLibros.isEmpty()}" class="table table-hover">
-                <thead>
-                <tr>
-                    <th scope="col">Título</th>
-                    <th scope="col">Autor</th>
-                    <th scope="col">Editorial</th>
-                    <th scope="col">Tipo de pasta</th>
-                    <th scope="col">Sinopsis</th>
-                    <th scope="col">Precio $</th>
-                    <th scope="col">Descuento %</th>
-                    <th scope="col"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="listaL: ${listaLibros}">
-                    <td th:text="${listaL.titulo}"></td>
-                    <td th:text="${listaL.titulo}"></td>
-                    <td th:text="${listaL.titulo}"></td>
-                    <td th:text="${listaL.tipoPasta}"></td>
-                    <td th:utext="${#strings.abbreviate(listaL.sinopsis, 20)}"></td>
-                    <td th:text="${'$' + listaL.precio}"></td>
-                    <td th:text="${listaL.descuento + '%'}"></td>
-                    <!--                    <td th:text="${listaL.nacionalidad.nacionalidadName}"></td>-->
-                    <td>
-                        <a th:href="@{/libreria/gestionar/libro/edit-libro/{id} (id=${listaL.id})}"
-                           class="btn btn-success mb-md-1">Modificar <i class="fas fa-pen-nib" aria-hidden="true"></i>
-                        </a>
-                        <a th:href="@{/libreria/gestionar/libro/delete-libro/{id} (id=${listaL.id})}"
-                           class="btn btn-danger">Eliminar <i class="fas fa-trash-alt" aria-hidden="true"></i> </a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table th:if="${!listaLibros.isEmpty()}" class="table table-hover" >
+                    <thead>
+                    <tr>
+                        <th scope="col">Título</th>
+                        <th scope="col">Autor</th>
+                        <th scope="col">Editorial</th>
+                        <th scope="col">Clasificación</th>
+                        <th scope="col w-auto">Tipo de pasta</th>
+                        <!--                    <th scope="col">Sinopsis</th>-->
+                        <th scope="col" style="width: 150px;">
+                            <div class="row justify-content-center">
+                                <div class="col-auto pe-0">Precio $</div>
+                                <div class="col-2 ps-0">
+                                    <button type="submit" form="busquedaForm" class="btn btn-secondary"
+                                            onclick="document.getElementById('precioSortBy').value = 'Desc'">
+                                        <i class="bi bi-sort-down"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </th>
+                        <th scope="col" style="width: 170px;">
+                            <div class="row justify-content-center">
+                                <div class="col-auto pe-0">Descuento %</div>
+                                <div class="col-2 ps-0">
+                                    <button type="submit" form="busquedaForm" class="btn btn-secondary"
+                                            onclick="document.getElementById('descSortBy').value = 'Desc'">
+                                        <i class="bi bi-sort-down"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="listaL: ${listaLibros}">
+                        <!-- Título -->
+                        <td th:text="${listaL.titulo}"></td>
+
+                        <!-- Autores (lista) -->
+                        <td class="text-nowrap">
+                            <ul th:if="${listaL.autores != null and !listaL.autores.isEmpty()}">
+                                <li th:each="autor : ${listaL.autores}"
+                                    th:text="${autor.nombre + ' ' + autor.apellidoUno + ' ' + autor.apellidoDos}"></li>
+                            </ul>
+                            <span th:if="${listaL.autores == null or listaL.autores.isEmpty()}">Sin autor</span>
+                        </td>
+
+                        <!-- Editorial (único) -->
+                        <td th:text="${listaL.editorial != null ? listaL.editorial.editorialName : 'NA'}"></td>
+
+                        <td class="text-nowrap">
+                            <ul th:if="${listaL.clasificaciones != null and !listaL.clasificaciones.isEmpty()}">
+                                <li th:each="clasificacion : ${listaL.clasificaciones}" th:text="${clasificacion.tipoClasificacion}"></li>
+                            </ul>
+                            <span th:if="${listaL.clasificaciones == null or listaL.clasificaciones.isEmpty()}">Sin clasificación</span>
+                        </td>
+
+                        <td th:text="${listaL.tipoPasta}"></td>
+
+                        <!--                    <td th:utext="${#strings.abbreviate(listaL.sinopsis, 20)}"></td>-->
+
+                        <td th:text="${'$' + listaL.precio}"></td>
+
+                        <td th:text="${listaL.descuento + '%'}"></td>
+
+                        <td>
+                            <a th:href="@{/libreria/gestionar/libro/edit-libro/{id} (id=${listaL.id})}"
+                               class="btn btn-success mb-md-1">Modificar <i class="fas fa-pen-nib"
+                                                                            aria-hidden="true"></i>
+                            </a>
+                            <a th:href="@{/libreria/gestionar/libro/delete-libro/{id} (id=${listaL.id})}"
+                               class="btn btn-danger">Eliminar <i class="fas fa-trash-alt" aria-hidden="true"></i> </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <nav th:replace="~{plantillas/pag-nav-libro::paginador}"></nav>
 

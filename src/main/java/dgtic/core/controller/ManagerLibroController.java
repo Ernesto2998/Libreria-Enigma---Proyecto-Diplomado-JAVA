@@ -69,20 +69,20 @@ public class ManagerLibroController {
             Model model) {
 
         Pageable pageable = PageRequest.of(page, 10);
-        Page<Libro> pageLibros;
+        Page<Libro> pageLibros = libroService.findPage(pageable);;
+        Libro libroBusqueda = new Libro();
 
-        if (!tipoPasta.isEmpty()) {
-            pageLibros = libroService.findLibroByTipoPasta(tipoPasta, pageable);
-        } else {
+        if (!titulo.isEmpty()) {
             pageLibros = libroService.findLibroByTitulo(titulo, pageable);
+            libroBusqueda.setTitulo(titulo);
+        } else if(!tipoPasta.isEmpty()){
+            pageLibros = libroService.findLibroByTipoPasta(tipoPasta, pageable);
+            libroBusqueda.setTipoPasta(tipoPasta);
         }
 
         RenderPagina<Libro> renderPagina = new RenderPagina<>("/libreria/gestionar/libro/buscar-libro-tabla", pageLibros);
 
         // Crear y llenar libroB con los datos de búsqueda
-        Libro libroBusqueda = new Libro();
-        libroBusqueda.setTitulo(titulo);
-        libroBusqueda.setTipoPasta(tipoPasta);
 
 //        model.addAttribute("libro", new Libro());
         model.addAttribute("libroB", libroBusqueda);
