@@ -72,7 +72,7 @@ class LibroTest {
     }
 
     @Test
-    void createNacionalidadTest() {
+    void createLibroTest() {
         String newTitulo = "Libro Nuevo";
         Float newPrecio = 99.99F;
         Integer newDescuento = 25;
