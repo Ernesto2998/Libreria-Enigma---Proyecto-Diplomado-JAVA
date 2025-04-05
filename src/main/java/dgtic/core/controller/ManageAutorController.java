@@ -63,11 +63,13 @@ public class ManageAutorController {
         Pageable pageable = PageRequest.of(page, 10);
         Page<Autor> autores = autorService.findPage(pageable);
         RenderPagina<Autor> renderPagina = new RenderPagina<>("/libreria/gestionar/autor/buscar-autor-tabla", autores);
+        List<Nacionalidad> nacionalidades = nacionalidadService.findAll();
 
         model.addAttribute("contenido", "Gestionar Autores");
         model.addAttribute("listaAutores", autores);
         model.addAttribute("page", renderPagina);
-        model.addAttribute("autoreB", new Autor());
+        model.addAttribute("autorB", new Autor());
+        model.addAttribute("nacionalidad", nacionalidades);
 
         if (bindingResult.hasErrors()) {
             for (ObjectError error : bindingResult.getAllErrors()) {
@@ -84,7 +86,7 @@ public class ManageAutorController {
                     null, LocaleContextHolder.getLocale());
             bindingResult.rejectValue("nombre", "nombre", msg);
             bindingResult.rejectValue("apellidoUno", "apellidoUno", msg);
-            bindingResult.rejectValue("apelldidoDos", "apelldidoDos", msg);
+            bindingResult.rejectValue("apellidoDos", "apellidoDos", msg);
             bindingResult.rejectValue("nacionalidad", "nacionalidad", msg);
             model.addAttribute("showModal", true); // También abre el modal si hay error de BD
             return "principal/autor/gestionAutor";

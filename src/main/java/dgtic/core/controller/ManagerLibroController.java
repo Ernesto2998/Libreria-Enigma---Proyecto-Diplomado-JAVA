@@ -127,7 +127,7 @@ public class ManagerLibroController {
         List<Clasificacion> listaClasificaciones = clasificacionService.findAll();
         List<Editorial> listaEditoriales = editorialService.findAll();
 
-        model.addAttribute("contenido", "Gestionar Autores");
+        model.addAttribute("contenido", "Gestionar Libros");
         model.addAttribute("id", libro.getId());
         model.addAttribute("autores", listaAutores);
         model.addAttribute("clasificaciones", listaClasificaciones);
@@ -137,7 +137,7 @@ public class ManagerLibroController {
             for (ObjectError error : bindingResult.getAllErrors()) {
                 System.out.println("Error " + error.getDefaultMessage());
             }
-            return "principal/autor/editAutor";
+            return "principal/libro/editLibro";
         }
 
         try {
@@ -166,15 +166,13 @@ public class ManagerLibroController {
             String msg = mensaje.getMessage("Error.base.libroDuplicado",
                     null, LocaleContextHolder.getLocale());
 
-            model.addAttribute("libro", new Libro());
-            model.addAttribute("libroB", new Libro());
-            model.addAttribute("autores", listaAutores);
-            model.addAttribute("clasificaciones", listaClasificaciones);
-            model.addAttribute("editoriales", listaEditoriales);
-            model.addAttribute("autorId", "");
-            model.addAttribute("clasificacionId", "");
-            model.addAttribute("editorialId", "");
-            model.addAttribute("contenido", "Gestionar Libros");
+//            model.addAttribute("libro", new Libro());
+//            model.addAttribute("libroB", new Libro());
+            bindingResult.rejectValue("titulo", "titulo", msg);
+            bindingResult.rejectValue("tipoPasta", "tipoPasta", msg);
+            bindingResult.rejectValue("autores", "autores", msg);
+            bindingResult.rejectValue("clasificaciones", "clasificaciones", msg);
+            bindingResult.rejectValue("editoriales", "editoriales", msg);
 
             return "principal/libro/editLibro";
         }
