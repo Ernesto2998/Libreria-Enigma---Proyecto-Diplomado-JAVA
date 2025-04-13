@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       lang="es">
 <head th:replace="~{plantillas/plantilla :: head}"></head>
 <body>
@@ -18,12 +19,13 @@
                         <div class="input-group">
                             <input type="text" id="autorB" name="datoAbuscar" class="form-control"
                                    placeholder="Buscar" aria-label="Buscar" aria-describedby="button-addon2"
-                                    th:value="${autorB.nombre}">
+                                   th:value="${autorB.nombre}">
                             <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
                         </div>
                     </form>
                 </div>
-                <div class="col-auto align-self-end container bg-body-tertiary rounded py-3 ms-3">
+                <div class="col-auto align-self-end container bg-body-tertiary rounded py-3 ms-3"
+                     sec:authorize="hasRole('ADMIN')">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#staticBackdrop">Añadir Autor
                     </button>
@@ -49,10 +51,12 @@
                     <td th:text="${listaAut.apellidoDos}"></td>
                     <td th:text="${listaAut.nacionalidad.nacionalidadName}"></td>
                     <td>
-                        <a th:href="@{/libreria/gestionar/autor/edit-autor/{id} (id=${listaAut.id})}"
-                           class="btn btn-success">Modificar <i class="fas fa-pen-nib" aria-hidden="true"></i> </a>
-                        <a th:href="@{/libreria/gestionar/autor/delete-autor/{id} (id=${listaAut.id})}"
-                           class="btn btn-danger">Eliminar <i class="fas fa-trash-alt" aria-hidden="true"></i> </a>
+                        <div sec:authorize="hasRole('ADMIN')">
+                            <a th:href="@{/libreria/gestionar/autor/edit-autor/{id} (id=${listaAut.id})}"
+                               class="btn btn-success">Modificar <i class="fas fa-pen-nib" aria-hidden="true"></i> </a>
+                            <a th:href="@{/libreria/gestionar/autor/delete-autor/{id} (id=${listaAut.id})}"
+                               class="btn btn-danger">Eliminar <i class="fas fa-trash-alt" aria-hidden="true"></i> </a>
+                        </div>
                     </td>
                 </tr>
                 </tbody>
@@ -71,7 +75,8 @@
                     </div>
                     <div class="modal-body">
 
-                        <form id="autorForm" th:action="@{/libreria/gestionar/autor/add-autor}" th:object="${autor}" method="post">
+                        <form id="autorForm" th:action="@{/libreria/gestionar/autor/add-autor}" th:object="${autor}"
+                              method="post">
                             <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role="alert">
                                 Verifique los siguientes inconvenientes
                                 <ul>
@@ -124,8 +129,10 @@
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label for="nacionalidad">Nacionalidad</label>
-                                        <select class="form-control" th:field="*{nacionalidad}" id="nacionalidad" name="nacionalidad" required>
-                                            <option th:each="sel : ${nacionalidad}" th:value="${sel.id}" th:text="${sel.nacionalidadName}"></option>
+                                        <select class="form-control" th:field="*{nacionalidad}" id="nacionalidad"
+                                                name="nacionalidad" required>
+                                            <option th:each="sel : ${nacionalidad}" th:value="${sel.id}"
+                                                    th:text="${sel.nacionalidadName}"></option>
                                         </select>
                                     </div>
                                 </div>

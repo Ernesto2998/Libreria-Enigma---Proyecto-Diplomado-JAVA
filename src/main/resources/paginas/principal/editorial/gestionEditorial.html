@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       lang="es">
 <head th:replace="~{plantillas/plantilla :: head}"></head>
 <body>
@@ -23,7 +24,8 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-auto align-self-end container bg-body-tertiary rounded py-3 ms-3">
+                <div class="col-auto align-self-end container bg-body-tertiary rounded py-3 ms-3"
+                     sec:authorize="hasRole('ADMIN')">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#staticBackdrop">Añadir Editorial
                     </button>
@@ -42,12 +44,14 @@
                 <tbody>
                 <tr th:each="listaEdi: ${listaEditoriales}">
                     <td th:text="${listaEdi.editorialName}"></td>
-                    <td>
-                        <a th:href="@{/libreria/gestionar/editorial/edit-editorial/{id} (id=${listaEdi.id})}"
-                           class="btn btn-success">Modificar <i class="fas fa-pen-nib" aria-hidden="true"></i> </a>
-                        <a th:href="@{/libreria/gestionar/editorial/delete-editorial/{id} (id=${listaEdi.id})}"
-                           class="btn btn-danger">Eliminar <i class="fas fa-trash-alt" aria-hidden="true"></i> </a>
-                    </td>
+                    <div sec:authorize="hasRole('ADMIN')">
+                        <td>
+                            <a th:href="@{/libreria/gestionar/editorial/edit-editorial/{id} (id=${listaEdi.id})}"
+                               class="btn btn-success">Modificar <i class="fas fa-pen-nib" aria-hidden="true"></i> </a>
+                            <a th:href="@{/libreria/gestionar/editorial/delete-editorial/{id} (id=${listaEdi.id})}"
+                               class="btn btn-danger">Eliminar <i class="fas fa-trash-alt" aria-hidden="true"></i> </a>
+                        </td>
+                    </div>
                 </tr>
                 </tbody>
             </table>

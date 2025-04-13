@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       lang="es">
 <head th:replace="~{plantillas/plantilla :: head}"></head>
 <body>
@@ -40,7 +41,7 @@
                             </div>
                             <div class="col-6">
                                 <div class="input-group mb-2">
-<!--                                    <label for="autorId" class="form-label">Autor</label>-->
+                                    <!--                                    <label for="autorId" class="form-label">Autor</label>-->
                                     <label class="input-group-text" for="autorId">Autor</label>
                                     <select class="form-select" id="autorId" name="autorId">
                                         <option th:value="''" th:selected="${autorId == null}">-- Todos --</option>
@@ -57,7 +58,8 @@
                                 <div class="input-group mb-2">
                                     <label class="input-group-text" for="clasificacionId">Clasificacion</label>
                                     <select class="form-select" id="clasificacionId" name="clasificacionId">
-                                        <option th:value="''" th:selected="${clasificacionId == null}">-- Todos --</option>
+                                        <option th:value="''" th:selected="${clasificacionId == null}">-- Todos --
+                                        </option>
                                         <option th:each="clasificacion : ${clasificacionesB}"
                                                 th:value="${clasificacion.id}"
                                                 th:text="${clasificacion.tipoClasificacion}"
@@ -86,7 +88,8 @@
                         <input type="hidden" name="descSortBy" id="descSortBy">
                     </form>
                 </div>
-                <div class="col-auto align-self-end container bg-body-tertiary rounded py-3 ms-3">
+                <div class="col-auto align-self-end container bg-body-tertiary rounded py-3 ms-3"
+                     sec:authorize="hasRole('ADMIN')">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#staticBackdrop">Añadir Libro
                     </button>
@@ -96,7 +99,7 @@
 
         <div class="shadow-lg p-3 mt-5 mb-1 bg-body-tertiary rounded">
             <div class="table-responsive">
-                <table th:if="${!listaLibros.isEmpty()}" class="table table-hover" >
+                <table th:if="${!listaLibros.isEmpty()}" class="table table-hover">
                     <thead>
                     <tr>
                         <th scope="col">Título</th>
@@ -150,7 +153,8 @@
 
                         <td class="text-nowrap">
                             <ul th:if="${listaL.clasificaciones != null and !listaL.clasificaciones.isEmpty()}">
-                                <li th:each="clasificacion : ${listaL.clasificaciones}" th:text="${clasificacion.tipoClasificacion}"></li>
+                                <li th:each="clasificacion : ${listaL.clasificaciones}"
+                                    th:text="${clasificacion.tipoClasificacion}"></li>
                             </ul>
                             <span th:if="${listaL.clasificaciones == null or listaL.clasificaciones.isEmpty()}">Sin clasificación</span>
                         </td>
@@ -164,12 +168,15 @@
                         <td th:text="${listaL.descuento + '%'}"></td>
 
                         <td>
-                            <a th:href="@{/libreria/gestionar/libro/edit-libro/{id} (id=${listaL.id})}"
-                               class="btn btn-success mb-md-1">Modificar <i class="fas fa-pen-nib"
-                                                                            aria-hidden="true"></i>
-                            </a>
-                            <a th:href="@{/libreria/gestionar/libro/delete-libro/{id} (id=${listaL.id})}"
-                               class="btn btn-danger">Eliminar <i class="fas fa-trash-alt" aria-hidden="true"></i> </a>
+                            <div sec:authorize="hasRole('ADMIN')">
+                                <a th:href="@{/libreria/gestionar/libro/edit-libro/{id} (id=${listaL.id})}"
+                                   class="btn btn-success mb-md-1">Modificar <i class="fas fa-pen-nib"
+                                                                                aria-hidden="true"></i>
+                                </a>
+                                <a th:href="@{/libreria/gestionar/libro/delete-libro/{id} (id=${listaL.id})}"
+                                   class="btn btn-danger">Eliminar <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                                </a>
+                            </div>
                         </td>
                     </tr>
                     </tbody>
@@ -204,10 +211,11 @@
                                         <input
                                                 th:class="${#fields.hasErrors('titulo')}? 'form-control is-invalid':form-control"
 
-                                                type="text"  id="titulo"
+                                                type="text" id="titulo"
                                                 name="titulo"
                                                 th:field="*{titulo}"
-                                                placeholder="Nuevo Título" aria-label="Nuevo Título" aria-describedby="input-label-titulo">
+                                                placeholder="Nuevo Título" aria-label="Nuevo Título"
+                                                aria-describedby="input-label-titulo">
                                     </div>
                                 </div>
                                 <div class="col-6">
@@ -216,7 +224,8 @@
                                         <select th:class="${#fields.hasErrors('tipoPasta')}? 'form-control is-invalid' : 'form-control'"
                                                 class="form-select" id="tipoPasta" name="tipoPasta"
                                                 aria-describedby="input-label-pasta">
-                                            <option value="Blanda" th:selected="*{tipoPasta == 'Blanda'}">Blanda</option>
+                                            <option value="Blanda" th:selected="*{tipoPasta == 'Blanda'}">Blanda
+                                            </option>
                                             <option value="Dura" th:selected="*{tipoPasta == 'Dura'}">Dura</option>
                                         </select>
                                     </div>
