@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="es">
+<head th:replace="~{plantillas/plantilla :: head}"></head>
+<body>
+<header th:replace="~{plantillas/plantilla :: header}"></header>
+<main class="container">
+    <div class="container text-center">
+
+        <div class="shadow-lg p-3 my-5 bg-body-tertiary rounded">
+            <h1 th:text="${contenido}"></h1>
+        </div>
+
+        <div class="container text-start">
+            <div class="row">
+                <div class="col container bg-body-tertiary rounded py-3 me-3">
+
+                    <form th:action="@{/libreria/gestionar/sucursal/buscar-sucursal-tabla}" method="get"
+                          th:object="${sucursalB}">
+                        <div class="input-group">
+                            <input type="text" id="buscarCalle" name="datoAbuscar" class="form-control"
+                                   placeholder="Buscar" aria-label="Buscar" aria-describedby="button-addon2"
+                                   th:value="*{calle}">
+                            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-auto align-self-end container bg-body-tertiary rounded py-3 ms-3"
+                     sec:authorize="hasRole('ADMIN')">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#staticBackdrop">Añadir Sucursal
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="shadow-lg p-3 my-5 bg-body-tertiary rounded">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Calle</th>
+                    <th scope="col">Número</th>
+                    <th scope="col">Colonia</th>
+                    <th scope="col">Municipio</th>
+                    <th scope="col">CP</th>
+                    <th scope="col">País</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="listaSu: ${listaSucursales}">
+                    <td th:text="${listaSu.calle}"></td>
+                    <td th:text="${listaSu.numeroExterior}"></td>
+                    <td th:text="${listaSu.colonia}"></td>
+                    <td th:text="${listaSu.municipio}"></td>
+                    <td th:text="${listaSu.codigoPostal}"></td>
+                    <td th:text="${listaSu.pais.nombre}"></td>
+                    <td>
+                        <div sec:authorize="hasRole('ADMIN')">
+                            <a th:href="@{/libreria/gestionar/sucursal/edit-sucursal/{id} (id=${listaSu.id})}"
+                               class="btn btn-success">Modificar <i class="fas fa-pen-nib" aria-hidden="true"></i> </a>
+                            <a th:href="@{/libreria/gestionar/sucursal/delete-sucursal/{id} (id=${listaSu.id})}"
+                               class="btn btn-danger">Eliminar <i class="fas fa-trash-alt" aria-hidden="true"></i> </a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <nav th:replace="~{plantillas/pag-nav::paginador}"></nav>
+
+        <!-- Vertically centered modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Completa los campos:</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="crearSucursalForm" th:action="@{/libreria/gestionar/sucursal/add-sucursal}"
+                              th:object="${sucursal}"
+                              method="post">
+                            <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role="alert">
+                                Verifique los siguientes inconvenientes
+                                <ul>
+                                    <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+                                </ul>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="input-group mb-2">
+                                        <span class="input-group-text" id="input-label-calle">Calle</span>
+                                        <input
+                                                th:class="${#fields.hasErrors('calle')}? 'form-control is-invalid':form-control"
+
+                                                type="text" id="calle"
+                                                name="calle"
+                                                th:field="*{calle}"
+                                                placeholder="Nueva Calle" aria-label="Nueva Calle"
+                                                aria-describedby="input-label-calle">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="input-group mb-2">
+                                        <span class="input-group-text" id="input-label-numeroExterior">Número E</span>
+                                        <input
+                                                th:class="${#fields.hasErrors('numeroExterior')}? 'form-control is-invalid':form-control"
+
+                                                type="number" id="numeroExterior"
+                                                name="numeroExterior"
+                                                th:field="*{numeroExterior}"
+                                                placeholder="Número exterior" aria-label="Número exterior"
+                                                aria-describedby="input-label-numeroExterior">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="input-group mb-2">
+                                        <span class="input-group-text" id="input-label-numeroInterior">Número I</span>
+                                        <input
+                                                th:class="${#fields.hasErrors('numeroInterior')}? 'form-control is-invalid':form-control"
+
+                                                type="text" id="numeroInterior"
+                                                name="numeroInterior"
+                                                th:field="*{numeroInterior}"
+                                                placeholder="Numero Interior" aria-label="Numero Interior"
+                                                aria-describedby="input-label-numeroInterior">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="input-group mb-2">
+                                        <span class="input-group-text" id="input-label-colonia">Colonia</span>
+                                        <input
+                                                th:class="${#fields.hasErrors('colonia')}? 'form-control is-invalid':form-control"
+
+                                                type="text" id="colonia"
+                                                name="colonia"
+                                                th:field="*{colonia}"
+                                                placeholder="Colonia" aria-label="Colonia"
+                                                aria-describedby="input-label-colonia">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="input-group mb-2">
+                                        <span class="input-group-text" id="input-label-municipio">Municipio</span>
+                                        <input
+                                                th:class="${#fields.hasErrors('municipio')}? 'form-control is-invalid':form-control"
+
+                                                type="text" id="municipio"
+                                                name="municipio"
+                                                th:field="*{municipio}"
+                                                placeholder="Municipio" aria-label="Municipio"
+                                                aria-describedby="input-label-municipio">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="input-group mb-2">
+                                        <span class="input-group-text" id="input-label-codigoPostal">CP</span>
+                                        <input
+                                                th:class="${#fields.hasErrors('codigoPostal')}? 'form-control is-invalid':form-control"
+
+                                                type="number" id="codigoPostal"
+                                                name="codigoPostal"
+                                                th:field="*{codigoPostal}"
+                                                placeholder="Código Postal" aria-label="Código Postal"
+                                                aria-describedby="input-label-codigoPostal">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+<!--                                    <div class="form-group">-->
+<!--                                        <label for="pais">País</label>-->
+<!--                                        <select class="form-control" th:field="*{pais}" id="pais"-->
+<!--                                                name="pais" required>-->
+<!--                                            <option th:each="sel : ${pais}" th:value="${sel.id}"-->
+<!--                                                    th:text="${sel.nombre}"></option>-->
+<!--                                        </select>-->
+<!--                                    </div>-->
+
+                                    <div class="input-group mb-3">
+                                        <label class="input-group-text" for="paises">País</label>
+                                        <select class="form-select" th:field="*{pais}" id="paises"
+                                                name="pais" required>
+                                            <option th:each="sel : ${pais}" th:value="${sel.id}"
+                                                    th:text="${sel.nombre}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" form="crearSucursalForm">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<!--<script th:replace="~{principal/sucursal/js/autocompletar :: jssucursal}"></script>-->
+<!-- Script para abrir el modal si hay un error -->
+<script th:if="${showModal}">
+    document.addEventListener("DOMContentLoaded", function () {
+        var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
+        myModal.show();
+    });
+</script>
+
+<footer th:replace="~{plantillas/plantilla :: footer}"></footer>
+</body>
+</html>

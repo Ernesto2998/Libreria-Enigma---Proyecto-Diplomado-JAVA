@@ -49,7 +49,8 @@ class NacionalidadTest {
 
     @Test
     void createNacionalidadTest() {
-        Nacionalidad nacionalidad = new Nacionalidad("Nueva Nacionalidad");
+        Nacionalidad nacionalidad = new Nacionalidad();
+        nacionalidad.setNacionalidadName("Nacionalidad Test");
         Nacionalidad elementSaved = nacionalidadRepository.save(nacionalidad);
 
         // Verificar que el nacionalidad tiene un ID generado

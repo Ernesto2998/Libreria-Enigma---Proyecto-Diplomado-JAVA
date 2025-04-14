@@ -84,7 +84,7 @@
                                 </ul>
                             </div>
                             <div class="row justify-content-center pb-2">
-                                <div class="col-6">
+                                <div class="col-12 mb-2">
                                     <div class="form-floating">
                                         <input
                                                 th:class="${#fields.hasErrors('nombre')}? 'form-control is-invalid':form-control"
@@ -96,9 +96,7 @@
                                         <label for="nombre">Nombre del autor</label>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row justify-content-center pb-2">
-                                <div class="col-6">
+                                <div class="col-12 mb-2">
                                     <div class="form-floating">
                                         <input
                                                 th:class="${#fields.hasErrors('apellidoUno')}? 'form-control is-invalid':form-control"
@@ -110,9 +108,7 @@
                                         <label for="apellidoUno">Primer apellido del autor</label>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row justify-content-center pb-2">
-                                <div class="col-6">
+                                <div class="col-12 mb-2">
                                     <div class="form-floating">
                                         <input
                                                 th:class="${#fields.hasErrors('apellidoDos')}? 'form-control is-invalid':form-control"
@@ -124,12 +120,10 @@
                                         <label for="apellidoDos">Segundo apellido del autor</label>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row justify-content-center pb-2">
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        <label for="nacionalidad">Nacionalidad</label>
-                                        <select class="form-control" th:field="*{nacionalidad}" id="nacionalidad"
+                                <div class="col-12 mb-2">
+                                    <div class="input-group mb-3">
+                                        <label class="input-group-text" for="nacionalidades">Nacionalidad</label>
+                                        <select class="form-select" th:field="*{nacionalidad}" id="nacionalidades"
                                                 name="nacionalidad" required>
                                             <option th:each="sel : ${nacionalidad}" th:value="${sel.id}"
                                                     th:text="${sel.nacionalidadName}"></option>

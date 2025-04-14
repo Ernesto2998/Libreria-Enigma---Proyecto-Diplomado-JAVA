@@ -1,5 +1,0 @@
-GITHUB:
-https://github.com/Ernesto2998/Spring-MVC-con-Thymeleaf.git
-
-DRIVE
-https://drive.google.com/drive/folders/1ah4Bh1g18I3Qfw66Gwyfqx4j5yh3cINI?usp=sharing

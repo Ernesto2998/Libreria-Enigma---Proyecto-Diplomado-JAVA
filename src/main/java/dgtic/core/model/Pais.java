@@ -11,25 +11,25 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "nacionalidad")
-public class Nacionalidad {
+@Entity(name = "pais")
+public class Pais {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id_nacionalidad")
+    @Column(name = "id_pais")
     private Integer id;
 
-    @NotBlank(message = "El campo nacionalidad no puede estar vacío")
-    @Column(name = "nacionalidad")
-    private String nacionalidadName;
+    @NotBlank(message = "El campo país no puede estar vacío")
+    @Column(name = "nombre")
+    private String nombre;
 
-    @OneToMany(mappedBy = "nacionalidad")
-    private List<Autor> autores;
+    @OneToMany(mappedBy = "pais")
+    private List<Sucursal> sucursales;
 
     @Override
     public String toString() {
-        return "Nacionalidad{" +
+        return "Pais{" +
                 "id=" + id +
-                ", nacionalidad='" + nacionalidadName + '\'' +
+                ", pais='" + nombre + '\'' +
                 '}';
     }
 }

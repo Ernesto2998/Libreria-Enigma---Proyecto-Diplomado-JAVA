@@ -205,7 +205,7 @@
                                 </ul>
                             </div>
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-12">
                                     <div class="input-group mb-2">
                                         <span class="input-group-text" id="input-label-titulo">Título</span>
                                         <input
@@ -216,18 +216,6 @@
                                                 th:field="*{titulo}"
                                                 placeholder="Nuevo Título" aria-label="Nuevo Título"
                                                 aria-describedby="input-label-titulo">
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="input-group mb-2">
-                                        <span class="input-group-text" id="input-label-pasta">Tipo de Pasta</span>
-                                        <select th:class="${#fields.hasErrors('tipoPasta')}? 'form-control is-invalid' : 'form-control'"
-                                                class="form-select" id="tipoPasta" name="tipoPasta"
-                                                aria-describedby="input-label-pasta">
-                                            <option value="Blanda" th:selected="*{tipoPasta == 'Blanda'}">Blanda
-                                            </option>
-                                            <option value="Dura" th:selected="*{tipoPasta == 'Dura'}">Dura</option>
-                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -260,11 +248,10 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-12">
+                                <div class="col-6">
                                     <div class="input-group mb-2">
                                         <span class="input-group-text" id="input-label-edit">Editorial</span>
                                         <select th:class="${#fields.hasErrors('editorial')}? 'form-select is-invalid':form-select"
-
                                                 id="editorial" name="editorial"
                                                 aria-describedby="input-label-edit">
                                             <option th:each="editorial : ${editorialesB}"
@@ -272,6 +259,18 @@
                                                     th:text="${editorial.editorialName}"
                                                     th:selected="${editorial.id == editorialId}">
                                             </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="input-group mb-2">
+                                        <span class="input-group-text" id="input-label-pasta">Tipo de Pasta</span>
+                                        <select th:class="${#fields.hasErrors('tipoPasta')}? 'form-control is-invalid' : 'form-control'"
+                                                class="form-select" id="tipoPasta" name="tipoPasta"
+                                                aria-describedby="input-label-pasta">
+                                            <option value="Blanda" th:selected="*{tipoPasta == 'Blanda'}">Blanda
+                                            </option>
+                                            <option value="Dura" th:selected="*{tipoPasta == 'Dura'}">Dura</option>
                                         </select>
                                     </div>
                                 </div>
