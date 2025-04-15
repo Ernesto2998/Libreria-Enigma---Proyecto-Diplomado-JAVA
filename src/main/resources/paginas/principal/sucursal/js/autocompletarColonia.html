@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="es">
+<body>
+<script type="text/javascript" th:fragment="jssucursalColonia">
+    $(document).ready(function(){
+    $("#buscarColonia").autocomplete({
+        source: function(request,response){
+            $.ajax({
+                url:"/libreria/gestionar/sucursal/buscar-sucursal-colonia/"+request.term,
+                dataType:"json",
+                data:{
+                    term: request.term
+                },
+                success: function(data){
+                    response($.map(data,function(item){
+                        return{
+                             value:item.id,
+                             label:item.colonia,
+                        };
+                    }));
+                },
+            });
+        },
+        select: function(event,ui){
+           $("#buscarColonia").val(ui.item.label);
+           $("#idSucursal").val(ui.item.value);
+           return false;
+        }
+    });
+}
+);
+
+</script>
+</body>
+</html>

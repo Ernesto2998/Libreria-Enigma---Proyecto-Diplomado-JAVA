@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="es">
+<body>
+<script type="text/javascript" th:fragment="jssucursalMunicipio">
+    $(document).ready(function(){
+    $("#buscarMunicipio").autocomplete({
+        source: function(request,response){
+            $.ajax({
+                url:"/libreria/gestionar/sucursal/buscar-sucursal-municipio/"+request.term,
+                dataType:"json",
+                data:{
+                    term: request.term
+                },
+                success: function(data){
+                    response($.map(data,function(item){
+                        return{
+                             value:item.id,
+                             label:item.municipio,
+                        };
+                    }));
+                },
+            });
+        },
+        select: function(event,ui){
+           $("#buscarMunicipio").val(ui.item.label);
+           $("#idSucursal").val(ui.item.value);
+           return false;
+        }
+    });
+}
+);
+
+</script>
+</body>
+</html>

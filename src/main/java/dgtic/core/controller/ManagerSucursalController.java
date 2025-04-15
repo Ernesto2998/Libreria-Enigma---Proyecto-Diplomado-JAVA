@@ -1,9 +1,10 @@
 package dgtic.core.controller;
 
-import dgtic.core.model.Clasificacion;
 import dgtic.core.model.Pais;
 import dgtic.core.model.Sucursal;
-import dgtic.core.service.Sucursal.SucursalService;
+import dgtic.core.model.dto.LibroDto;
+import dgtic.core.model.dto.SucursalDto;
+import dgtic.core.service.sucursal.SucursalService;
 import dgtic.core.service.pais.PaisService;
 import dgtic.core.util.RenderPagina;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,8 @@ public class ManagerSucursalController {
 
         modelo.addAttribute("sucursal", new Sucursal());
         modelo.addAttribute("sucursalB", new Sucursal());
-        modelo.addAttribute("pais", paises);
+        modelo.addAttribute("paises", paises);
+        modelo.addAttribute("paisId", "");
         modelo.addAttribute("contenido", "Gestionar Sucursales");
         modelo.addAttribute("listaSucursales", sucursales);
         modelo.addAttribute("page", renderPagina);
@@ -54,6 +56,21 @@ public class ManagerSucursalController {
         sucursalService.deleteById(id);
 
         return "redirect:/libreria/gestionar/sucursal";
+    }
+
+    @GetMapping(value = "buscar-sucursal-calle/{dato}", produces = "application/json")
+    public @ResponseBody List<SucursalDto> findSucursalCalle(@PathVariable String dato) {
+        return sucursalService.findSucursalViewCalle(dato);
+    }
+
+    @GetMapping(value = "buscar-sucursal-colonia/{dato}", produces = "application/json")
+    public @ResponseBody List<SucursalDto> findSucursalColonia(@PathVariable String dato) {
+        return sucursalService.findSucursalViewColonia(dato);
+    }
+
+    @GetMapping(value = "buscar-sucursal-municipio/{dato}", produces = "application/json")
+    public @ResponseBody List<SucursalDto> findSucursalMunicipio(@PathVariable String dato) {
+        return sucursalService.findSucursalViewMunicipio(dato);
     }
 
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)

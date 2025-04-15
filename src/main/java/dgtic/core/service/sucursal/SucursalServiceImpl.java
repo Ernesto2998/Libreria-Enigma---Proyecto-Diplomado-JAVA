@@ -1,6 +1,7 @@
-package dgtic.core.service.Sucursal;
+package dgtic.core.service.sucursal;
 
 import dgtic.core.model.Sucursal;
+import dgtic.core.model.dto.SucursalDto;
 import dgtic.core.repository.SucursalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,6 +38,21 @@ public class SucursalServiceImpl implements SucursalService{
     @Override
     public void deleteById(Integer id) {
 
+    }
+
+    @Override
+    public List<SucursalDto> findSucursalViewCalle(String dato) {
+        return sucursalRepository.findSucursalViewCalle(dato);
+    }
+
+    @Override
+    public List<SucursalDto> findSucursalViewColonia(String dato) {
+        return sucursalRepository.findSucursalViewColonia(dato);
+    }
+
+    @Override
+    public List<SucursalDto> findSucursalViewMunicipio(String dato) {
+        return sucursalRepository.findSucursalViewMinicipio(dato);
     }
 
     @Override

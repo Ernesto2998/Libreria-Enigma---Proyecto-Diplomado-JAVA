@@ -1,6 +1,7 @@
-package dgtic.core.service.Sucursal;
+package dgtic.core.service.sucursal;
 
 import dgtic.core.model.Sucursal;
+import dgtic.core.model.dto.SucursalDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,7 +14,9 @@ public interface SucursalService {
     void save(Sucursal sucursal);
     void deleteById(Integer id);
 
-//    List<SucursalDto> findSucursalView(String dato);
+    List<SucursalDto> findSucursalViewCalle(String dato);
+    List<SucursalDto> findSucursalViewColonia(String dato);
+    List<SucursalDto> findSucursalViewMunicipio(String dato);
     Page<Sucursal> findPage(Pageable pageable);
 //    Page<Sucursal> findSucursalByName(String name, Pageable pageable);
 }

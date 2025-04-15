@@ -2,12 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org"
       lang="es">
 <body>
-<script type="text/javascript" th:fragment="jslibro">
+<script type="text/javascript" th:fragment="jssucursalCalle">
     $(document).ready(function(){
-    $("#buscarTitulo").autocomplete({
+    $("#buscarCalle").autocomplete({
         source: function(request,response){
             $.ajax({
-                url:"/libreria/gestionar/libro/buscar-libro-nombre/"+request.term,
+                url:"/libreria/gestionar/sucursal/buscar-sucursal-calle/"+request.term,
                 dataType:"json",
                 data:{
                     term: request.term
@@ -16,15 +16,15 @@
                     response($.map(data,function(item){
                         return{
                              value:item.id,
-                             label:item.titulo,
+                             label:item.calle,
                         };
                     }));
                 },
             });
         },
         select: function(event,ui){
-           $("#buscarTitulo").val(ui.item.label);
-           $("#idLibro").val(ui.item.value);
+           $("#buscarCalle").val(ui.item.label);
+           $("#idSucursal").val(ui.item.value);
            return false;
         }
     });

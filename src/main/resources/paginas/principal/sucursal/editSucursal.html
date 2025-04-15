@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="es">
+<head th:replace="~{plantillas/plantilla :: head}"></head>
+<body>
+<header th:replace="~{plantillas/plantilla :: header}"></header>
+<main class="container">
+    <div class="container text-center">
+
+        <div class="shadow-lg p-3 my-5 bg-body-tertiary rounded">
+            <h1 th:text="${contenido}"></h1>
+        </div>
+
+        <div class="card-body">
+            <form id="sucursalForm" th:action="@{/libreria/gestionar/sucursal/add-sucursal}"
+                  th:object="${sucursal}"
+                  method="post">
+                <div th:if="${#fields.hasErrors('*')}" class='alert alert-danger' role="alert">
+                    Verifique los siguientes inconvenientes
+                    <ul>
+                        <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+                    </ul>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" id="input-label-titulo">Título</span>
+                            <input
+                                    th:class="${#fields.hasErrors('titulo')}? 'form-control is-invalid':form-control"
+
+                                    type="text"  id="titulo"
+                                    name="titulo" class="form-control"
+                                    th:field="*{titulo}"
+                                    placeholder="Nuevo Título" aria-label="Nuevo Título" aria-describedby="input-label-titulo">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" id="input-label-pasta">Tipo de Pasta</span>
+                            <select th:class="${#fields.hasErrors('tipoPasta')}? 'form-control is-invalid':form-control"
+
+                                    class="form-select" id="tipoPasta" name="tipoPasta"
+                                    aria-describedby="input-label-titulo">
+                                <option value="Blanda" th:selected="*{tipoPasta == null or tipoPasta == '' or tipoPasta == 'Blanda'}">Blanda</option>
+                                <option value="Dura" th:selected="*{tipoPasta == 'Dura'}">Dura</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" id="input-label-autor">Autores</span>
+                            <select th:class="${#fields.hasErrors('autores')}? 'form-control is-invalid':form-control"
+
+                                    class="form-select" id="autores" name="autores" multiple
+                                    aria-describedby="input-label-autor">
+                                <option th:each="autor : ${autores}"
+                                        th:value="${autor.id}"
+                                        th:text="${autor.nombre + ' ' + autor.apellidoUno + ' ' + autor.apellidoDos}"
+                                        th:selected="${autor.id == autorId}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" id="input-label-clas">Clasificaiones</span>
+                            <select th:class="${#fields.hasErrors('clasificaciones')}? 'form-control is-invalid':form-control"
+
+                                    class="form-select" id="clasificaciones" name="clasificaciones" multiple
+                                    aria-describedby="input-label-clas">
+                                <option th:each="clasificacion : ${clasificaciones}"
+                                        th:value="${clasificacion.id}"
+                                        th:text="${clasificacion.tipoClasificacion}"
+                                        th:selected="${clasificacion.id == clasificacionId}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" id="input-label-edit">Editoral</span>
+                            <select th:class="${#fields.hasErrors('editorial')}? 'form-control is-invalid':form-control"
+
+                                    class="form-select" id="editorial" name="editorial"
+                                    aria-describedby="input-label-edit">
+                                <option th:each="editorial : ${editoriales}"
+                                        th:value="${editorial.id}"
+                                        th:text="${editorial.editorialName}"
+                                        th:selected="${editorial.id == editorialId}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" id="input-label-precio">Precio $</span>
+                            <input
+                                    th:class="${#fields.hasErrors('precio')}? 'form-control is-invalid':form-control"
+
+                                    type="number" id="precio" name="precio"
+                                    th:field="*{precio}" step="0.01"
+                                    placeholder="Precio"
+                                    aria-describedby="input-label-titulo">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" id="input-label-descuento">Descuento %</span>
+                            <input
+                                    th:class="${#fields.hasErrors('descuento')}? 'form-control is-invalid':form-control"
+
+                                    type="number" id="descuento" name="descuento"
+                                    th:field="*{descuento}" step="1"
+                                    placeholder="Descuento"
+                                    aria-describedby="input-label-descuento">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="input-group mb-2">
+                            <span class="input-group-text" id="input-label-sinopsis">Sinopsis</span>
+                            <textarea
+                                    th:class="${#fields.hasErrors('sinopsis')}? 'form-control is-invalid':form-control"
+
+                                    type="text" id="sinopsis" name="sinopsis"
+                                    th:field="*{sinopsis}" step="1"
+                                    placeholder="Sinopsis"
+                                    aria-describedby="input-label-sinopsis"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" name="id" th:value="${id}"/>
+                <button type="submit" class="btn btn-primary" form="sucursalForm">Guardar</button>
+            </form>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{plantillas/plantilla :: footer}"></footer>
+
+</script>
+
+</body>
+</html>
