@@ -32,25 +32,28 @@ public class SucursalServiceImpl implements SucursalService{
 
     @Override
     public void save(Sucursal sucursal) {
-
+        sucursalRepository.save(sucursal);
     }
 
     @Override
     public void deleteById(Integer id) {
-
+        sucursalRepository.deleteById(id);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<SucursalDto> findSucursalViewCalle(String dato) {
         return sucursalRepository.findSucursalViewCalle(dato);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<SucursalDto> findSucursalViewColonia(String dato) {
         return sucursalRepository.findSucursalViewColonia(dato);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<SucursalDto> findSucursalViewMunicipio(String dato) {
         return sucursalRepository.findSucursalViewMinicipio(dato);
     }
@@ -59,5 +62,35 @@ public class SucursalServiceImpl implements SucursalService{
     @Transactional(readOnly = true)
     public Page<Sucursal> findPage(Pageable pageable) {
         return sucursalRepository.findAll(pageable);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<Sucursal> findSucursalByCalle(String calle, Pageable pageable) {
+        return sucursalRepository.findByCalleContainingIgnoreCase(calle, pageable);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<Sucursal> findSucursalByColonia(String colonia, Pageable pageable) {
+        return sucursalRepository.findByColoniaContainingIgnoreCase(colonia, pageable);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<Sucursal> findSucursalByMunicipio(String municipio, Pageable pageable) {
+        return sucursalRepository.findByMunicipioContainingIgnoreCase(municipio, pageable);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<Sucursal> findSucursalByCodigoPostal(Integer cp, Pageable pageable) {
+        return sucursalRepository.findByCodigoPostal(cp, pageable);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<Sucursal> findSucursalByPaisId(Integer paisId, Pageable pageable) {
+        return sucursalRepository.findByPaisId(paisId, pageable);
     }
 }

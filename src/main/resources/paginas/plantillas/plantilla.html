@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="es">
 <head th:fragment="head">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -54,7 +56,7 @@
                                 Clasificaciones</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item"><a th:href="@{/user/usuarios}" class="nav-link">Añadir usuario</a></li>
+                    <li class="nav-item" sec:authorize="hasRole('ADMIN')"><a th:href="@{/user/usuarios}" class="nav-link">Añadir usuario</a></li>
                 </ul>
 
                 <ul class="navbar-nav ms-auto">

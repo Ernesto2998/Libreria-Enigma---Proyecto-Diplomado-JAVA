@@ -18,5 +18,9 @@ public interface SucursalService {
     List<SucursalDto> findSucursalViewColonia(String dato);
     List<SucursalDto> findSucursalViewMunicipio(String dato);
     Page<Sucursal> findPage(Pageable pageable);
-//    Page<Sucursal> findSucursalByName(String name, Pageable pageable);
+    Page<Sucursal> findSucursalByCalle(String calle, Pageable pageable);
+    Page<Sucursal> findSucursalByColonia(String colonia, Pageable pageable);
+    Page<Sucursal> findSucursalByMunicipio(String municipio, Pageable pageable);
+    Page<Sucursal> findSucursalByCodigoPostal(Integer cp, Pageable pageable);
+    Page<Sucursal> findSucursalByPaisId(Integer paisId, Pageable pageable);
 }

@@ -200,7 +200,6 @@ public class ManagerLibroController {
     public String eliminarLibro(@PathVariable("id") Integer id,
                                 RedirectAttributes modelo) {
         libroService.deleteById(id);
-
         return "redirect:/libreria/gestionar/libro";
     }
 
