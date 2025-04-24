@@ -2,6 +2,7 @@ package dgtic.core.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,7 @@ public class Sucursal {
     @NotBlank(message = "La calle no puede estar vacía")
     private String calle;
 
-    @NotBlank(message = "El número exterior no puede estar vacío")
+    @NotNull(message = "El número exterior no puede estar vacío")
     @Column(name = "numero_exterior")
     private Integer numeroExterior;
 
@@ -32,7 +33,7 @@ public class Sucursal {
     @NotBlank(message = "El municipio no puede estar vacío")
     private String municipio;
 
-    @NotBlank(message = "El código postal no puede estar vacío")
+    @NotNull(message = "El código postal no puede estar vacío")
     private Integer codigoPostal;
 
 //    @NotBlank(message = "El país no puede estar vacío")
