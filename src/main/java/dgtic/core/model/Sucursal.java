@@ -55,6 +55,7 @@ public class Sucursal {
                 ", colonia='" + colonia + '\'' +
                 ", municipio='" + municipio + '\'' +
                 ", codigoPostal=" + codigoPostal + '\'' +
+                ", país=" + pais.getNombre() + '\'' +
                 '}';
     }
 }

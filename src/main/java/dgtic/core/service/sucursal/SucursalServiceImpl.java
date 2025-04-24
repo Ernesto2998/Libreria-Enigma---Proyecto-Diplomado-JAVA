@@ -27,7 +27,7 @@ public class SucursalServiceImpl implements SucursalService{
     @Override
     @Transactional(readOnly = true)
     public Optional<Sucursal> findById(Integer id) {
-        return Optional.empty();
+        return sucursalRepository.findById(id);
     }
 
     @Override

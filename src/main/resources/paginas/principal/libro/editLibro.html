@@ -80,13 +80,12 @@
                         <div class="input-group mb-2">
                             <span class="input-group-text" id="input-label-edit">Editoral</span>
                             <select th:class="${#fields.hasErrors('editorial')}? 'form-control is-invalid':form-control"
-
+                                    th:field="*{editorial}"
                                     class="form-select" id="editorial" name="editorial"
                                     aria-describedby="input-label-edit">
                                 <option th:each="editorial : ${editoriales}"
                                         th:value="${editorial.id}"
-                                        th:text="${editorial.editorialName}"
-                                        th:selected="${editorial.id == editorialId}">
+                                        th:text="${editorial.editorialName}">
                                 </option>
                             </select>
                         </div>

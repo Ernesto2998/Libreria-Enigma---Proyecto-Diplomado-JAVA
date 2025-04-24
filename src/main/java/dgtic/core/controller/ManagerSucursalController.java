@@ -54,7 +54,7 @@ public class ManagerSucursalController {
     }
 
     @PostMapping("add-sucursal")
-    public String addLibro(@RequestParam(name = "page", defaultValue = "0") int page,
+    public String addSucursal(@RequestParam(name = "page", defaultValue = "0") int page,
                            @Valid Sucursal sucursal,
                            BindingResult bindingResult,
                            Model model) {
@@ -94,84 +94,74 @@ public class ManagerSucursalController {
         return "redirect:/libreria/gestionar/sucursal";
     }
 
-//    @PostMapping("edit-libro")
-//    public String editLibro(@Valid Libro libro,
-//                            BindingResult bindingResult,
-//                            RedirectAttributes redirectAttributes,
-//                            Model model) {
-//
-//        List<Autor> listaAutores = autorService.findAll();
-//        List<Clasificacion> listaClasificaciones = clasificacionService.findAll();
-//        List<Editorial> listaEditoriales = editorialService.findAll();
-//
-//        model.addAttribute("contenido", "Gestionar Libros");
-//        model.addAttribute("id", libro.getId());
-//        model.addAttribute("autores", listaAutores);
-//        model.addAttribute("clasificaciones", listaClasificaciones);
-//        model.addAttribute("editoriales", listaEditoriales);
-//
-//        if (bindingResult.hasErrors()) {
-//            for (ObjectError error : bindingResult.getAllErrors()) {
-//                System.out.println("Error " + error.getDefaultMessage());
-//            }
-//            return "principal/libro/editLibro";
-//        }
-//
-//        try {
-//            Libro libroEdit = new Libro();
-//            Optional<Libro> libroOp = libroService.findById(libro.getId());
-//            if (libroOp.isPresent()) {
-//                libroEdit = libroOp.get();
-//            }
-//            libroEdit.setTitulo(libro.getTitulo());
-//            libroEdit.setTipoPasta(libro.getTipoPasta());
-//            libroEdit.setAutores(libro.getAutores());
-//            libroEdit.setClasificaciones(libro.getClasificaciones());
-//            libroEdit.setEditorial(libro.getEditorial());
-//            libroEdit.setPrecio(libro.getPrecio());
-//            libroEdit.setDescuento(libro.getDescuento());
-//            libroEdit.setSinopsis(libro.getSinopsis());
-//
-//            libroService.save(libroEdit);
-//            redirectAttributes.addFlashAttribute("success",
-//                    "Se almaceno exitosamente... Autor: "
-//                            + libroEdit.getTitulo() + " Editorial: "
-//                            + libroEdit.getEditorial().getEditorialName() + " Precio: "
-//                            + libroEdit.getPrecio() + " Descuento:"
-//                            + libroEdit.getDescuento() + " ...y más"            );
-//        } catch (Exception e) {
-//            String msg = mensaje.getMessage("Error.base.libroDuplicado",
-//                    null, LocaleContextHolder.getLocale());
-//
-////            model.addAttribute("libro", new Libro());
-////            model.addAttribute("libroB", new Libro());
-//            bindingResult.rejectValue("titulo", "titulo", msg);
-//            bindingResult.rejectValue("tipoPasta", "tipoPasta", msg);
-//            bindingResult.rejectValue("autores", "autores", msg);
-//            bindingResult.rejectValue("clasificaciones", "clasificaciones", msg);
-//            bindingResult.rejectValue("editoriales", "editoriales", msg);
-//
-//            return "principal/libro/editLibro";
-//        }
-//
-//        return "redirect:/libreria/gestionar/libro";
-//    }
-//
-//    @GetMapping("edit-libro/{id}")
-//    public String modificarLibro(@PathVariable("id") Integer id, Model modelo) {
-//        Libro libro = libroService.findById(id).orElseThrow();
-//
-//        List<Autor> listaAutores = autorService.findAll();
-//        List<Clasificacion> listaClasificaciones = clasificacionService.findAll();
-//        List<Editorial> listaEditoriales = editorialService.findAll();
-//
-//        modelo.addAttribute("libro", libro);
-//        modelo.addAttribute("autores", listaAutores);
-//        modelo.addAttribute("clasificaciones", listaClasificaciones);
-//        modelo.addAttribute("editoriales", listaEditoriales);
-//        modelo.addAttribute("contenido", "Modificar Libro");
-//        return "principal/libro/editLibro";
-//    }
+    @PostMapping("edit-sucursal")
+    public String editSucursal(@Valid Sucursal sucursal,
+                            BindingResult bindingResult,
+                            RedirectAttributes redirectAttributes,
+                            Model model) {
+
+        List<Pais> paises = paisService.findAll();
+
+        model.addAttribute("contenido", "Gestionar sucursales");
+        model.addAttribute("id", sucursal.getId());
+        model.addAttribute("paises", paises);
+
+        if (bindingResult.hasErrors()) {
+            for (ObjectError error : bindingResult.getAllErrors()) {
+                System.out.println("Error " + error.getDefaultMessage());
+            }
+            return "principal/sucursal/editSucursal";
+        }
+
+        try {
+            Sucursal sucursalEdit = new Sucursal();
+            Optional<Sucursal> sucursalOp = sucursalService.findById(sucursal.getId());
+            if (sucursalOp.isPresent()) {
+                sucursalEdit = sucursalOp.get();
+            }
+            sucursalEdit.setCalle(sucursal.getCalle());
+            sucursalEdit.setColonia(sucursal.getColonia());
+            sucursalEdit.setMunicipio(sucursal.getMunicipio());
+            sucursalEdit.setNumeroExterior(sucursal.getNumeroExterior());
+            sucursalEdit.setNumeroInterior(sucursal.getNumeroInterior());
+            sucursalEdit.setCodigoPostal(sucursal.getCodigoPostal());
+            sucursalEdit.setPais(sucursal.getPais());
+
+            sucursalService.save(sucursalEdit);
+            redirectAttributes.addFlashAttribute("success",
+                    "Se almaceno exitosamente... Sucursal: "
+                            + sucursalEdit.getCalle() + ", "
+                            + sucursalEdit.getColonia() + ", : "
+                            + sucursalEdit.getMunicipio() + ", "
+                            + sucursalEdit.getNumeroExterior() + " ...y más"            );
+        } catch (Exception e) {
+            String msg = mensaje.getMessage("Error.base.sucursalDuplicada",
+                    null, LocaleContextHolder.getLocale());
+
+            bindingResult.rejectValue("calle", "calle", msg);
+            bindingResult.rejectValue("colonia", "colonia", msg);
+            bindingResult.rejectValue("municipio", "municipio", msg);
+            bindingResult.rejectValue("numeroExterior", "numeroExterior", msg);
+            bindingResult.rejectValue("numeroInterior", "numeroInterior", msg);
+            bindingResult.rejectValue("codigoPostal", "codigoPostal", msg);
+            bindingResult.rejectValue("paises", "paises", msg);
+
+            return "principal/sucursal/editSucursal";
+        }
+
+        return "redirect:/libreria/gestionar/sucursal";
+    }
+
+    @GetMapping("edit-sucursal/{id}")
+    public String modificarSucursal(@PathVariable("id") Integer id, Model modelo) {
+        Optional<Sucursal> sucursal = sucursalService.findById(id);
+        List<Pais> paises = paisService.findAll();
+
+        modelo.addAttribute("sucursal", sucursal);
+        modelo.addAttribute("paises", paises);
+        modelo.addAttribute("contenido", "Modificar Sucursal");
+        return "principal/sucursal/editSucursal";
+    }
 
     @GetMapping("delete-sucursal/{id}")
     public String eliminarSucursal(@PathVariable("id") Integer id,
