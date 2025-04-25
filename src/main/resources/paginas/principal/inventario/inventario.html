@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="es">
+<head th:replace="~{plantillas/plantilla :: head}"></head>
+<body>
+<header th:replace="~{plantillas/plantilla :: header}"></header>
+<main class="container">
+    <div class="container text-center">
+
+        <div class="shadow-lg p-3 my-5 bg-body-tertiary rounded">
+            <h1 th:text="${contenido}"></h1>
+            <p th:text="${description}"></p>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col container bg-body-tertiary rounded py-3 me-3">
+                    <form th:action="@{/libreria/inventario/buscar-inventario-tabla}"
+                          th:object="${inventarioB}"
+                          method="get">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="input-group mb-2">
+                                    <label class="input-group-text" for="sucursalId">Sucursal</label>
+                                    <select class="form-select" id="sucursalId" name="sucursalId">
+                                        <option th:value="''">-- Todos --</option>
+                                        <option th:each="s : ${sucursales}"
+                                                th:value="${s.id}"
+                                                th:text="${s.calle}">
+                                        </option>
+                                    </select>
+                                    <button class="btn btn-outline-secondary" type="submit">Buscar por surcursal</button>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="input-group mb-2">
+                                    <label class="input-group-text" for="libroId">Libro</label>
+                                    <select class="form-select" id="libroId" name="libroId">
+                                        <option th:value="''">-- Todos --</option>
+                                        <option th:each="l : ${libros}"
+                                                th:value="${l.id}"
+                                                th:text="${l.titulo}">
+                                        </option>
+                                    </select>
+                                    <button class="btn btn-outline-secondary" type="submit">Buscar por libro</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="shadow-lg p-3 my-5 bg-body-tertiary rounded">
+            <div class="table-responsive">
+                <table th:if="${!listaInventario.isEmpty()}" class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">Sucursal</th>
+                        <th scope="col">Libro</th>
+                        <th scope="col">Stock</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="lInventario: ${listaInventario}">
+                        <td th:text="${lInventario.sucursal.calle}"></td>
+                        <td th:text="${lInventario.libro.titulo}"></td>
+                        <td th:text="${lInventario.stock}"></td>
+                        <td>
+                            <div sec:authorize="hasRole('ADMIN')">
+                                <a th:href="@{/libreria/inventario/edit-inventario/{id} (id=${lInventario.id})}"
+                                   class="btn btn-success">Modificar <i class="fas fa-pen-nib" aria-hidden="true"></i>
+                                </a>
+                                <a th:href="@{/libreria/inventario/delete-inventario/{id} (id=${lInventario.id})}"
+                                   class="btn btn-danger">Eliminar <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <nav th:replace="~{plantillas/pag-nav::paginador}"></nav>
+
+    </div>
+</main>
+<footer th:replace="~{plantillas/plantilla :: footer}"></footer>
+</body>
+</html>

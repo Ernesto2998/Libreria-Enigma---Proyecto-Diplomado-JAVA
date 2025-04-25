@@ -23,9 +23,14 @@ public interface SucursalRepository extends JpaRepository<Sucursal, Integer> {
             "from Sucursal s where s.municipio like %?1%")
     List<SucursalDto> findSucursalViewMinicipio(String dato);
 
+    List<Sucursal> findAllByOrderByCalleAsc();
+
     Page<Sucursal> findByCalleContainingIgnoreCase(String calle, Pageable pageable);
+
     Page<Sucursal> findByColoniaContainingIgnoreCase(String colonia, Pageable pageable);
+
     Page<Sucursal> findByMunicipioContainingIgnoreCase(String municipio, Pageable pageable);
+
     Page<Sucursal> findByCodigoPostal(Integer cp, Pageable pageable);
 
     @Query("SELECT s FROM Sucursal s JOIN s.pais p WHERE p.id = :paisId")

@@ -25,6 +25,11 @@ public class SucursalServiceImpl implements SucursalService{
     }
 
     @Override
+    public List<Sucursal> findAllByOrderByCalleAsc() {
+        return sucursalRepository.findAllByOrderByCalleAsc();
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Optional<Sucursal> findById(Integer id) {
         return sucursalRepository.findById(id);

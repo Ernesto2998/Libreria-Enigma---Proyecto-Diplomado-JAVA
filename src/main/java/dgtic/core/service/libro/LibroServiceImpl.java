@@ -75,4 +75,9 @@ public class LibroServiceImpl implements LibroService{
     public Page<Libro> findLibroByEditorialId(Integer editorialId, Pageable pageable) {
         return libroRepository.findByEditorialId(editorialId, pageable);
     }
+
+    @Override
+    public List<Libro> findAllByOrderByTituloAsc() {
+        return libroRepository.findAllByOrderByTituloAsc();
+    }
 }

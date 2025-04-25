@@ -10,6 +10,7 @@ import java.util.Optional;
 
 public interface SucursalService {
     List<Sucursal> findAll();
+    List<Sucursal> findAllByOrderByCalleAsc();
     Optional<Sucursal> findById(Integer id);
     void save(Sucursal sucursal);
     void deleteById(Integer id);
