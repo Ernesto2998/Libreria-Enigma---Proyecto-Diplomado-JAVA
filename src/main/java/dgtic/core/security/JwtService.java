@@ -17,7 +17,7 @@ public class JwtService {
 
     private static final String SECRET_KEY = "clave_secreta_super_segura_para_firmar";
 
-    private Key getSigningKey() {
+    public Key getSigningKey() {
         byte[] keyBytes = Base64.getEncoder().encode(SECRET_KEY.getBytes());
         return new SecretKeySpec(keyBytes, SignatureAlgorithm.HS256.getJcaName());
     }

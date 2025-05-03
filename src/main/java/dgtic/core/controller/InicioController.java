@@ -4,6 +4,11 @@ import dgtic.core.security.JwtService;
 import dgtic.core.service.autentificacion.AuthService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+
+import java.util.List;
 
 
 @Controller
@@ -50,10 +57,24 @@ public class InicioController {
         if (authService.authenticate(numEmpleado, contrasenia)) {
             String nivelAcceso = authService.getNivelAcceso(numEmpleado);
             String token = jwtService.generateToken(numEmpleado, nivelAcceso);
+
+            // Crear cookie JWT
             Cookie cookie = new Cookie("jwt", token);
             cookie.setHttpOnly(true);
             cookie.setPath("/");
             response.addCookie(cookie);
+
+            // Crear autoridades (roles)
+            List<GrantedAuthority> authorities = List.of(
+                    new SimpleGrantedAuthority("ROLE_" + nivelAcceso.toUpperCase())
+            );
+
+            // Establecer contexto de seguridad manualmente
+            Authentication auth = new UsernamePasswordAuthenticationToken(
+                    numEmpleado.toString(), null, authorities
+            );
+            SecurityContextHolder.getContext().setAuthentication(auth);
+
             return "redirect:/principal";
         }
 
@@ -66,7 +87,6 @@ public class InicioController {
 
     @GetMapping("/principal")
     public String principal(HttpServletRequest request, Model model) {
-        System.out.println("Entrando a /principal");
         String token = null;
 
         if (request.getCookies() != null) {
