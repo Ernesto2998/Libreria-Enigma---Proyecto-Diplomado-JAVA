@@ -14,11 +14,13 @@ import lombok.Setter;
 public class Empleado {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "num_empleado")
     private Integer numEmpleado;
 
-    @Column(name = "id_sucursal", nullable = false)
-    private Integer idSucursal;
+    @ManyToOne
+    @JoinColumn(name = "id_sucursal", nullable = false)
+    private Sucursal sucursal;
 
     @Column(nullable = false, length = 50)
     private String nombre;
@@ -47,5 +49,17 @@ public class Empleado {
 
     public enum NivelAcceso {
         Admin, User
+    }
+
+    @Override
+    public String toString() {
+        return "Empleado{" +
+                "numEmpleado=" + numEmpleado +
+                ", nombre='" + nombre + '\'' +
+                ", apellido1='" + apellido1 + '\'' +
+                ", apellido2='" + apellido2 + '\'' +
+                ", genero=" + genero +
+                ", nivelAcceso=" + nivelAcceso +
+                '}';
     }
 }

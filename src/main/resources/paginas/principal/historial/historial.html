@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       lang="es">
 <head th:replace="~{plantillas/plantilla :: head}"></head>
 <body>
@@ -9,7 +10,17 @@
 
         <div class="shadow-lg p-3 my-5 bg-body-tertiary rounded">
             <h1 th:text="${contenido}"></h1>
-            <p th:text="${description}"></p>
+        </div>
+
+        <div class="row mb-3">
+            <div class="container text-start bg-body-tertiary rounded py-3">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Fecha 1" aria-label="Fecha 1">
+                    <span class="input-group-text">@</span>
+                    <input type="text" class="form-control" placeholder="Fecha 2" aria-label="Fecha 2">
+                </div>
+                <button type="submit" class="btn btn-primary">Generar reporte de venta</button>
+            </div>
         </div>
 
         <div class="shadow-lg p-3 my-5 bg-body-tertiary rounded">
@@ -93,16 +104,6 @@
             </table>
         </div>
 
-        <div class="row mb-3">
-            <div class="container text-start bg-body-tertiary rounded py-3">
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Fecha 1" aria-label="Fecha 1">
-                    <span class="input-group-text">@</span>
-                    <input type="text" class="form-control" placeholder="Fecha 2" aria-label="Fecha 2">
-                </div>
-                <button type="submit" class="btn btn-primary">Generar reporte de venta</button>
-            </div>
-        </div>
 
     </div>
 </main>
