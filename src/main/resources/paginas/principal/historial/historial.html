@@ -24,81 +24,38 @@
         </div>
 
         <div class="shadow-lg p-3 my-5 bg-body-tertiary rounded">
-            <table class="table table-hover">
+            <table th:if="${!listaHistorial.isEmpty()}" class="table table-hover">
                 <thead>
                 <tr>
-                    <th scope="col"># Venta</th>
+                    <th scope="col">#Venta</th>
                     <th scope="col">Fecha</th>
                     <th scope="col">Libro</th>
                     <th scope="col">Precio</th>
                     <th scope="col">Cantidad</th>
                     <th scope="col">Total</th>
                     <th scope="col">Total Final</th>
+                    <th sec:authorize="hasRole('ADMIN')">Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>09/01/2024</td>
-                    <td>Libro 1</td>
-                    <td>$19.99</td>
-                    <td>2</td>
-                    <td>$39.98</td>
-                    <td>$49.97</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td>Libro 2</td>
-                    <td>$9.99</td>
-                    <td>1</td>
-                    <td>$9.99</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>10/01/2024</td>
-                    <td>Libro 3</td>
-                    <td>$15.99</td>
-                    <td>1</td>
-                    <td>$15.99</td>
-                    <td>$15.99</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>09/01/2024</td>
-                    <td>Libro 1</td>
-                    <td>$19.99</td>
-                    <td>1</td>
-                    <td>$39.98</td>
-                    <td>$69.95</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td>Libro 2</td>
-                    <td>$9.99</td>
-                    <td>1</td>
-                    <td>$9.99</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td>Libro 3</td>
-                    <td>$9.99</td>
-                    <td>1</td>
-                    <td>$9.99</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td>Libro 5</td>
-                    <td>$9.99</td>
-                    <td>1</td>
-                    <td>$9.99</td>
-                    <td></td>
+                <tr th:each="lHistorial: ${listaHistorial}">
+                    <td th:text="${lHistorial.venta.numVenta}"></td>
+                    <td th:text="${lHistorial.venta.fechaVenta}"></td>
+                    <td th:text="${lHistorial.libro.titulo}"></td>
+                    <td th:text="${lHistorial.libro.precio}"></td>
+                    <td th:text="${lHistorial.cantidadLibros}"></td>
+                    <td th:text="${lHistorial.libro.precio}"></td>
+                    <td th:text="${lHistorial.libro.precio}"></td>
+                    <td>
+                        <div sec:authorize="hasRole('ADMIN')">
+                            <a th:href="@{/libreria/historial-ventas/edit-historial/{id} (id=${lHistorial.id})}"
+                               class="btn btn-success">Modificar <i class="fas fa-pen-nib" aria-hidden="true"></i>
+                            </a>
+                            <a th:href="@{/libreria/historial-ventas/delete-historial/{id} (id=${lHistorial.id})}"
+                               class="btn btn-danger">Eliminar <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </td>
                 </tr>
                 </tbody>
             </table>

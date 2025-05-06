@@ -45,7 +45,7 @@ public class HistorialVentasController {
 //        modelo.addAttribute("sucursales", ventas);
 //        modelo.addAttribute("libros", libros);
         modelo.addAttribute("contenido", "Historial de compras");
-//        modelo.addAttribute("listaInventario", pageVentaLibro);
+        modelo.addAttribute("listaHistorial", pageVentaLibro);
         modelo.addAttribute("page", renderPagina);
         return "principal/historial/historial";
     }
