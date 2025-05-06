@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class InventarioServiceImpl implements InventarioService{
+public class InventarioServiceImpl implements InventarioService {
     @Autowired
     InventarioRepository inventarioRepository;
 
@@ -30,4 +30,15 @@ public class InventarioServiceImpl implements InventarioService{
     public Page<Inventario> findPage(Pageable pageable) {
         return inventarioRepository.findAll(pageable);
     }
+
+    @Override
+    public Page<Inventario> findInventarioBySucursalId(Integer sucursalId, Pageable pageable) {
+        return inventarioRepository.findBySucursalId(sucursalId, pageable);
+    }
+
+    @Override
+    public Page<Inventario> findInventarioByLibroId(Integer libroId, Pageable pageable) {
+        return inventarioRepository.findByLibroId(libroId, pageable);
+    }
+
 }

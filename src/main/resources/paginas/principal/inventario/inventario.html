@@ -57,15 +57,16 @@
                 <table th:if="${!listaInventario.isEmpty()}" class="table table-hover">
                     <thead>
                     <tr>
-                        <th scope="col">Sucursal</th>
                         <th scope="col">Libro</th>
+                        <th scope="col">Sucursal</th>
                         <th scope="col">Stock</th>
+                        <th sec:authorize="hasRole('ADMIN')">Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="lInventario: ${listaInventario}">
-                        <td th:text="${lInventario.sucursal.calle}"></td>
                         <td th:text="${lInventario.libro.titulo}"></td>
+                        <td th:text="${lInventario.sucursal.calle}"></td>
                         <td th:text="${lInventario.stock}"></td>
                         <td>
                             <div sec:authorize="hasRole('ADMIN')">
@@ -82,7 +83,7 @@
                 </table>
             </div>
         </div>
-        <nav th:replace="~{plantillas/pag-nav::paginador}"></nav>
+        <nav th:replace="~{plantillas/pag-nav-inventario::paginador}"></nav>
 
     </div>
 </main>
