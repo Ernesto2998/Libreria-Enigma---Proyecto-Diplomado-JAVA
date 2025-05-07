@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @SpringBootTest
@@ -35,6 +36,16 @@ class VentaTest {
     @Transactional
     void findAllVentasByFechaTest() {
         List<Venta> ventas = ventaRepository.findAllByOrderByFechaVentaAsc();
+        ventas.forEach(System.out::println);
+    }
+
+    @Test
+    @Transactional
+    void findByFechaTest() {
+        LocalDateTime start = LocalDateTime.of(2025, 3, 13, 0, 0);
+        LocalDateTime end = LocalDateTime.of(2025, 3, 14, 23, 59);
+
+        List<Venta> ventas = ventaRepository.findByFechaVentaBetween(start, end);
         ventas.forEach(System.out::println);
     }
 }

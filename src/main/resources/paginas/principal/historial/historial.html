@@ -23,6 +23,35 @@
             </div>
         </div>
 
+        <div class="container">
+            <div class="row">
+                <div class="col container bg-body-tertiary rounded py-3 me-3">
+                    <form th:action="@{/libreria/historial/buscar-historial-tabla}" method="get" class="mb-3">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="input-group">
+                                    <span class="input-group-text" id="fechaInicioText">Fecha inicio:</span>
+                                    <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" required>
+                                    <span class="input-group-text" id="fechaFinText">Fecha fin:</span>
+                                    <input type="date" class="form-control" id="fechaFin" name="fechaFin" required>
+                                    <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+                                </div>
+                            </div>
+<!--                            <div class="col-4">-->
+<!--                                <div class="input-group">-->
+<!--                                    <span class="input-group-text" id="fechaFinText">Fecha fin:</span>-->
+<!--                                    <input type="date" class="form-control" id="fechaFin" name="fechaFin" required>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-2">-->
+<!--                                <button class="btn btn-outline-secondary" type="submit">Buscar</button>-->
+<!--                            </div>-->
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <div class="shadow-lg p-3 my-5 bg-body-tertiary rounded">
             <table th:if="${!listaHistorial.isEmpty()}" class="table table-hover">
                 <thead>
@@ -60,7 +89,7 @@
                 </tbody>
             </table>
         </div>
-
+        <nav th:replace="~{plantillas/pag-nav-historial::paginador}"></nav>
 
     </div>
 </main>
