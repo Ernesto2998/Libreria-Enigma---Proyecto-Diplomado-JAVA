@@ -31,21 +31,12 @@
                             <div class="col-8">
                                 <div class="input-group">
                                     <span class="input-group-text" id="fechaInicioText">Fecha inicio:</span>
-                                    <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" required>
+                                    <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" >
                                     <span class="input-group-text" id="fechaFinText">Fecha fin:</span>
-                                    <input type="date" class="form-control" id="fechaFin" name="fechaFin" required>
+                                    <input type="date" class="form-control" id="fechaFin" name="fechaFin" >
                                     <button class="btn btn-outline-secondary" type="submit">Buscar</button>
                                 </div>
                             </div>
-<!--                            <div class="col-4">-->
-<!--                                <div class="input-group">-->
-<!--                                    <span class="input-group-text" id="fechaFinText">Fecha fin:</span>-->
-<!--                                    <input type="date" class="form-control" id="fechaFin" name="fechaFin" required>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="col-2">-->
-<!--                                <button class="btn btn-outline-secondary" type="submit">Buscar</button>-->
-<!--                            </div>-->
                         </div>
                     </form>
                 </div>
@@ -62,7 +53,7 @@
                     <th scope="col">Precio</th>
                     <th scope="col">Cantidad</th>
                     <th scope="col">Total</th>
-                    <th scope="col">Total Final</th>
+<!--                    <th scope="col">Total Final</th>-->
                     <th sec:authorize="hasRole('ADMIN')">Acciones</th>
                 </tr>
                 </thead>
@@ -73,8 +64,8 @@
                     <td th:text="${lHistorial.libro.titulo}"></td>
                     <td th:text="${lHistorial.libro.precio}"></td>
                     <td th:text="${lHistorial.cantidadLibros}"></td>
-                    <td th:text="${lHistorial.libro.precio}"></td>
-                    <td th:text="${lHistorial.libro.precio}"></td>
+                    <td th:text="${(lHistorial.libro.precio ?: 0) * (lHistorial.cantidadLibros ?: 0)}"></td>
+<!--                    <td th:text="${(lHistorial.libro.precio ?: 0) * (lHistorial.cantidadLibros ?: 0)}"></td>-->
                     <td>
                         <div sec:authorize="hasRole('ADMIN')">
                             <a th:href="@{/libreria/historial-ventas/edit-historial/{id} (id=${lHistorial.id})}"

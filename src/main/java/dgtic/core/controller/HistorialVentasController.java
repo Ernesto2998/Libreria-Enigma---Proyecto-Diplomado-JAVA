@@ -66,45 +66,37 @@ public class HistorialVentasController {
                     fechaInicio.atStartOfDay(), fechaFin.atTime(LocalTime.MAX), pageable
             );
         }
-        RenderPagina<VentaLibro> renderPagina = new RenderPagina<>("historial", pageVentaLibro);
+        RenderPagina<VentaLibro> renderPagina = new RenderPagina<>("/libreria/historial/buscar-historial-tabla", pageVentaLibro);
 
         model.addAttribute("contenido", "Historial de compras");
         model.addAttribute("listaHistorial", pageVentaLibro);
+        model.addAttribute("fechaInicio", fechaInicio);
+        model.addAttribute("fechaFin", fechaFin);
         model.addAttribute("page", renderPagina);
         return "principal/historial/historial";
     }
-//
-//    @PostMapping("buscar-historial-tabla")
-//    public String buscarEdotiralTabla(
-//            @RequestParam(name = "page", defaultValue = "0") int page,
-//            @RequestParam(name = "sucursalId", required = false) Integer sucursalId,
-//            @RequestParam(name = "libroId", required = false) Integer libroId,
-//            Model model) {
-//
-//        Pageable pageable = PageRequest.of(page, 20, Sort.by("libro.titulo").ascending());
-//        Page<Inventario> pageInventarios = inventarioService.findPage(pageable);
-////        RenderPagina<Inventario> renderPagina = new RenderPagina<>("inventario", inventarios);
-//
-//        List<Sucursal> sucursales = sucursalService.findAllByOrderByCalleAsc();
-//        List<Libro> libros = libroService.findAllByOrderByTituloAsc();
-//
-//        if (sucursalId != null) {
-//            pageInventarios = inventarioService.findInventarioBySucursalId(sucursalId, pageable);}
-//        else if (libroId != null) {
-//            pageInventarios = inventarioService.findInventarioByLibroId(libroId, pageable);
-//        }
-//
-//        RenderPagina<Inventario> renderPagina = new RenderPagina<>("/libreria/inventario/buscar-inventario-tabla", pageInventarios);
-//
-//        model.addAttribute("inventarioB", new Inventario());
-//        model.addAttribute("sucursales", sucursales);
-//        model.addAttribute("libros", libros);
-//        model.addAttribute("sucursalId", sucursalId);
-//        model.addAttribute("libroId", libroId);
-//        model.addAttribute("contenido", "Inventario");
-//        model.addAttribute("listaInventario", pageInventarios);
-//        model.addAttribute("page", renderPagina);
-//
-//        return "principal/inventario/inventario";
-//    }
+
+    @PostMapping("buscar-historial-tabla")
+    public String postHistorialPorFecha(@RequestParam(name = "page", defaultValue = "0") int page,
+                                       @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
+                                       @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin,
+                                       Model model) {
+
+        Pageable pageable = PageRequest.of(page, 20, Sort.by("venta.fechaVenta").ascending());
+        Page<VentaLibro> pageVentaLibro = ventaLibroService.findPage(pageable);
+
+        if (fechaInicio != null && fechaFin != null) {
+            pageVentaLibro = ventaLibroService.findByFechaVentaBetween(
+                    fechaInicio.atStartOfDay(), fechaFin.atTime(LocalTime.MAX), pageable
+            );
+        }
+        RenderPagina<VentaLibro> renderPagina = new RenderPagina<>("/libreria/historial/buscar-historial-tabla", pageVentaLibro);
+
+        model.addAttribute("contenido", "Historial de compras");
+        model.addAttribute("listaHistorial", pageVentaLibro);
+        model.addAttribute("fechaInicio", fechaInicio);
+        model.addAttribute("fechaFin", fechaFin);
+        model.addAttribute("page", renderPagina);
+        return "principal/historial/historial";
+    }
 }
