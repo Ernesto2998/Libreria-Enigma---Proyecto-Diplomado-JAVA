@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="es">
+<head th:replace="~{plantillas/plantilla :: head}"></head>
+<body>
+<header th:replace="~{plantillas/plantilla :: header}"></header>
+<main class="container">
+
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-12 py-2">
+                <img class="img-fluid" th:src="@{/image/logo_venta_libro.png}" width="35%" height="35%"
+                     style="border-radius: 50%;">
+            </div>
+        </div>
+        <div class="shadow-lg p-3 my-5 bg-body-tertiary rounded">
+            <h1 th:text="${contenido}"></h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="d-flex justify-content-center">
+            <div class="container text-start shadow-lg p-3 px-5 mb-5 bg-body-tertiary rounded">
+                <form th:action="@{/libreria/venta/verificar-venta}" method="get"
+                      th:object="${venta}">
+
+                    <div class="row">
+
+<!--                        SUCURSALES-->
+                        <div class="col-6">
+                            <div class="input-group mb-2">
+                                <label class="input-group-text" for="sucursalId">Sucursal</label>
+                                <select class="form-select" id="sucursalId" name="sucursalId" required>
+                                    <option th:value="''">-- Selecciona una sucursal --</option>
+                                    <option th:each="s : ${sucursales}"
+                                            th:value="${s.id}"
+                                            th:text="${s.calle + ' #' + s.numeroExterior + '-' + s.numeroInterior + ', ' + s.colonia + ', ' + s.municipio + ', ' + s.pais.nombre}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+<!--                        EMPLEADOS-->
+                        <div class="col-6">
+                            <div class="input-group mb-2">
+                                <label class="input-group-text" for="empleadoId">Empleado</label>
+                                <select class="form-select" id="empleadoId" name="empleadoId" required>
+                                    <option th:value="''">-- Seleciona un empleado --</option>
+                                    <option th:each="e : ${empleados}"
+                                            th:value="${e.numEmpleado}"
+                                            th:text="${e.apellido1 + ' ' + e.apellido2 + ', ' + e.nombre}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+<!--                        LIBROS-->
+                        <div class="col-6">
+                            <div class="input-group mb-2">
+                                <label class="input-group-text" for="libroId">Libro</label>
+                                <select class="form-select" id="libroId" name="libroId" required>
+                                    <option th:value="''">-- Selecciona un libro --</option>
+                                    <option th:each="l : ${libros}"
+                                            th:value="${l.id}"
+                                            th:text="${l.titulo + ', ' + l.editorial.editorialName + ', Pasta: ' + l.tipoPasta}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+<!--                        FECHA ACTUAL-->
+                        <div class="col-6">
+                            <div class="input-group mb-2">
+                                <label class="input-group-text" for="fechaVenta">Fecha actual</label>
+                                <input type="date" class="form-control" id="fechaVenta" name="fechaVenta" required>
+                            </div>
+                        </div>
+
+                        <div class="col-12 pt-4"></div>
+
+<!--                        PRECIO-->
+                        <div class="col-6">
+                            <div class="input-group mb-2">
+                                <span class="input-group-text" id="input-label-precio">Precio</span>
+                                <span class="input-group-text">$</span>
+                                <input
+                                        class="form-control"
+                                        type="number" id="precio" name="precio"
+                                        min="0" step="0.01"
+                                        placeholder="Precio"
+                                        aria-describedby="input-label-precio" required>
+                            </div>
+                        </div>
+
+<!--                        DESCUENTO-->
+                        <div class="col-6">
+                            <div class="input-group mb-2">
+                                <span class="input-group-text" id="input-label-descuento">Descuento</span>
+                                <input
+                                        class="form-control"
+                                        type="number" id="descuento" name="descuento"
+                                        placeholder="Descuento"
+                                        min="0" max="100" step="0.01"
+                                        aria-describedby="input-label-descuento">
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+
+<!--                        CANTIDAD-->
+                        <div class="col-6">
+                            <div class="input-group mb-2">
+                                <span class="input-group-text" id="input-label-cantidad">Cantidad</span>
+                                <input
+                                        class="form-control"
+                                        type="number" id="cantidad" name="cantidad" step="1.00"
+                                        placeholder="Cantidad"
+                                        aria-describedby="input-label-cantidad" required>
+                            </div>
+                        </div>
+
+<!--                        MÉTODO DE PAGO-->
+                        <div class="col-6">
+                            <div class="input-group mb-2">
+                                <label class="input-group-text" for="metodoPago">Metodo de pago</label>
+                                <select class="form-select" id="metodoPago" name="metodoPago" required>
+                                    <option value="" >-- Selecciona un metodo de pago --</option>
+                                    <option value="Blanda">Efectivo</option>
+                                    <option value="Dura">Tarjeta</option>
+                                </select>
+                            </div>
+                        </div>
+
+<!--                        TOTAL-->
+                        <div class="col-12 d-flex justify-content-end pt-5">
+                            <div class="col-6 ps-2">
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text" id="input-label-total">Total</span>
+                                    <span class="input-group-text">$</span>
+                                    <input
+                                            class="form-control"
+                                            type="number"
+                                            placeholder="Total"
+                                            aria-label="Total"
+                                            aria-describedby="input-label-total" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 d-flex justify-content-end">
+                                <button class="btn btn-outline-primary" type="submit">Confirmar Venta</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{plantillas/plantilla :: footer}"></footer>
+</body>
+</html>

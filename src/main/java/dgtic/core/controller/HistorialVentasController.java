@@ -43,9 +43,6 @@ public class HistorialVentasController {
         List<Venta> ventas = ventaService.findAllByOrderByFechaVentaAsc();
         List<Libro> libros = libroService.findAllByOrderByTituloAsc();
 
-//        modelo.addAttribute("hostorialB", new VentaLibro());
-//        modelo.addAttribute("sucursales", ventas);
-//        modelo.addAttribute("libros", libros);
         modelo.addAttribute("contenido", "Historial de compras");
         modelo.addAttribute("listaHistorial", pageVentaLibro);
         modelo.addAttribute("page", renderPagina);
