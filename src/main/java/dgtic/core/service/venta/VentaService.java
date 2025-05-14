@@ -10,6 +10,8 @@ import java.util.Optional;
 public interface VentaService {
     List<Venta> findAll();
 
+    void save(Venta venta);
+
     Optional<Venta> findById(Integer numVenta);
 
     List<Venta> findAllByOrderByFechaVentaAsc();

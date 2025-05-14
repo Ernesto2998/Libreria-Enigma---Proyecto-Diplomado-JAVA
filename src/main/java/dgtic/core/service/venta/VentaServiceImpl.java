@@ -20,6 +20,11 @@ public class VentaServiceImpl implements VentaService{
     }
 
     @Override
+    public void save(Venta venta) {
+        ventaRepository.save(venta);
+    }
+
+    @Override
     public Optional<Venta> findById(Integer numVenta) {
         return ventaRepository.findById(numVenta);
     }

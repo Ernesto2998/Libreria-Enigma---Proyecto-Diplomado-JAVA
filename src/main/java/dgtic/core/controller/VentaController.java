@@ -1,23 +1,24 @@
 package dgtic.core.controller;
 
-import dgtic.core.model.Empleado;
-import dgtic.core.model.Libro;
-import dgtic.core.model.Sucursal;
-import dgtic.core.model.VentaLibro;
+import dgtic.core.model.*;
 import dgtic.core.model.dto.VentaLibroDto;
+import dgtic.core.security.EmpleadoAutenticadoService;
 import dgtic.core.service.empleado.EmpleadoService;
+import dgtic.core.service.inventario.InventarioService;
 import dgtic.core.service.libro.LibroService;
 import dgtic.core.service.sucursal.SucursalService;
+import dgtic.core.service.venta.VentaService;
+import dgtic.core.service.ventaLibro.VentaLibroService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -29,12 +30,29 @@ public class VentaController {
     LibroService libroService;
     @Autowired
     EmpleadoService empleadoService;
+    @Autowired
+    InventarioService inventarioService;
+    @Autowired
+    VentaService ventaService;
+    @Autowired
+    VentaLibroService ventaLibroService;
+    @Autowired
+    private EmpleadoAutenticadoService empleadoAutenticadoService;
 
     @GetMapping("venta")
-    public String getRealizarVenta(Model modelo){
+    public String getRealizarVenta(Model modelo) {
+
+        Empleado empleado = empleadoAutenticadoService.obtenerEmpleadoAutenticado();
+        Empleado empleadoTemp = new Empleado();
+        empleadoTemp.setNumEmpleado(empleado.getNumEmpleado());
+        empleadoTemp.setNombre(empleado.getNombre());
+        empleadoTemp.setApellido1(empleado.getApellido1());
+        empleadoTemp.setApellido2(empleado.getApellido2());
+        empleadoTemp.setSucursal(empleado.getSucursal());
 
         List<Sucursal> sucursales = sucursalService.findAllByOrderByCalleAsc();
-        List<Libro> libros = libroService.findAllByOrderByTituloAsc();
+//        List<Libro> libros = libroService.findAllByOrderByTituloAsc();
+        List<Libro> libros = inventarioService.getLibrosDisponiblesBySucursal(empleadoTemp.getSucursal().getId());
         List<Empleado> empleados = empleadoService.findAllByOrderByApellido1Asc();
 
         modelo.addAttribute("contenido", "Realizar Venta");
@@ -42,13 +60,18 @@ public class VentaController {
         modelo.addAttribute("empleados", empleados);
         modelo.addAttribute("sucursales", sucursales);
         modelo.addAttribute("libros", libros);
+
+        if (empleadoTemp != null && empleadoTemp.getSucursal() != null) {
+            modelo.addAttribute("sucursalSeleccionada", empleadoTemp.getSucursal().getId());
+            modelo.addAttribute("empleadoActual", empleadoTemp);
+        }
+
         return "principal/venta/venta";
     }
 
     @GetMapping("/verificar-venta")
     public String verificarVenta(@ModelAttribute VentaLibroDto ventaLibroDto, Model model) {
-        // Aquí puedes hacer lo que necesites con los datos
-        // Por ejemplo: calcular el total, validar, guardar, etc.
+        LocalDateTime fechaHora = ventaLibroDto.getFechaVenta().atTime(LocalTime.now());
 
         // Para ejemplo, puedes imprimirlo
         log.info("Venta recibida:");
@@ -62,9 +85,39 @@ public class VentaController {
         log.info("Método de pago: {}",  ventaLibroDto.getMetodoPago());
         log.info("Total: {}", ventaLibroDto.getTotal());
 
-        // Agrega info al modelo si vas a mostrar una vista de confirmación
-        model.addAttribute("venta", ventaLibroDto);
+        // Actualizar inventario
+        inventarioService.reduceInventoryByUnit(ventaLibroDto.getLibroId(), ventaLibroDto.getSucursalId(), ventaLibroDto.getCantidad());
 
-        return "venta/confirmacion"; // Cambia esto a la vista que quieras mostrar después
+        // Añadir venta
+        Empleado empleado = empleadoService.findById(ventaLibroDto.getEmpleadoId())
+                .orElseThrow(() -> new RuntimeException("No se encontró Empleado"));
+        Venta ventaNew = new Venta();
+        ventaNew.setEmpleado(empleado);
+        ventaNew.setFechaVenta(ventaLibroDto.getFechaVenta().atTime(LocalTime.now()));
+        ventaNew.setMetodoPago(ventaLibroDto.getMetodoPago());
+        ventaNew.setTotal(ventaLibroDto.getTotal());
+        ventaService.save(ventaNew);
+//        Integer ventaId = ventaNew.getNumVenta();
+
+        // Añador Venta-Libro
+        Libro libro = libroService.findById(ventaLibroDto.getLibroId())
+                .orElseThrow(() -> new RuntimeException("No se encontró Libro"));
+        VentaLibro ventaLibro = new VentaLibro();
+        ventaLibro.setVenta(ventaNew);
+        ventaLibro.setLibro(libro);
+        ventaLibro.setCantidadLibros(ventaLibroDto.getCantidad().byteValue());
+        ventaLibroService.save(ventaLibro);
+
+
+        // Agrega info al modelo si vas a mostrar una vista de confirmación
+
+//        model.addAttribute("venta", ventaLibroDto);
+
+        return "redirect:/libreria/venta";
+    }
+
+    @GetMapping(value = "libros-por-sucursal/{idSucursal}", produces = "application/json")
+    public @ResponseBody List<Libro> obtenerLibrosPorSucursal(@PathVariable Integer idSucursal) {
+        return inventarioService.getLibrosDisponiblesBySucursal(idSucursal);
     }
 }

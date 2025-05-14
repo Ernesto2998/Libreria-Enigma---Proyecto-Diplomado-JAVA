@@ -24,10 +24,24 @@
             <div class="container text-start shadow-lg p-3 px-5 mb-5 bg-body-tertiary rounded">
                 <form th:action="@{/libreria/verificar-venta}" method="get"
                       th:object="${venta}">
-
                     <div class="row">
 
-<!--                        SUCURSALES-->
+                        <!--                    EMPLEADO-->
+                        <div class="col-6">
+                            <div class="input-group mb-2">
+                                <label class="input-group-text" for="empleadoId">Empleado</label>
+                                <select class="form-select" id="empleadoId" name="empleadoId" required>
+                                    <option th:value="''">-- Selecciona un empleado --</option>
+                                    <option th:each="e : ${empleados}"
+                                            th:value="${e.numEmpleado}"
+                                            th:text="${e.apellido1 + ' ' + e.apellido2 + ', ' + e.nombre}"
+                                            th:selected="${e.numEmpleado == empleadoActual.numEmpleado}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!--                          SUCURSAL-->
                         <div class="col-6">
                             <div class="input-group mb-2">
                                 <label class="input-group-text" for="sucursalId">Sucursal</label>
@@ -35,27 +49,18 @@
                                     <option th:value="''">-- Selecciona una sucursal --</option>
                                     <option th:each="s : ${sucursales}"
                                             th:value="${s.id}"
-                                            th:text="${s.calle + ' #' + s.numeroExterior + '-' + s.numeroInterior + ', ' + s.colonia + ', ' + s.municipio + ', ' + s.pais.nombre}">
+                                            th:text="${s.calle + ', ' + s.colonia + ', ' + s.municipio}"
+                                            th:selected="${s.id == sucursalSeleccionada}">
                                     </option>
                                 </select>
                             </div>
                         </div>
 
-<!--                        EMPLEADOS-->
-                        <div class="col-6">
-                            <div class="input-group mb-2">
-                                <label class="input-group-text" for="empleadoId">Empleado</label>
-                                <select class="form-select" id="empleadoId" name="empleadoId" required>
-                                    <option th:value="''">-- Seleciona un empleado --</option>
-                                    <option th:each="e : ${empleados}"
-                                            th:value="${e.numEmpleado}"
-                                            th:text="${e.apellido1 + ' ' + e.apellido2 + ', ' + e.nombre}">
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-
-<!--                        LIBROS-->
+                        <!--                              LIBROS-->
+                        <!--                        <select class="form-select" id="libroId" name="libroId" required>-->
+                        <!--                            <option value="">&#45;&#45; Selecciona un libro &#45;&#45;</option>-->
+                        <!--                            &lt;!&ndash; Aquí se llenará dinámicamente &ndash;&gt;-->
+                        <!--                        </select>-->
                         <div class="col-6">
                             <div class="input-group mb-2">
                                 <label class="input-group-text" for="libroId">Libro</label>
@@ -71,7 +76,7 @@
                             </div>
                         </div>
 
-<!--                        FECHA ACTUAL-->
+                        <!--                        FECHA ACTUAL-->
                         <div class="col-6">
                             <div class="input-group mb-2">
                                 <label class="input-group-text" for="fechaVenta">Fecha actual</label>
@@ -81,7 +86,7 @@
 
                         <div class="col-12 pt-4"></div>
 
-<!--                        PRECIO-->
+                        <!--                        PRECIO-->
                         <div class="col-6">
                             <div class="input-group mb-2">
                                 <span class="input-group-text" id="input-label-precio">Precio</span>
@@ -91,11 +96,11 @@
                                         type="number" id="precio" name="precio"
                                         min="0" step="0.01"
                                         placeholder="Precio"
-                                        aria-describedby="input-label-precio" disabled required>
+                                        aria-describedby="input-label-precio" readonly required>
                             </div>
                         </div>
 
-<!--                        DESCUENTO-->
+                        <!--                        DESCUENTO-->
                         <div class="col-6">
                             <div class="input-group mb-2">
                                 <span class="input-group-text" id="input-label-descuento">Descuento</span>
@@ -104,12 +109,12 @@
                                         type="number" id="descuento" name="descuento"
                                         placeholder="Descuento"
                                         min="0" max="100" step="0.01"
-                                        aria-describedby="input-label-descuento" disabled>
+                                        aria-describedby="input-label-descuento" readonly>
                                 <span class="input-group-text">%</span>
                             </div>
                         </div>
 
-<!--                        CANTIDAD-->
+                        <!--                        CANTIDAD-->
                         <div class="col-6">
                             <div class="input-group mb-2">
                                 <span class="input-group-text" id="input-label-cantidad">Cantidad</span>
@@ -122,19 +127,24 @@
                             </div>
                         </div>
 
-<!--                        MÉTODO DE PAGO-->
+                        <!--                        MÉTODO DE PAGO-->
                         <div class="col-6">
                             <div class="input-group mb-2">
                                 <label class="input-group-text" for="metodoPago">Metodo de pago</label>
+<!--                                <select class="form-select" id="metodoPago" name="metodoPago" required>-->
+<!--                                    <option value="">&#45;&#45; Selecciona un metodo de pago &#45;&#45;</option>-->
+<!--                                    <option value="Blanda">Efectivo</option>-->
+<!--                                    <option value="Dura">Tarjeta</option>-->
+<!--                                </select>-->
                                 <select class="form-select" id="metodoPago" name="metodoPago" required>
-                                    <option value="" >-- Selecciona un metodo de pago --</option>
-                                    <option value="Blanda">Efectivo</option>
-                                    <option value="Dura">Tarjeta</option>
+                                    <option value="">-- Selecciona método de pago --</option>
+                                    <option th:value="Efectivo" th:text="'Efectivo'"></option>
+                                    <option th:value="Tarjeta" th:text="'Tarjeta'"></option>
                                 </select>
                             </div>
                         </div>
 
-<!--                        TOTAL-->
+                        <!--                        TOTAL-->
                         <div class="col-12 d-flex justify-content-end pt-5">
                             <div class="col-6 ps-2">
                                 <div class="input-group mb-2">
@@ -146,7 +156,7 @@
                                             min="0" step="0.01"
                                             placeholder="Total"
                                             aria-label="Total"
-                                            aria-describedby="input-label-total" disabled required>
+                                            aria-describedby="input-label-total" readonly required>
                                 </div>
                             </div>
                         </div>
@@ -165,6 +175,7 @@
 <footer th:replace="~{plantillas/plantilla :: footer}"></footer>
 
 <script th:replace="~{principal/venta/js/venta_js :: jsVenta}"></script>
+<script th:replace="~{principal/venta/js/updateLibroBySucursal :: jsUpdateLibroBySucursal}"></script>
 
 </body>
 </html>

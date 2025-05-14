@@ -11,6 +11,8 @@ import java.util.Optional;
 public interface VentaLibroService {
     List<VentaLibro> findAll();
 
+    void save(VentaLibro ventaLibro);
+
     Optional<VentaLibro> findById(Integer id);
 
     Page<VentaLibro> findPage(Pageable pageable);

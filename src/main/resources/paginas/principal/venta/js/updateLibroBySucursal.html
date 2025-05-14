@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="es">
+<body>
+<script type="text/javascript" th:fragment="jsUpdateLibroBySucursal">
+    document.getElementById('sucursalId').addEventListener('change', function () {
+            const idSucursal = this.value;
+
+            fetch(`/libreria/libros-por-sucursal/{idSucursal}`)
+                .then(response => response.json())
+                .then(libros => {
+                    const selectLibros = document.getElementById('libroId'); // Asegúrate que este select tenga ese ID
+                    selectLibros.innerHTML = '<option value="">-- Selecciona un libro --</option>';
+
+                    libros.forEach(libro => {
+                        const option = document.createElement('option');
+                        option.value = libro.id;
+                        option.text = libro.titulo;
+                        selectLibros.appendChild(option);
+                    });
+                });
+        });
+
+</script>
+</body>
+</html>

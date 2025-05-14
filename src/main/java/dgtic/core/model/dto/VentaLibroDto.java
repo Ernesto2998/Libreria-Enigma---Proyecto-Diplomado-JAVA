@@ -1,5 +1,6 @@
 package dgtic.core.model.dto;
 
+import dgtic.core.model.Venta;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +21,6 @@ public class VentaLibroDto {
     private Float precio;
     private Integer descuento;
     private Integer cantidad;
-    private String metodoPago;
+    private Venta.MetodoPago metodoPago;
     private BigDecimal total;
 }
