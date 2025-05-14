@@ -8,6 +8,7 @@ import dgtic.core.model.dto.VentaLibroDto;
 import dgtic.core.service.empleado.EmpleadoService;
 import dgtic.core.service.libro.LibroService;
 import dgtic.core.service.sucursal.SucursalService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequestMapping(value = "libreria")
 public class VentaController {
@@ -49,16 +51,16 @@ public class VentaController {
         // Por ejemplo: calcular el total, validar, guardar, etc.
 
         // Para ejemplo, puedes imprimirlo
-        System.out.println("Venta recibida:");
-        System.out.println("Sucursal ID: " + ventaLibroDto.getSucursalId());
-        System.out.println("Empleado ID: " + ventaLibroDto.getEmpleadoId());
-        System.out.println("Libro ID: " + ventaLibroDto.getLibroId());
-        System.out.println("Fecha: " + ventaLibroDto.getFechaVenta());
-        System.out.println("Precio: " + ventaLibroDto.getPrecio());
-        System.out.println("Descuento: " + ventaLibroDto.getDescuento());
-        System.out.println("Cantidad: " + ventaLibroDto.getCantidad());
-        System.out.println("Método de pago: " + ventaLibroDto.getMetodoPago());
-        System.out.println("Total: " + ventaLibroDto.getTotal());
+        log.info("Venta recibida:");
+        log.info("Sucursal ID: {}", ventaLibroDto.getSucursalId());
+        log.info("Num Empleado: {}", ventaLibroDto.getEmpleadoId());
+        log.info("Libro ID: {}", ventaLibroDto.getLibroId());
+        log.info("Fecha: {}", ventaLibroDto.getFechaVenta());
+        log.info("Precio: {}", ventaLibroDto.getPrecio());
+        log.info("Descuento: {}", ventaLibroDto.getDescuento());
+        log.info("Cantidad: {}", ventaLibroDto.getCantidad());
+        log.info("Método de pago: {}",  ventaLibroDto.getMetodoPago());
+        log.info("Total: {}", ventaLibroDto.getTotal());
 
         // Agrega info al modelo si vas a mostrar una vista de confirmación
         model.addAttribute("venta", ventaLibroDto);

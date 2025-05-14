@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 10, 2025 at 07:53 AM
+-- Generation Time: May 13, 2025 at 07:07 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -22,50 +22,6 @@ SET time_zone = "+00:00";
 --
 
 -- --------------------------------------------------------
-
--- Crear la tabla 'pais'
-CREATE TABLE pais (
-    id_pais INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL UNIQUE
-);
-
--- Insertar países comunes (en español)
-INSERT INTO pais (nombre) VALUES 
-('Argentina'),
-('Bolivia'),
-('Brasil'),
-('Canadá'),
-('Chile'),
-('Colombia'),
-('Costa Rica'),
-('Cuba'),
-('Ecuador'),
-('El Salvador'),
-('España'),
-('Estados Unidos'),
-('Guatemala'),
-('Honduras'),
-('México'),
-('Nicaragua'),
-('Panamá'),
-('Paraguay'),
-('Perú'),
-('Puerto Rico'),
-('República Dominicana'),
-('Uruguay'),
-('Venezuela'),
-('Alemania'),
-('Francia'),
-('Italia'),
-('Portugal'),
-('Reino Unido'),
-('Rusia'),
-('China'),
-('Japón'),
-('India'),
-('Australia'),
-('Sudáfrica');
-
 
 --
 -- Table structure for table `autor`
@@ -100,7 +56,8 @@ INSERT INTO `autor` (`id_autor`, `nombre`, `apellido_1`, `apellido_2`, `id_nacio
 (14, 'José', 'Martí', 'Pérez', 6),
 (15, 'Rosario', 'Castellanos', 'Figueroa', 1),
 (18, 'Ernesto', 'Velasco', 'Arciniega', 28),
-(26, 'Axel', 'Castillo', 'Sanchez', 5);
+(26, 'Axel', 'Castillo', 'Sanchez', 5),
+(29, 'Nombre', 'Peterno', 'Materno', 28);
 
 -- --------------------------------------------------------
 
@@ -211,7 +168,7 @@ CREATE TABLE `empleado` (
 --
 
 INSERT INTO `empleado` (`num_empleado`, `id_sucursal`, `nombre`, `apellido_1`, `apellido_2`, `genero`, `nivel_acceso`, `contrasenia`) VALUES
-(1, 1, 'Admin', 'Admin', 'Admin', 'M', 'Admin', 'AdminSecure123!'),
+(1, 1, 'Admin', 'Admin', 'Admin', 'M', 'Admin', '$2a$12$GrVpe9mwk7g/aPaDPj.mletIkTZvwa3yQLVCi4wH1JbweWeF864SW'),
 (2, 1, 'María', 'López', 'Fernández', 'F', 'User', 'MariaL2024@'),
 (3, 2, 'Carlos', 'Martínez', 'Sánchez', 'M', 'User', 'CarlosM2024#'),
 (4, 2, 'Ana', 'Rodríguez', 'Díaz', 'F', 'User', 'AnaRodr2024$'),
@@ -733,37 +690,38 @@ CREATE TABLE `libro` (
 INSERT INTO `libro` (`id_libro`, `id_editorial`, `titulo`, `tipo_pasta`, `sinopsis`, `precio`, `descuento`) VALUES
 (1, 19, 'El Secretos', 'Blanda', 'Un libro sobre cómo alcanzar el éxito personal.', 19.99, 21),
 (2, 18, 'Cuentos de la Abuela', 'Dura', 'Recopilación de cuentos para niños de todas las edades.', 15.5, 15),
-(3, 18, 'La Ciencia del Futuro', 'Blanda', 'Exploración sobre las teorías científicas que modelarán el futuro.', 25, 15),
-(4, 18, 'La Historia del Mundo', 'Dura', 'Un análisis profundo de los eventos más relevantes de la historia mundial.', 30.99, 20),
-(5, 18, 'Filosofía para Todos', 'Blanda', 'Una introducción accesible a los grandes pensadores de la filosofía.', 12.5, 5),
-(6, 18, 'Biografía de un Genio', 'Dura', 'La vida y obra de un destacado científico del siglo XXI.', 40, 10),
-(7, 18, 'El Hombre que Sabía Demasiado', 'Blanda', 'Un thriller psicológico con giros sorprendentes.', 18.75, 8),
-(8, 18, 'El Viaje Imposible', 'Dura', 'Una novela de ciencia ficción que trasciende los límites del tiempo.', 22, 12),
-(9, 18, 'El Poder del Amor', 'Blanda', 'Una historia romántica entre dos mundos opuestos.', 14.99, 15),
-(10, 18, 'Secretos de la Naturaleza', 'Dura', 'Un libro sobre los misterios aún no resueltos de nuestro planeta.', 28.99, 10),
-(11, 18, 'Bajo la Luna', 'Blanda', 'Poesía que explora la conexión del ser humano con el universo.', 9.99, 5),
-(12, 18, 'Vivir con Propósito', 'Dura', 'Consejos prácticos para vivir una vida más plena y significativa.', 21.5, 18),
+(3, 15, 'La Ciencia del Futuro', 'Blanda', 'Exploración sobre las teorías científicas que modelarán el futuro.', 25, 15),
+(4, 5, 'La Historia del Mundo', 'Dura', 'Un análisis profundo de los eventos más relevantes de la historia mundial.', 30.99, 20),
+(5, 2, 'Filosofía para Todos', 'Blanda', 'Una introducción accesible a los grandes pensadores de la filosofía.', 12.5, 5),
+(6, 14, 'Biografía de un Genio', 'Dura', 'La vida y obra de un destacado científico del siglo XXI.', 40, 10),
+(7, 19, 'El Hombre que Sabía Demasiado', 'Blanda', 'Un thriller psicológico con giros sorprendentes.', 18.75, 8),
+(8, 3, 'El Viaje Imposible', 'Dura', 'Una novela de ciencia ficción que trasciende los límites del tiempo.', 22, 12),
+(9, 16, 'El Poder del Amor', 'Blanda', 'Una historia romántica entre dos mundos opuestos.', 14.99, 15),
+(10, 8, 'Secretos de la Naturaleza', 'Dura', 'Un libro sobre los misterios aún no resueltos de nuestro planeta.', 28.99, 10),
+(11, 12, 'Bajo la Luna', 'Blanda', 'Poesía que explora la conexión del ser humano con el universo.', 9.99, 5),
+(12, 6, 'Vivir con Propósito', 'Dura', 'Consejos prácticos para vivir una vida más plena y significativa.', 21.5, 18),
 (13, 13, 'Crónicas de Terror', 'Blanda', 'Relatos escalofriantes que te mantendrán despierto por la noche.', 13, 0),
-(14, 18, 'Aventuras Inesperadas', 'Dura', 'Una serie de cuentos de aventuras en lugares exóticos.', 17.99, 10),
-(15, 18, 'En la Mente del Ladrón', 'Blanda', 'Un misterioso relato sobre crimen y justicia.', 16.75, 25),
-(16, 18, 'El Libro de los Sueños', 'Dura', 'Una obra literaria que explora la relación entre los sueños y la realidad.', 23.99, 15),
-(17, 18, 'Los Últimos Días del Imperio', 'Blanda', 'Análisis histórico sobre el colapso de civilizaciones antiguas.', 20, 5),
-(18, 18, 'El Arte de la Guerra', 'Dura', 'Un tratado clásico sobre estrategia y liderazgo, actualizado para los tiempos modernos.', 18, 20),
-(19, 18, 'En Busca de la Verdad', 'Blanda', 'Un viaje filosófico hacia el entendimiento de la realidad.', 17.5, 12),
-(20, 18, 'Economía en Tiempos Modernos', 'Dura', 'Estudio de las tendencias económicas actuales en el mundo globalizado.', 29.99, 10),
-(21, 18, 'Cuentos de Terror', 'Blanda', 'Una serie de relatos macabros para los amantes del género.', 10, 5),
-(22, 18, 'El Arte de Vivir', 'Dura', 'Guía para vivir una vida más feliz y equilibrada.', 24.5, 18),
-(23, 18, 'La Magia del Universo', 'Blanda', 'Un libro sobre los secretos cósmicos que rigen nuestra existencia.', 20.75, 8),
-(24, 18, 'El Último Suspiro', 'Dura', 'Una novela de suspenso que te atrapará hasta la última página.', 27, 5),
-(25, 18, 'La Fuerza de la Mente', 'Blanda', 'Cómo utilizar el poder de la mente para alcanzar tus objetivos.', 11.99, 10),
-(26, 18, 'Lágrimas de Sangre', 'Dura', 'Un thriller de acción que desafía las convenciones del género.', 30, 12),
-(27, 18, 'Bajo el Sol', 'Blanda', 'Relatos de superación y esperanza en tiempos difíciles.', 14, 15),
-(28, 18, 'La Última Frontera', 'Dura', 'Una novela de ciencia ficción que cuestiona los límites del espacio y la mente humana.', 26.5, 8),
-(29, 18, 'Amor a Primera Vista', 'Blanda', 'Historia romántica ambientada en una ciudad vibrante y llena de vida.', 13.5, 0),
-(30, 18, 'Los Misterios del Océano', 'Dura', 'Un libro sobre los misterios más profundos del océano y sus criaturas.', 22.5, 20),
-(33, 18, 'Re:Zero', 'Blanda', 'Ya me quiero dormir. Será que por fin lo logre ... hora 12.57am D:', 10.26, 10),
+(14, 1, 'Aventuras Inesperadas', 'Dura', 'Una serie de cuentos de aventuras en lugares exóticos.', 17.99, 10),
+(15, 11, 'En la Mente del Ladrón', 'Blanda', 'Un misterioso relato sobre crimen y justicia.', 16.75, 25),
+(16, 9, 'El Libro de los Sueños', 'Dura', 'Una obra literaria que explora la relación entre los sueños y la realidad.', 23.99, 15),
+(17, 9, 'Los Últimos Días del Imperio', 'Blanda', 'Análisis histórico sobre el colapso de civilizaciones antiguas.', 20, 5),
+(18, 4, 'El Arte de la Guerra', 'Dura', 'Un tratado clásico sobre estrategia y liderazgo, actualizado para los tiempos modernos.', 18, 20),
+(19, 10, 'En Busca de la Verdad', 'Blanda', 'Un viaje filosófico hacia el entendimiento de la realidad.', 17.5, 12),
+(20, 20, 'Economía en Tiempos Modernos', 'Dura', 'Estudio de las tendencias económicas actuales en el mundo globalizado.', 29.99, 10),
+(21, 7, 'Cuentos de Terror', 'Blanda', 'Una serie de relatos macabros para los amantes del género.', 10, 5),
+(22, 12, 'El Arte de Vivir', 'Dura', 'Guía para vivir una vida más feliz y equilibrada.', 24.5, 18),
+(23, 15, 'La Magia del Universo', 'Blanda', 'Un libro sobre los secretos cósmicos que rigen nuestra existencia.', 20.75, 8),
+(24, 5, 'El Último Suspiro', 'Dura', 'Una novela de suspenso que te atrapará hasta la última página.', 27, 5),
+(25, 2, 'La Fuerza de la Mente', 'Blanda', 'Cómo utilizar el poder de la mente para alcanzar tus objetivos.', 11.99, 10),
+(26, 14, 'Lágrimas de Sangre', 'Dura', 'Un thriller de acción que desafía las convenciones del género.', 30, 12),
+(27, 19, 'Bajo el Sol', 'Blanda', 'Relatos de superación y esperanza en tiempos difíciles.', 14, 15),
+(28, 3, 'La Última Frontera', 'Dura', 'Una novela de ciencia ficción que cuestiona los límites del espacio y la mente humana.', 26.5, 8),
+(29, 3, 'Amor a Primera Vista', 'Blanda', 'Historia romántica ambientada en una ciudad vibrante y llena de vida.', 13.5, 0),
+(30, 20, 'Los Misterios del Océano', 'Dura', 'Un libro sobre los misterios más profundos del océano y sus criaturas.', 22.5, 20),
+(33, 7, 'Re:Zero', 'Blanda', 'Ya me quiero dormir. Será que por fin lo logre ... hora 12.57am D:', 10.26, 10),
 (34, 18, 'Re:Zero', 'Dura', 'Este es un libro de prieba. Creo ya quedo el ADD de libros 🙌', 350, 29),
-(41, 20, 'Nuevo Libro Editado', 'Blanda', 'Resumen de nuevo libro editado', 150, 5);
+(41, 10, 'Nuevo Libro Editado', 'Blanda', 'Resumen de nuevo libro editado', 150, 5),
+(45, 1, 'Libro Nuevo', 'Dura', 'Una nueva sinopsis', 99.99, 25);
 
 -- --------------------------------------------------------
 
@@ -782,61 +740,42 @@ CREATE TABLE `libro_autor` (
 --
 
 INSERT INTO `libro_autor` (`id_libro_autor`, `id_autor`, `id_libro`) VALUES
-(80, 1, 5),
-(103, 1, 9),
+(160, 1, 3),
 (8, 1, 13),
+(187, 1, 45),
 (146, 2, 1),
 (88, 2, 2),
-(81, 2, 5),
-(101, 2, 8),
-(108, 2, 14),
-(123, 2, 17),
-(97, 2, 18),
-(114, 2, 23),
-(91, 2, 27),
-(142, 2, 41),
-(78, 3, 4),
-(102, 3, 8),
-(104, 3, 9),
-(96, 3, 11),
-(110, 3, 12),
-(94, 3, 20),
-(93, 3, 26),
-(92, 3, 27),
-(89, 3, 30),
+(161, 2, 3),
+(162, 2, 4),
+(167, 2, 9),
+(173, 2, 11),
+(175, 2, 30),
+(188, 2, 45),
+(165, 3, 7),
+(171, 3, 10),
 (9, 4, 13),
-(122, 4, 16),
-(95, 4, 20),
-(115, 4, 23),
-(90, 4, 28),
+(181, 4, 28),
+(168, 5, 9),
+(169, 6, 9),
+(170, 7, 9),
 (2, 7, 13),
-(111, 9, 12),
-(120, 12, 15),
-(112, 12, 24),
-(105, 13, 10),
-(125, 13, 19),
-(118, 13, 21),
-(116, 13, 22),
-(113, 13, 24),
-(130, 13, 29),
-(79, 14, 4),
-(85, 14, 7),
-(106, 14, 10),
+(182, 9, 27),
+(183, 10, 27),
+(166, 11, 8),
+(184, 11, 27),
+(179, 13, 29),
+(178, 13, 33),
+(164, 14, 6),
+(172, 14, 10),
+(185, 14, 12),
 (4, 14, 13),
-(109, 14, 14),
-(117, 14, 22),
-(77, 15, 3),
-(84, 15, 6),
+(180, 14, 29),
+(176, 14, 41),
+(163, 15, 5),
+(174, 15, 11),
 (3, 15, 13),
-(121, 15, 15),
-(98, 15, 18),
-(119, 15, 21),
-(99, 15, 25),
-(131, 15, 29),
-(107, 18, 10),
-(124, 18, 17),
-(100, 18, 25),
-(86, 18, 33),
+(186, 15, 14),
+(177, 15, 41),
 (139, 18, 34);
 
 -- --------------------------------------------------------
@@ -856,72 +795,44 @@ CREATE TABLE `libro_clasificacion` (
 --
 
 INSERT INTO `libro_clasificacion` (`id_libro_clasificacion`, `id_clasificacion`, `id_libro`) VALUES
-(587, 1, 29),
+(662, 1, 45),
 (297, 2, 13),
-(565, 8, 24),
+(663, 2, 45),
+(653, 7, 29),
+(635, 11, 3),
 (109, 11, 13),
-(563, 11, 14),
-(552, 11, 25),
 (611, 12, 1),
-(556, 12, 8),
-(560, 12, 10),
-(579, 12, 19),
-(545, 12, 20),
-(567, 12, 23),
-(542, 12, 26),
-(538, 12, 28),
-(534, 12, 33),
-(603, 12, 41),
+(637, 12, 4),
+(644, 12, 10),
+(646, 12, 11),
+(659, 12, 12),
 (612, 13, 1),
-(533, 14, 7),
-(559, 14, 9),
-(562, 14, 10),
-(548, 14, 11),
-(551, 14, 18),
-(554, 14, 25),
-(540, 14, 27),
+(638, 14, 5),
 (599, 14, 34),
-(547, 15, 11),
-(539, 15, 27),
-(589, 15, 29),
-(537, 15, 30),
+(650, 15, 41),
 (536, 16, 2),
-(526, 16, 4),
-(555, 16, 8),
-(558, 16, 9),
-(544, 16, 20),
-(541, 16, 26),
-(527, 17, 4),
-(528, 17, 5),
-(557, 17, 8),
-(573, 17, 15),
-(568, 17, 23),
-(553, 17, 25),
-(543, 17, 26),
-(604, 17, 41),
-(525, 18, 3),
-(529, 18, 5),
-(576, 21, 16),
-(578, 21, 17),
-(580, 21, 19),
+(636, 16, 3),
+(642, 16, 9),
+(657, 16, 27),
+(648, 16, 30),
+(645, 17, 10),
+(658, 17, 27),
+(655, 17, 28),
+(649, 17, 30),
+(643, 18, 9),
+(660, 18, 12),
+(652, 20, 33),
+(640, 21, 7),
+(661, 21, 14),
+(647, 22, 11),
 (374, 22, 13),
-(571, 22, 21),
-(569, 22, 22),
 (11, 24, 13),
-(561, 25, 10),
-(546, 25, 11),
-(564, 25, 14),
-(550, 25, 18),
-(588, 25, 29),
+(656, 24, 28),
+(639, 25, 6),
 (259, 26, 13),
-(575, 28, 15),
-(577, 28, 17),
-(549, 28, 18),
-(572, 28, 21),
-(570, 28, 22),
-(532, 29, 6),
-(574, 31, 15),
-(566, 32, 24);
+(654, 27, 29),
+(641, 28, 8),
+(651, 29, 41);
 
 -- --------------------------------------------------------
 
@@ -965,6 +876,7 @@ INSERT INTO `nacionalidad` (`id_nacionalidad`, `nacionalidad`) VALUES
 (28, 'Japonesa'),
 (36, 'Marrroquí'),
 (1, 'Mexicana'),
+(51, 'Nacionalidad Test'),
 (17, 'Nicaragüense'),
 (19, 'Panameña'),
 (10, 'Paraguaya'),
@@ -980,6 +892,57 @@ INSERT INTO `nacionalidad` (`id_nacionalidad`, `nacionalidad`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `pais`
+--
+
+CREATE TABLE `pais` (
+  `id_pais` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pais`
+--
+
+INSERT INTO `pais` (`id_pais`, `nombre`) VALUES
+(24, 'Alemania'),
+(1, 'Argentina'),
+(33, 'Australia'),
+(2, 'Bolivia'),
+(3, 'Brasil'),
+(4, 'Canadá'),
+(5, 'Chile'),
+(30, 'China'),
+(6, 'Colombia'),
+(7, 'Costa Rica'),
+(8, 'Cuba'),
+(9, 'Ecuador'),
+(10, 'El Salvador'),
+(11, 'España'),
+(12, 'Estados Unidos'),
+(25, 'Francia'),
+(13, 'Guatemala'),
+(14, 'Honduras'),
+(32, 'India'),
+(26, 'Italia'),
+(31, 'Japón'),
+(15, 'México'),
+(16, 'Nicaragua'),
+(17, 'Panamá'),
+(18, 'Paraguay'),
+(19, 'Perú'),
+(27, 'Portugal'),
+(20, 'Puerto Rico'),
+(28, 'Reino Unido'),
+(21, 'República Dominicana'),
+(29, 'Rusia'),
+(34, 'Sudáfrica'),
+(22, 'Uruguay'),
+(23, 'Venezuela');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `sucursal`
 --
 
@@ -991,8 +954,7 @@ CREATE TABLE `sucursal` (
   `colonia` varchar(100) NOT NULL,
   `municipio` varchar(100) NOT NULL,
   `codigo_postal` int(11) NOT NULL,
-  `id_pais` INT(11) NOT NULL,
-  CONSTRAINT `fk_sucursal_pais` FOREIGN KEY (`id_pais`) REFERENCES `pais`(`id_pais`)
+  `id_pais` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -1014,7 +976,8 @@ INSERT INTO `sucursal` (`id_sucursal`, `calle`, `numero_exterior`, `numero_inter
 (12, 'Calle del Bosque', 9090, 'L', 'Arboleda', 'Ciudad Jardín', 99999, 11),
 (13, 'Av. de las Estrellas', 1111, 'M', 'Cielo Abierto', 'Cosmópolis', 10101, 12),
 (14, 'Calle del Río', 2222, 'N', 'Riberas', 'Agua Clara', 20202, 13),
-(15, 'Paseo del Mar', 3333, 'O', 'Playas', 'Costera', 30303, 14);
+(15, 'Paseo del Mar', 3333, 'O', 'Playas', 'Costera', 30303, 14),
+(16, 'New calle', 258, 'E', 'New Colonia', 'New Municipio', 8524, 7);
 
 -- --------------------------------------------------------
 
@@ -1119,7 +1082,7 @@ INSERT INTO `ventas` (`num_venta`, `num_empleado`, `fecha_venta`, `metodo_pago`,
 --
 
 CREATE TABLE `venta_libro` (
-  `id_ventaLibro` int(11) NOT NULL,
+  `id_venta_libro` int(11) NOT NULL,
   `num_venta` int(11) NOT NULL,
   `id_libro` int(11) NOT NULL,
   `cantidad_libros` tinyint(4) NOT NULL
@@ -1129,7 +1092,7 @@ CREATE TABLE `venta_libro` (
 -- Dumping data for table `venta_libro`
 --
 
-INSERT INTO `venta_libro` (`id_ventaLibro`, `num_venta`, `id_libro`, `cantidad_libros`) VALUES
+INSERT INTO `venta_libro` (`id_venta_libro`, `num_venta`, `id_libro`, `cantidad_libros`) VALUES
 (1, 3, 17, 6),
 (2, 19, 17, 7),
 (3, 17, 17, 7),
@@ -1405,11 +1368,19 @@ ALTER TABLE `nacionalidad`
   ADD UNIQUE KEY `nacionalidad` (`nacionalidad`);
 
 --
+-- Indexes for table `pais`
+--
+ALTER TABLE `pais`
+  ADD PRIMARY KEY (`id_pais`),
+  ADD UNIQUE KEY `nombre` (`nombre`);
+
+--
 -- Indexes for table `sucursal`
 --
 ALTER TABLE `sucursal`
   ADD PRIMARY KEY (`id_sucursal`),
-  ADD UNIQUE KEY `uq_Sucursal` (`calle`,`numero_exterior`,`colonia`,`municipio`);
+  ADD UNIQUE KEY `uq_Sucursal` (`calle`,`numero_exterior`,`colonia`,`municipio`),
+  ADD KEY `fk_sucursal_pais` (`id_pais`);
 
 --
 -- Indexes for table `telefono`
@@ -1430,7 +1401,7 @@ ALTER TABLE `ventas`
 -- Indexes for table `venta_libro`
 --
 ALTER TABLE `venta_libro`
-  ADD PRIMARY KEY (`id_ventaLibro`),
+  ADD PRIMARY KEY (`id_venta_libro`),
   ADD UNIQUE KEY `uq_VentaLibro` (`num_venta`,`id_libro`),
   ADD KEY `fk_VentaLibro_Libro` (`id_libro`);
 
@@ -1442,7 +1413,7 @@ ALTER TABLE `venta_libro`
 -- AUTO_INCREMENT for table `autor`
 --
 ALTER TABLE `autor`
-  MODIFY `id_autor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id_autor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `clasificacion`
@@ -1472,31 +1443,37 @@ ALTER TABLE `inventario`
 -- AUTO_INCREMENT for table `libro`
 --
 ALTER TABLE `libro`
-  MODIFY `id_libro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id_libro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `libro_autor`
 --
 ALTER TABLE `libro_autor`
-  MODIFY `id_libro_autor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=160;
+  MODIFY `id_libro_autor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=189;
 
 --
 -- AUTO_INCREMENT for table `libro_clasificacion`
 --
 ALTER TABLE `libro_clasificacion`
-  MODIFY `id_libro_clasificacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=635;
+  MODIFY `id_libro_clasificacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=664;
 
 --
 -- AUTO_INCREMENT for table `nacionalidad`
 --
 ALTER TABLE `nacionalidad`
-  MODIFY `id_nacionalidad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id_nacionalidad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+
+--
+-- AUTO_INCREMENT for table `pais`
+--
+ALTER TABLE `pais`
+  MODIFY `id_pais` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `sucursal`
 --
 ALTER TABLE `sucursal`
-  MODIFY `id_sucursal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_sucursal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `telefono`
@@ -1514,7 +1491,7 @@ ALTER TABLE `ventas`
 -- AUTO_INCREMENT for table `venta_libro`
 --
 ALTER TABLE `venta_libro`
-  MODIFY `id_ventaLibro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=256;
+  MODIFY `id_venta_libro` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=256;
 
 --
 -- Constraints for dumped tables
@@ -1558,6 +1535,12 @@ ALTER TABLE `libro_autor`
 ALTER TABLE `libro_clasificacion`
   ADD CONSTRAINT `fk_LibroClasificacion_Clasificacion` FOREIGN KEY (`id_clasificacion`) REFERENCES `clasificacion` (`id_clasificacion`),
   ADD CONSTRAINT `fk_LibroClasificacion_Libro` FOREIGN KEY (`id_libro`) REFERENCES `libro` (`id_libro`);
+
+--
+-- Constraints for table `sucursal`
+--
+ALTER TABLE `sucursal`
+  ADD CONSTRAINT `fk_sucursal_pais` FOREIGN KEY (`id_pais`) REFERENCES `pais` (`id_pais`);
 
 --
 -- Constraints for table `telefono`

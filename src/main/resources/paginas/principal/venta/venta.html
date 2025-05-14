@@ -22,7 +22,7 @@
     <div class="row">
         <div class="d-flex justify-content-center">
             <div class="container text-start shadow-lg p-3 px-5 mb-5 bg-body-tertiary rounded">
-                <form th:action="@{/libreria/venta/verificar-venta}" method="get"
+                <form th:action="@{/libreria/verificar-venta}" method="get"
                       th:object="${venta}">
 
                     <div class="row">
@@ -63,6 +63,8 @@
                                     <option th:value="''">-- Selecciona un libro --</option>
                                     <option th:each="l : ${libros}"
                                             th:value="${l.id}"
+                                            th:data-precio="${l.precio}"
+                                            th:data-descuento="${l.descuento}"
                                             th:text="${l.titulo + ', ' + l.editorial.editorialName + ', Pasta: ' + l.tipoPasta}">
                                     </option>
                                 </select>
@@ -89,7 +91,7 @@
                                         type="number" id="precio" name="precio"
                                         min="0" step="0.01"
                                         placeholder="Precio"
-                                        aria-describedby="input-label-precio" required>
+                                        aria-describedby="input-label-precio" disabled required>
                             </div>
                         </div>
 
@@ -102,7 +104,7 @@
                                         type="number" id="descuento" name="descuento"
                                         placeholder="Descuento"
                                         min="0" max="100" step="0.01"
-                                        aria-describedby="input-label-descuento">
+                                        aria-describedby="input-label-descuento" disabled>
                                 <span class="input-group-text">%</span>
                             </div>
                         </div>
@@ -115,7 +117,8 @@
                                         class="form-control"
                                         type="number" id="cantidad" name="cantidad" step="1.00"
                                         placeholder="Cantidad"
-                                        aria-describedby="input-label-cantidad" required>
+                                        aria-describedby="input-label-cantidad" min="1" value="1"
+                                        required>
                             </div>
                         </div>
 
@@ -139,10 +142,11 @@
                                     <span class="input-group-text">$</span>
                                     <input
                                             class="form-control"
-                                            type="number"
+                                            type="number" id="total" name="total"
+                                            min="0" step="0.01"
                                             placeholder="Total"
                                             aria-label="Total"
-                                            aria-describedby="input-label-total" required>
+                                            aria-describedby="input-label-total" disabled required>
                                 </div>
                             </div>
                         </div>
@@ -159,5 +163,8 @@
     </div>
 </main>
 <footer th:replace="~{plantillas/plantilla :: footer}"></footer>
+
+<script th:replace="~{principal/venta/js/venta_js :: jsVenta}"></script>
+
 </body>
 </html>

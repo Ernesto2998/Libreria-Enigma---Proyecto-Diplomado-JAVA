@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="es">
+<body>
+<script type="text/javascript" th:fragment="jsVenta">
+
+    //----------------------------
+    // Autocompletado de la fecha
+    window.addEventListener('DOMContentLoaded', (event) => {
+        const inputFecha = document.getElementById('fechaVenta');
+        const hoy = new Date();
+        const yyyy = hoy.getFullYear();
+        const mm = String(hoy.getMonth() + 1).padStart(2, '0');
+        const dd = String(hoy.getDate()).padStart(2, '0');
+        const fechaActual = `${yyyy}-${mm}-${dd}`;
+        inputFecha.value = fechaActual;
+    });
+
+     //--------------------------
+     // Autocompleta del precio y descuento dependiendo del libro
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const selectLibro = document.getElementById('libroId');
+        const inputPrecio = document.getElementById('precio');
+        const inputDescuento = document.getElementById('descuento');
+
+        selectLibro.addEventListener('change', function () {
+            const selectedOption = selectLibro.options[selectLibro.selectedIndex];
+
+            const precio = selectedOption.getAttribute('data-precio');
+            const descuento = selectedOption.getAttribute('data-descuento');
+
+            if (precio && descuento) {
+                inputPrecio.value = precio;
+                inputDescuento.value = descuento;
+            } else {
+                inputPrecio.value = '';
+                inputDescuento.value = '';
+            }
+        });
+    });
+
+    //--------------------------
+    //Autocompleta del toal dependiendo del precio, descuento y cantidad
+
+    function calcularTotal() {
+        const precio = parseFloat(document.getElementById('precio')?.value) || 0;
+        const cantidad = parseInt(document.getElementById('cantidad')?.value) || 0;
+        const descuento = parseFloat(document.getElementById('descuento')?.value) || 0;
+
+        let subtotal = precio * cantidad;
+        let total = subtotal - (subtotal * (descuento / 100));
+
+        document.getElementById('total').value = total.toFixed(2);
+    }
+
+    // Escucha cambios en precio, cantidad y descuento
+    document.getElementById('precio')?.addEventListener('input', calcularTotal);
+    document.getElementById('cantidad')?.addEventListener('input', calcularTotal);
+    document.getElementById('descuento')?.addEventListener('input', calcularTotal);
+</script>
+</body>
+</html>
