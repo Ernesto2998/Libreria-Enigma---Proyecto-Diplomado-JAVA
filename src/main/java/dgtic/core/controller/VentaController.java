@@ -116,8 +116,8 @@ public class VentaController {
         return "redirect:/libreria/venta";
     }
 
-    @GetMapping(value = "libros-por-sucursal/{idSucursal}", produces = "application/json")
-    public @ResponseBody List<Libro> obtenerLibrosPorSucursal(@PathVariable Integer idSucursal) {
-        return inventarioService.getLibrosDisponiblesBySucursal(idSucursal);
-    }
+//    @GetMapping(value = "libros-por-sucursal/{idSucursal}", produces = "application/json")
+//    public @ResponseBody List<Libro> obtenerLibrosPorSucursal(@PathVariable Integer idSucursal) {
+//        return inventarioService.getLibrosDisponiblesBySucursal(idSucursal);
+//    }
 }

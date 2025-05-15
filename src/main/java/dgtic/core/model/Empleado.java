@@ -51,6 +51,10 @@ public class Empleado {
         Admin, User
     }
 
+    public String getNombreCompleto(){
+        return getApellido1() + " " + getApellido2() + ", " + getNombre();
+    }
+
     @Override
     public String toString() {
         return "Empleado{" +

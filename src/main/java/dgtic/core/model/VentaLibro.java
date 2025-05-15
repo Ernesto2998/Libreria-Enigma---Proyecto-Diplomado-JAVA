@@ -18,11 +18,11 @@ public class VentaLibro {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "num_venta", nullable = false, foreignKey = @ForeignKey(name = "fk_VentaLibro_Venta"))
+    @JoinColumn(name = "num_venta", nullable = false)
     private Venta venta;
 
     @ManyToOne
-    @JoinColumn(name = "id_libro", nullable = false, foreignKey = @ForeignKey(name = "fk_VentaLibro_Libro"))
+    @JoinColumn(name = "id_libro", nullable = false)
     private Libro libro;
 
     @Column(name = "cantidad_libros", nullable = false)

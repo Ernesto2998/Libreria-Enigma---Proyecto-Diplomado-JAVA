@@ -13,6 +13,8 @@ public interface VentaLibroService {
 
     void save(VentaLibro ventaLibro);
 
+    void deleteBy(Integer id);
+
     Optional<VentaLibro> findById(Integer id);
 
     Page<VentaLibro> findPage(Pageable pageable);

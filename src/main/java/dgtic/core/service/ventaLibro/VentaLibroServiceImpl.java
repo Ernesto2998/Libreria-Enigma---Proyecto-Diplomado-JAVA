@@ -27,6 +27,11 @@ public class VentaLibroServiceImpl implements VentaLibroService{
     }
 
     @Override
+    public void deleteBy(Integer id) {
+        ventaLibroRepository.deleteById(id);
+    }
+
+    @Override
     public Optional<VentaLibro> findById(Integer id) {
         return ventaLibroRepository.findById(id);
     }

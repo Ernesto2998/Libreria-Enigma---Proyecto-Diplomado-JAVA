@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "ventas")
@@ -33,6 +34,9 @@ public class Venta {
 
     @Column(name = "total", nullable = false, precision = 10, scale = 2)
     private BigDecimal total;
+
+    @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<VentaLibro> ventaLibros;
 
     public enum MetodoPago {
         Efectivo,

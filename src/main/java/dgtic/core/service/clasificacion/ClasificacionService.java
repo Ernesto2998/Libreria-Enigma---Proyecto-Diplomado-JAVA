@@ -10,12 +10,18 @@ import java.util.Optional;
 
 public interface ClasificacionService {
     List<Clasificacion> findAll();
+
     Optional<Clasificacion> findById(Integer id);
+
     Optional<Clasificacion> findByTipoClasificacion(String tipoClasificacion);
+
     void save(Clasificacion clasificacion);
+
     void deleteById(Integer id);
 
     List<ClasificacionDto> findClasificacionView(String dato);
+
     Page<Clasificacion> findPage(Pageable pageable);
+
     Page<Clasificacion> findClasificacionByName(String tipoClasificacion, Pageable pageable);
 }

@@ -1,10 +1,13 @@
 package dgtic.core.controller;
 
 import dgtic.core.model.*;
+import dgtic.core.service.ReportesPdf.ReportesPdfService;
 import dgtic.core.service.libro.LibroService;
 import dgtic.core.service.venta.VentaService;
 import dgtic.core.service.ventaLibro.VentaLibroService;
 import dgtic.core.util.RenderPagina;
+import jakarta.servlet.http.HttpServletResponse;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,11 +16,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -31,6 +34,8 @@ public class HistorialVentasController {
     VentaService ventaService;
     @Autowired
     LibroService libroService;
+    @Autowired
+    ReportesPdfService reportesPdfService;
 
     @GetMapping("")
     public String getHistorialVenta(@RequestParam(name = "page", defaultValue = "0") int page,
@@ -95,5 +100,28 @@ public class HistorialVentasController {
         model.addAttribute("fechaFin", fechaFin);
         model.addAttribute("page", renderPagina);
         return "principal/historial/historial";
+    }
+
+    @GetMapping("delete-historial/{id}")
+    public String eliminarHistorial(@PathVariable("id") Integer id,
+                                    RedirectAttributes modelo){
+        ventaLibroService.deleteBy(id);
+        return "redirect:/libreria/historial";
+    }
+
+    @GetMapping("reporte")
+    public void generarReportePDF(
+            @RequestParam("fechaUno") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaUno,
+            @RequestParam("fechaDos") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaDos,
+            HttpServletResponse response) throws IOException {
+
+        List<Venta> ventas = ventaService.findByFechaVentaBetween(
+                fechaUno.atStartOfDay(), fechaDos.atTime(LocalTime.MAX));
+
+        ByteArrayInputStream bis = reportesPdfService.generarReporteVentas(ventas);
+
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "attachment; filename=reporte_ventas.pdf");
+        IOUtils.copy(bis, response.getOutputStream());
     }
 }
