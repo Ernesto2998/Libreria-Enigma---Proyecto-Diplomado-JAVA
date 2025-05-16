@@ -63,8 +63,10 @@
                 <tr>
                     <th scope="col">#Venta</th>
                     <th scope="col">Fecha</th>
+                    <th scope="col">Empleado</th>
                     <th scope="col">Libro</th>
                     <th scope="col">Precio</th>
+                    <th scope="col">Método de pago</th>
                     <th scope="col">Cantidad</th>
                     <th scope="col">Total</th>
                     <!--                    <th scope="col">Total Final</th>-->
@@ -75,11 +77,12 @@
                 <tr th:each="lHistorial: ${listaHistorial}">
                     <td th:text="${lHistorial.venta.numVenta}"></td>
                     <td th:text="${lHistorial.venta.fechaVenta}"></td>
-                    <td th:text="${lHistorial.libro.titulo}"></td>
+                    <td th:text="${lHistorial.venta.empleado.apellido1 + ' ' +lHistorial.venta.empleado.apellido2 + ', ' + lHistorial.venta.empleado.nombre}"></td>
+                    <td th:text="${lHistorial.libro.titulo + ', Ed. ' + lHistorial.libro.editorial.editorialName + ', Pasta: ' + lHistorial.libro.tipoPasta}"></td>
                     <td th:text="${lHistorial.libro.precio}"></td>
+                    <td th:text="${lHistorial.venta.metodoPago}"></td>
                     <td th:text="${lHistorial.cantidadLibros}"></td>
                     <td th:text="${(lHistorial.libro.precio ?: 0) * (lHistorial.cantidadLibros ?: 0)}"></td>
-                    <!--                    <td th:text="${(lHistorial.libro.precio ?: 0) * (lHistorial.cantidadLibros ?: 0)}"></td>-->
                     <td>
                         <div sec:authorize="hasRole('ADMIN')">
                             <!--                            <a th:href="@{/libreria/historial/edit-historial/{id} (id=${lHistorial.id})}"-->
