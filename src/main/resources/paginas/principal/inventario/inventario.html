@@ -20,39 +20,58 @@
 
         <div class="container">
             <div class="row">
-                <div class="col container bg-body-tertiary rounded py-3 me-3">
-                    <form th:action="@{/libreria/inventario/buscar-inventario-tabla}"
-                          th:object="${inventarioB}"
-                          method="get">
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="input-group mb-2">
-                                    <label class="input-group-text" for="sucursalId">Sucursal</label>
-                                    <select class="form-select" id="sucursalId" name="sucursalId">
-                                        <option th:value="''">-- Todos --</option>
-                                        <option th:each="s : ${sucursales}"
-                                                th:value="${s.id}"
-                                                th:text="${s.calle}">
-                                        </option>
-                                    </select>
-                                    <button class="btn btn-outline-secondary" type="submit">Buscar por surcursal</button>
+
+                <div class="col-10">
+                    <div class="col-6 bg-marron rounded-top-3">
+                        <p class="my-0">Buscar por Sucursal o Libro</p>
+                    </div>
+                    <div class="col-12 container bg-body-tertiary rounded py-3 me-3">
+                        <form th:action="@{/libreria/inventario/buscar-inventario-tabla}"
+                              th:object="${inventarioB}"
+                              method="get">
+                            <div class="row">
+                                <div class="col-6 mb-0">
+                                    <div class="input-group">
+                                        <label class="input-group-text" for="sucursalId">Sucursal</label>
+                                        <select class="form-select" id="sucursalId" name="sucursalId">
+                                            <option th:value="''">-- Todos --</option>
+                                            <option th:each="s : ${sucursales}"
+                                                    th:value="${s.id}"
+                                                    th:text="${s.calle}">
+                                            </option>
+                                        </select>
+                                        <button class="btn btn-outline-secondary" type="submit">Buscar
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-6 mb-0">
+                                    <div class="input-group">
+                                        <label class="input-group-text" for="libroId">Libro</label>
+                                        <select class="form-select" id="libroId" name="libroId">
+                                            <option th:value="''">-- Todos --</option>
+                                            <option th:each="l : ${libros}"
+                                                    th:value="${l.id}"
+                                                    th:text="${l.titulo}">
+                                            </option>
+                                        </select>
+                                        <button class="btn btn-outline-secondary" type="submit">Buscar
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-6">
-                                <div class="input-group mb-2">
-                                    <label class="input-group-text" for="libroId">Libro</label>
-                                    <select class="form-select" id="libroId" name="libroId">
-                                        <option th:value="''">-- Todos --</option>
-                                        <option th:each="l : ${libros}"
-                                                th:value="${l.id}"
-                                                th:text="${l.titulo}">
-                                        </option>
-                                    </select>
-                                    <button class="btn btn-outline-secondary" type="submit">Buscar por libro</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-2">
+                    <div class="col-12 bg-marron rounded-top-3">
+                        <p class="my-0">Reporte de ventas</p>
+                    </div>
+                    <div class="col-12 py-3 bg-body-tertiary rounded">
+                        <form th:action="@{/libreria/inventario/reporte}" method="get" class="">
+                            <button class="btn btn-outline-primary" type="submit">Generar reporte</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
