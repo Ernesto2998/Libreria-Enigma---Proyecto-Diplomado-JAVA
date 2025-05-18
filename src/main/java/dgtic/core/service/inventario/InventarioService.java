@@ -13,6 +13,8 @@ public interface InventarioService {
 
     void save(Inventario inventario);
 
+    void deleteBy(Integer id);
+
     Optional<Inventario> findById(Integer id);
 
     Page<Inventario> findPage(Pageable pageable);

@@ -20,7 +20,7 @@
 
         <div class="container">
             <div class="row">
-
+                <!--Buscar por Libro o Sucursal-->
                 <div class="col-10">
                     <div class="col-6 bg-marron rounded-top-3">
                         <p class="my-0">Buscar por Sucursal o Libro</p>
@@ -37,7 +37,7 @@
                                             <option th:value="''">-- Todos --</option>
                                             <option th:each="s : ${sucursales}"
                                                     th:value="${s.id}"
-                                                    th:text="${s.calle}">
+                                                    th:text="${s.calle + ', Col. ' + s.colonia + ', Mun. ' + s.municipio }">
                                             </option>
                                         </select>
                                         <button class="btn btn-outline-secondary" type="submit">Buscar
@@ -51,7 +51,7 @@
                                             <option th:value="''">-- Todos --</option>
                                             <option th:each="l : ${libros}"
                                                     th:value="${l.id}"
-                                                    th:text="${l.titulo}">
+                                                    th:text="${l.titulo + ', Ed. ' + l.editorial.editorialName + ', Pasta: ' + l.tipoPasta}">
                                             </option>
                                         </select>
                                         <button class="btn btn-outline-secondary" type="submit">Buscar
@@ -73,6 +73,19 @@
                         </form>
                     </div>
                 </div>
+
+                <div class="col-10 mt-2" sec:authorize="hasRole('ADMIN')"></div>
+
+                <div class="col-2 mt-2" sec:authorize="hasRole('ADMIN')">
+                    <div class="col-12 bg-marron rounded-top-3">
+                        <p class="my-0">Añadir inventario</p>
+                    </div>
+                    <div class="col-12 py-3 bg-body-tertiary rounded">
+                        <button class="btn btn-outline-primary" type="button" data-bs-toggle="modal"
+                                data-bs-target="#staticBackdrop">Agregar
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -84,20 +97,21 @@
                         <th scope="col">Libro</th>
                         <th scope="col">Sucursal</th>
                         <th scope="col">Stock</th>
-                        <th sec:authorize="hasRole('ADMIN')">Acciones</th>
+                        <th>Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="lInventario: ${listaInventario}">
-                        <td th:text="${lInventario.libro.titulo}"></td>
-                        <td th:text="${lInventario.sucursal.calle}"></td>
+                        <td th:text="${lInventario.libro.titulo + ', Ed. ' + lInventario.libro.editorial.editorialName + ', Pasta ' + lInventario.libro.tipoPasta}"></td>
+                        <td th:text="${lInventario.sucursal.calle + ', ' + lInventario.sucursal.colonia + ', ' + lInventario.sucursal.municipio}"></td>
                         <td th:text="${lInventario.stock}"></td>
                         <td>
-                            <div sec:authorize="hasRole('ADMIN')">
+                            <div>
                                 <a th:href="@{/libreria/inventario/edit-inventario/{id} (id=${lInventario.id})}"
                                    class="btn btn-success">Modificar <i class="fas fa-pen-nib" aria-hidden="true"></i>
                                 </a>
-                                <a th:href="@{/libreria/inventario/delete-inventario/{id} (id=${lInventario.id})}"
+                                <a sec:authorize="hasRole('ADMIN')"
+                                   th:href="@{/libreria/inventario/delete-inventario/{id} (id=${lInventario.id})}"
                                    class="btn btn-danger">Eliminar <i class="fas fa-trash-alt" aria-hidden="true"></i>
                                 </a>
                             </div>
@@ -109,8 +123,99 @@
         </div>
         <nav th:replace="~{plantillas/pag-nav-inventario::paginador}"></nav>
 
+        <!-- Vertically centered modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+             data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Completa los campos:</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <form id="inventarioForm" th:action="@{/libreria/inventario/add-inventario}"
+                              th:object="${inventario}"
+                              method="post">
+
+                            <!-- Errores globales -->
+                            <div th:if="${#fields.hasGlobalErrors()}">
+                                <div th:each="err : ${#fields.globalErrors()}" class="text-danger">
+                                    <p th:text="${err}"></p>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <!-- Sucursal -->
+                                <div class="col-6 mb-0">
+                                    <div class="input-group">
+                                        <span class="text-danger" th:errors="*{sucursal.id}"></span>
+                                        <label class="input-group-text" for="sucursalIdNew">Sucursal</label>
+                                        <select class="form-select"
+                                                id="sucursalIdNew"
+                                                th:field="*{sucursal.id}"
+                                                required>
+                                            <option th:value="''">-- Todos --</option>
+                                            <option th:each="s : ${sucursales}"
+                                                    th:value="${s.id}"
+                                                    th:text="${s.calle + ', Col. ' + s.colonia + ', Mun. ' + s.municipio}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Libro -->
+                                <div class="col-6 mb-0">
+                                    <div class="input-group">
+                                        <span class="text-danger" th:errors="*{libro.id}"></span>
+                                        <label class="input-group-text" for="libroIdNew">Libro</label>
+                                        <select class="form-select"
+                                                id="libroIdNew"
+                                                th:field="*{libro.id}"
+                                                required>
+                                            <option th:value="''">-- Todos --</option>
+                                            <option th:each="l : ${libros}"
+                                                    th:value="${l.id}"
+                                                    th:text="${l.titulo + ', Ed. ' + l.editorial.editorialName + ', Pasta: ' + l.tipoPasta}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Stock -->
+                                <div class="col-6 my-3">
+                                    <div class="input-group">
+                                        <span class="text-danger" th:errors="*{stock}"></span>
+                                        <label class="input-group-text" for="stockNew">Stock</label>
+                                        <input th:class="${#fields.hasErrors('stock')}? 'form-control is-invalid':form-control"
+                                               type="number" min="0"
+                                               id="stockNew"
+                                               name="stock"
+                                               th:field="*{stock}"
+                                               placeholder="Stock">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" form="inventarioForm">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </main>
 <footer th:replace="~{plantillas/plantilla :: footer}"></footer>
+<!-- Script para abrir el modal si hay un error -->
+<script th:if="${showModal}">
+    document.addEventListener("DOMContentLoaded", function () {
+        var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
+        myModal.show();
+    });
+</script>
 </body>
 </html>

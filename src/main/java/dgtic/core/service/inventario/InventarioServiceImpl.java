@@ -28,6 +28,11 @@ public class InventarioServiceImpl implements InventarioService {
     }
 
     @Override
+    public void deleteBy(Integer id) {
+        inventarioRepository.deleteById(id);
+    }
+
+    @Override
     public Optional<Inventario> findById(Integer id) {
         return inventarioRepository.findById(id);
     }

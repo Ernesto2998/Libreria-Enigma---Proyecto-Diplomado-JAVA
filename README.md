@@ -164,19 +164,15 @@ implementado diversas medidas de seguridad, tales como:
   Las contraseñas de los usuarios se almacenan de forma segura utilizando algoritmos de encriptación robustos (como
   BCrypt), lo que evita que sean accesibles en texto plano.
 
-## Tablas utilizadas para esta práctica
+## Generación de reportes
 
-| __autor__  | __editorial__ | __clasificacion__  | __nacionalidad__ | __libro__  |
-|------------|---------------|--------------------|------------------|------------|
-| id_autor   | id_editorial  | id_clasificacion   | id_nacionalidad  | id_libro   |
-| nombre     | editorial     | tipo_clasificacion | nacionalidad     | titutlo    |
-| apellido_1 |               |                    |                  | tipo_pasta |
-| apellido_2 |               |                    |                  | sinopsis   |
-|            |               |                    |                  | precio     |
-|            |               |                    |                  | descuento  |
+## Pruebas
 
+## Conclusiones y recomendaciones
+
+## Anexo
+
+### Esquema de la Base de Datos
 Para la __CREACIÓN y CARGA__ de la base de datos se tiene que usar el archivo:
 > _adminlibrerias_completa.sql_
-
-Dicho archivo se encuetra en el ZIP de esta entrega.
 
