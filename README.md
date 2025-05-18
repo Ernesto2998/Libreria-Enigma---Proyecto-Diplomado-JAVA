@@ -166,13 +166,54 @@ implementado diversas medidas de seguridad, tales como:
 
 ## Generación de reportes
 
-## Pruebas
+El sistema permite la generación de reportes administrativos para facilitar el análisis y la toma de decisiones.
+Actualmente, se pueden generar los siguientes reportes:
+
+- **Reporte de inventario:** muestra el stock actual de libros por sucursal.
+- **Reporte de ventas:** presenta un resumen de las ventas realizadas en un período determinado (en desarrollo).
+
+### Formatos disponibles
+
+- Los reportes se generan en formato **PDF** y se visualizan directamente desde el navegador.
+
+### ¿Cómo generar un reporte del Inventario?
+
+Para generar un reporte del inventario, el usuario debe:
+
+1. Ingresar al módulo de **Inventario** desde el menú principal.
+3. Dar clic en el botón **"Generar reporte"**.
+
+### ¿Cómo generar un reporte de las Ventas?
+
+Para generar un reporte de las ventas, el usuario debe:
+
+1. Ingresar al módulo de **Historial de ventas** desde el menú principal.
+2. Selecciona los rangos de fechas que quieres consultar
+3. Dar clic en el botón **"Generar reporte"**.
 
 ## Conclusiones y recomendaciones
+
+Este proyecto permitió aplicar conocimientos clave en el desarrollo de aplicaciones web con Java y Spring Boot. Se logró
+implementar un sistema para la gestión de inventario de libros, incluyendo autenticación con JWT, validaciones
+de formularios, manejo de relaciones entre entidades, y generación de reportes.
+
+Durante el desarrollo se enfrentaron desafíos como la validación de formularios anidados y el uso correcto de Thymeleaf
+junto con Spring MVC. Estos retos ayudaron a profundizar en el uso de estas tecnologías.
+
+A futuro, se podrían implementar funcionalidades adicionales como:
+
+- Subida de imágenes de libros.
+- Reportes más detallados.
+- Mejora en la experiencia de usuario con alertas o notificaciones dinámicas.
+- Mantener un mismo formato o estilo para todas las vistas y formularios
 
 ## Anexo
 
 ### Esquema de la Base de Datos
+
 Para la __CREACIÓN y CARGA__ de la base de datos se tiene que usar el archivo:
 > _adminlibrerias_completa.sql_
+ 
+### Enlace de GITHUB
+> https://github.com/Ernesto2998/Libreria-Enigma---Proyecto-Diplomado-JAVA.git
 
