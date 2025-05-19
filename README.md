@@ -238,6 +238,8 @@ que guste. Dentro de estas opciones están incluidas:
     * Gestionar Editoriales
     * Gestionar Clasificaciones
 
+![homeAdmin](src/main/resources/readmeData/homeAdmin.png)
+
 En cada una de estas secciones se podrán consultar, modificar y/o eliminar datos. Por ejemplo, en la parte de Gestion de
 elementos será posible visualizar los datos de la sección correspondiente, añadir un nuevo elemento, modificarlo, buscar
 o eliminarlo.
