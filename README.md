@@ -14,7 +14,7 @@
 - [Modelo de datos](#modelo-de-datos)
 - [Seguridad](#seguridad)
 - [Generación de reportes](#generación-de-reporte)
-- [Pruebas](#pruebas)
+- [Funcionamiento básico del sistema](#funcionamiento-básico-del-sistema)
 - [Conclusiones y recomendaciones](#conclusiones-y-recomendaciones)
 - [Anexo](#anexo)
 
@@ -191,6 +191,62 @@ Para generar un reporte de las ventas, el usuario debe:
 2. Selecciona los rangos de fechas que quieres consultar
 3. Dar clic en el botón **"Generar reporte"**.
 
+## Funcionamiento básico del sistema
+
+### Login
+
+La primero que se tendrá que realizar para interacturar con el sistema es navegar a la siguiente ruta dentro de algún
+navegador:
+
+> http://localhost:8080/
+
+Lo primero que se verá será una pantalla de login como la siguiente:
+
+![Login](src/main/resources/readmeData/login.png)
+
+Se tendrá que ingresar con un número de empleado y contraseña. Dependiendo del nivel de acceso se podrán realizar
+distintas acciones. Los usuarios que no son ADMIN no hacer CRUD de ciertos elementos o estarán limitados:
+
+Un ejemplo de esas limitaciones se muestra a continuación. En el apartado para Gestionar Clasificaciones si es usuario
+es ADMIN este podrá añadir y eliminar alguna clasificación deseado, en caso contrario no aparecerán las opciones para
+realizar dichas acciones.
+
+![clasificacionAdmin](src/main/resources/readmeData/clasificacionesAdmin.png)
+![clasificacionUser](src/main/resources/readmeData/clasificacionesUser.png)
+
+NOTA: Para fines prácticos las credenciales de admin son:
+
+* num. empelado: 1
+* Contraseña: AdminSecure123!
+
+Para el resto de los usuarios la contreseña será:
+
+* password123
+
+### Sistema
+
+Una vez que se inició sesión, se podrá ver la vista de HOME y una vez ahí se podrá mover el usuario a cualquier opción
+que guste. Dentro de estas opciones están incluidas:
+
+* Realizar venta
+* Historial de ventas
+* Inventario
+* Sucursales
+* Gestionar elementos
+    * Gestionar Libros
+    * Gestionar Autores
+    * Gestionar Editoriales
+    * Gestionar Clasificaciones
+
+En cada una de estas secciones se podrán consultar, modificar y/o eliminar datos. Por ejemplo, en la parte de Gestion de
+elementos será posible visualizar los datos de la sección correspondiente, añadir un nuevo elemento, modificarlo, buscar
+o eliminarlo.
+
+En la parte de Relizar venta solo se tendrá que llenar TODOS los campos que se piden y una vez que estén todos los
+campos llenas el usuario deberá dar clic en el botón de **Confimar venta**
+
+![ventaAdmin](src/main/resources/readmeData/ventaAdmin.png)
+
 ## Conclusiones y recomendaciones
 
 Este proyecto permitió aplicar conocimientos clave en el desarrollo de aplicaciones web con Java y Spring Boot. Se logró
@@ -213,7 +269,8 @@ A futuro, se podrían implementar funcionalidades adicionales como:
 
 Para la __CREACIÓN y CARGA__ de la base de datos se tiene que usar el archivo:
 > _adminlibrerias_completa.sql_
- 
+
 ### Enlace de GITHUB
+
 > https://github.com/Ernesto2998/Libreria-Enigma---Proyecto-Diplomado-JAVA.git
 
